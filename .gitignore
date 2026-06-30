@@ -1,0 +1,19 @@
+# Virtual Environment
+.venv/
+venv/
+ENV/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# PyTorch Datasets and Model Checkpoints (large files)
+dataset.pt
+best_model.pt
+explainability_results.pt
+
+# User local settings
+.vscode/
+.idea/
+.DS_Store
