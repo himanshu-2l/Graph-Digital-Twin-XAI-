@@ -11,7 +11,8 @@ This outline is designed to help you prepare your presentation slides for your a
   * To address past feedback, I have **decoupled the smart grid and Industry 5.0 domains**.
   * The focus is now strictly on the **Smart Grid** domain to preserve physical consistency (AC power flow laws) and grid telemetry boundaries.
   * The scale is refined to a **substation-level system process** (modeling voltage stability and state estimation on the standard IEEE 14-bus test system).
-  * The approach is **100% data-driven and software-simulated (Phase 1)**, which allows us to train models rapidly. We have established a concrete roadmap to migrate to a **physical Hardware-in-the-Loop (HIL)** setup in Phase 2.
+  * The approach is **100% data-driven and software-simulated (Phase 1)**. This allows for rapid model training and validation under dynamic topologies.
+  * We have established a concrete **Phase 2 Software Expansion Roadmap** (Spatiotemporal modeling, Line Outage Robustness, Active Mitigation) and a **Phase 3 Physical HIL Co-simulation Roadmap**.
 
 ---
 
@@ -45,18 +46,33 @@ This outline is designed to help you prepare your presentation slides for your a
 ## Slide 4: Quantitative Results & Benchmark Comparison
 * **Slide Title:** Detection & Localization Performance
 * **Visual Ideas:** Insert the bar chart image **`model_comparison.png`** generated in your workspace.
-* **Key Metrics to Highlight:**
-  * **Proposed GraphSAGE:** 
-    * Attack Detection F1-Score: **92.5%** (AUC: **0.9754**)
-    * Attack Localization F1-Score: **85.7%**
-  * **Comparison Discussion:**
-    * While a Traditional MLP shows high performance, it is **topology-dependent**—if a single transmission line is tripped or modified, the input dimensions change and the MLP fails completely.
-    * GNNs are **topology-invariant** (inductive), meaning they learn general physical principles of power flow and can run on any grid layout without retraining.
-    * GCN is isotropic (aggregates neighbors uniformly) and performs poorly (F1: 61.85%), whereas GraphSAGE and GAT (Attention) exploit localized differences to detect boundary anomalies.
+* **Key Metrics to Highlight (Exact Test Results):**
+  * **GraphSAGE (Proposed Multi-Task GNN):**
+    * Attack Detection F1-Score: **92.52%** | Detection AUC: **0.9754**
+    * Attack Localization F1-Score: **85.71%** (Best-performing topology-invariant model)
+  * **GAT (Attention Baseline):**
+    * Detection F1-Score: **93.96%** | Localization F1-Score: **81.69%**
+  * **GCN (Isotropic Baseline):**
+    * Detection F1-Score: **84.35%** | Localization F1-Score: **61.85%**
+  * **Traditional MLP (Flat Tabular Baseline):**
+    * Detection F1-Score: **98.09%** | Localization F1-Score: **87.52%**
+* **Comparison Discussion:**
+  * **The "Topology-Invariance" Paradigm:** While the flat MLP shows high accuracy, it is bound to a fixed input dimension. Under line outages or topology changes, the MLP fails. GNN models are topology-invariant, generalizing to dynamic grids without retraining.
+  * **GraphSAGE vs. GCN:** GraphSAGE outperforms GCN by **23.86%** on localization because its concatenation-based aggregation preserves node-specific features, preventing the over-smoothing seen in GCN.
 
 ---
 
-## Slide 5: XAI - Localizing Attacks for Operators
+## Slide 5: Robustness & Sensitivity Verification
+* **Slide Title:** Academic Validation: GNN Robustness & Sensitivity Curves
+* **Visual Ideas:** Insert the newly generated dual-panel line plot **`robustness_analysis.png`** from your workspace.
+* **Talking Points:**
+  * **Noise Sensitivity Curve:** Evaluated the pre-trained model under varying sensor noise standard deviations ($\sigma = 0.01$ to $0.15$). The GNN maintains a detection F1-score of **97.96%** under nominal noise ($\sigma = 0.04$) and remains above **90.57%** up to a noise level of $\sigma = 0.08$, proving high operational robustness.
+  * **Attack Magnitude Limits:** Tested model sensitivity to weaker attacks (load tampering scale). The GNN successfully detects and localizes attacks down to a **+30% load change** with F1-scores of **71.79%** (detection) and **74.79%** (localization), establishing the boundary of stealthiness for the detector.
+
+
+---
+
+## Slide 6: XAI - Localizing Attacks for Operators
 * **Slide Title:** Explainable AI (XAI) for Operator Trust
 * **Visual Ideas:** Insert the side-by-side dashboard image **`grid_anomaly_explanation.png`** generated in your workspace.
 * **Talking Points:**
@@ -68,12 +84,12 @@ This outline is designed to help you prepare your presentation slides for your a
 
 ---
 
-## Slide 6: Roadmap: Virtual Twin to Physical HIL
-* **Slide Title:** Phase 2 Roadmap: Physical Validation Setup
+## Slide 7: Publication Path & Software Extensions
+* **Slide Title:** Software Enhancements for IEEE Publication
 * **Talking Points:**
-  * Transition from a purely software-based simulator to a **Controller Hardware-in-the-Loop (CHIL)** platform.
-  * **Components Required:**
-    1. **Real-Time Solver:** typhoon HIL or OPAL-RT simulator to solve grid AC equations in real-time.
-    2. **Physical IED Nodes:** 3x Raspberry Pi 4B units acting as physical substation Intelligent Electronic Devices (IEDs).
-    3. **Industrial Communications:** Emulating Modbus TCP or MQTT protocols over an unmanaged Ethernet switch.
-    4. **Virtual Twin Host:** The workstation executing the PyTorch GNN and Integrated Gradients engine, polling the Raspberry Pis at 1 Hz.
+  * To elevate this work for an IEEE-grade journal or conference submission, we focus on three purely software-based validation models:
+    1. **Dynamic Topology Testing (Line Outages):** Running the pre-trained GraphSAGE model on grids where random transmission lines are tripped, proving zero-shot topology generalization (where MLPs fail completely).
+    2. **Closed-Loop Software Mitigation:** Simulating active cyber-resilience by muting flagged buses and running state estimation on the remaining clean subgraphs.
+    3. **Time-Series / Temporal GNNs:** Moving from static graph snapshots to Spatiotemporal GNNs (GNN + LSTM) to detect slow-ramping, time-varying attacks.
+
+

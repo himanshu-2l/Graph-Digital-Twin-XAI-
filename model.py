@@ -68,8 +68,8 @@ def train_epoch(model, loader, optimizer, device, node_weight):
         # Node loss: Weighted Cross Entropy to handle sparsity of attacked nodes
         loss_node = F.cross_entropy(node_logits, batch.y_node, weight=node_weight)
         
-        # Joint multi-task loss
-        loss = loss_graph + 1.0 * loss_node
+        # Joint multi-task loss (emphasize localization accuracy)
+        loss = loss_graph + 1.5 * loss_node
         loss.backward()
         optimizer.step()
         
@@ -167,11 +167,11 @@ def main():
     
     # Model definition
     # Node features: 4 [V, theta, P, Q]
-    model = SmartGridGNN(in_channels=4, hidden_channels=32).to(device)
+    model = SmartGridGNN(in_channels=4, hidden_channels=64).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=0.005, weight_decay=1e-4)
     
     best_val_f1 = 0
-    epochs = 40
+    epochs = 60
     
     print("\nStarting training...")
     for epoch in range(1, epochs + 1):

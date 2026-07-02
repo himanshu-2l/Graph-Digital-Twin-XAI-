@@ -149,7 +149,7 @@ def train_and_evaluate(model_name, model, train_loader, val_loader, test_loader,
             
             loss_graph = F.binary_cross_entropy_with_logits(graph_logits.squeeze(-1), batch.y_graph)
             loss_node = F.cross_entropy(node_logits, batch.y_node, weight=node_weight)
-            loss = loss_graph + 1.0 * loss_node
+            loss = loss_graph + 1.5 * loss_node
             loss.backward()
             optimizer.step()
             
@@ -251,17 +251,17 @@ def main():
     
     # Models to compare
     models = {
-        'Traditional MLP (Flat)': MLPModel(num_nodes=14, in_channels=4).to(device),
-        'GCN (Isotropic)': GCNModel(in_channels=4, hidden_channels=32).to(device),
-        'GAT (Attention)': GATModel(in_channels=4, hidden_channels=32).to(device),
-        'GraphSAGE (Proposed)': SAGEModel(in_channels=4, hidden_channels=32).to(device)
+        'Traditional MLP (Flat)': MLPModel(num_nodes=14, in_channels=4, hidden_channels=64).to(device),
+        'GCN (Isotropic)': GCNModel(in_channels=4, hidden_channels=64).to(device),
+        'GAT (Attention)': GATModel(in_channels=4, hidden_channels=64).to(device),
+        'GraphSAGE (Proposed)': SAGEModel(in_channels=4, hidden_channels=64).to(device)
     }
     
     results = {}
     
     for name, model in models.items():
         det_f1, det_auc, loc_f1 = train_and_evaluate(
-            name, model, train_loader, val_loader, test_loader, device, node_weight, epochs=30
+            name, model, train_loader, val_loader, test_loader, device, node_weight, epochs=60
         )
         results[name] = {
             'det_f1': det_f1,

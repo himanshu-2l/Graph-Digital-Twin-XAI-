@@ -70,7 +70,7 @@ def main():
         print("best_model.pt not found! Train the model first via model.py.")
         return
         
-    model = SmartGridGNN(in_channels=4, hidden_channels=32)
+    model = SmartGridGNN(in_channels=4, hidden_channels=64)
     model.load_state_dict(torch.load('best_model.pt', map_location='cpu', weights_only=True))
     model.eval()
     

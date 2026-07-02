@@ -95,4 +95,7 @@
 
 ## V. Conclusion & Future Work
 * Summarize findings.
-* Outline the roadmap to transition this data-driven digital twin to a **physical hardware-in-the-loop (HIL)** configuration using Real-Time Digital Simulators (RTDS/Typhoon) and physical Raspberry Pi units representing substation controllers.
+* Outline future software-based validation, including:
+  * Evaluating model robustness under dynamic topological changes (line outages).
+  * Conducting sensor noise sensitivity analysis to establish the model's physical thresholds.
+  * Designing a closed-loop software-based active mitigation framework to mute corrupted buses and re-estimate states.
