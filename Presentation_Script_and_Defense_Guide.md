@@ -114,16 +114,28 @@
 
 ---
 
-### 📽️ Slide 9: Key Contributions & Future Scope
-**Visual on screen:** *Slide showing key contributions and future software roadmap.*  
+### 📽️ Slide 9: Phase 2 Results: Active Mitigation & Topology Generalization
+**Visual on screen:** *Slide displaying the line outage generalization F1 bar chart (`topology_outage_analysis.png`) and the active power restoration profile (`cyber_mitigation_results.png`).*  
 
 **What to Say:**  
-> *"In summary, we successfully built a topology-invariant Graph Digital Twin that concurrently detects and localizes cyberattacks in a single forward pass, backed by explainable AI.  
+> *"Next, I would like to present our newly completed Phase 2 research results:  
+>  
+> First, we tested **Grid Reconfiguration (Transmission Line Outages)**. We simulated random single-line outages by deactivating lines in pandapower to evaluate if our pre-trained models generalize without retraining. While the GNN models hold up dynamically—with GraphSAGE maintaining a solid **70.59% detection F1**—the Traditional MLP's localization F1 drops significantly to **45.78%** because flat models cannot handle dynamic layout changes. This proves our GNN's structural flexibility.  
+>  
+> Second, we simulated **Closed-Loop Cyber-Mitigation**. Once the GNN flags compromised substations like Bus 5, we isolate their sensors and substitute them with historical baseline estimation profiles, adding a realistic 2% forecasting uncertainty. This active grid healing restores state tracking accuracy: our Active Power Profile MSE drops from **2.61 MW² (Under Attack)** to **1.69 MW² (Healed)**, recovering **35.20%** of the tracking accuracy in real-time."*
+
+---
+
+### 📽️ Slide 10: Key Contributions & Future Scope
+**Visual on screen:** *Slide showing key contributions (now including Phase 2) and future software roadmap.*  
+
+**What to Say:**  
+> *"In summary, we successfully built a topology-invariant Graph Digital Twin that concurrently detects and localizes cyberattacks in a single forward pass, backed by explainable AI, and validated under active grid reconfigurations and closed-loop mitigation.  
 >  
 > In Phase 2, we plan to extend this work in three purely software-based directions:  
 > 1. Implementing **Spatiotemporal GNNs** by combining GraphSAGE with LSTMs to detect slow-ramping, time-varying attacks.  
-> 2. Testing zero-shot GNN generalization under random line outages.  
-> 3. Designing a closed-loop cyber-mitigation system that automatically mutes telemetry from compromised buses and runs state estimation on the remaining clean nodes.  
+> 2. Integrating **Outage-Aware Training** by training the GNN on a mixed dataset containing line outages to improve generalization under topology shifts.  
+> 3. Automating the **Mitigation Feedback Loop** to transition between estimation fallback and normal sensor polling once the cyber threat is cleared.  
 >  
 > Thank you, Sir. I am now open to any questions."*
 
