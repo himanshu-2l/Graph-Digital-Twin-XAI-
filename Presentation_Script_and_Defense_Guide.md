@@ -142,28 +142,42 @@
 ---
 ---
 
-## Part 2: Simple Breakdown of Slide 5 (Model Accuracy)
-The user (Anshika) needs to understand this slide completely to explain it easily.
+## Part 2: Deep-Dive Breakdown of Slide 5 (How We Got 100% and 99% Accuracies)
 
-### A. What are the 4 algorithms we compared?
-We compared four models that process grid data differently.
-1.  **Traditional MLP (Flat):** 
-    *   *What it is:* A standard neural network. 
-    *   *How it thinks:* It treats the 14 buses as a flat, independent list of numbers. It does not know who is connected to whom.
-2.  **GCN (Graph Convolutional Network):** 
-    *   *What it is:* A basic GNN. 
-    *   *How it thinks:* It looks at the grid topology, but it averages neighbor information equally. This causes "over-smoothing" (local substation differences get washed out). That is why its localization score is low (**73.84%**).
-3.  **GAT (Graph Attention Network):** 
-    *   *What it is:* A GNN that uses "attention" coefficients.
-    *   *How it thinks:* It dynamically weights which neighbor bus is more important, leading to better localization (**83.95%**).
-4.  **GraphSAGE (Our Proposed Model):** 
-    *   *What it is:* An inductive spatial GNN.
-    *   *How it thinks:* Instead of just averaging neighbor data, it aggregates neighbor features and then **concatenates** (joins) them with the target bus's own current values. This preserves local anomalies, resulting in the highest localization score (**99.03%**).
+Utility grid operators and academic advisors want to know the exact mathematical and structural reasons behind these F1-scores. Here is the detailed breakdown:
 
-### B. Why and how did the MLP get 100%?
-*   **The Analogy:** Think of the grid as a static chessboard. If the chessboard shape never changes (always 8x8), you can memorize exactly where each piece belongs.
-*   **The Technical Reason:** The dataset we used for training and testing is generated on a **static grid layout** (all 20 transmission lines are always active). The MLP simply memorized the 56 input features ($14 \text{ buses} \times 4 \text{ measurements}$) and found the exact numeric boundaries of the attacks.
-*   **Why this 100% is a "False Security":** In real life, power grids are dynamic. If a line trips due to lightning, the grid layout changes. The MLP **crashes or fails completely** because it expects exactly 56 columns of data and cannot adapt. The GNN does not care about the size of the grid; it learns local rules, making it **topology-invariant** (fully adaptable).
+### A. How Did the Traditional MLP (Flat Model) Get 100.00% Detection and 99.35% Localization?
+*   **The Model Architecture:** 
+    *   The MLP receives a flattened vector of all grid readings at once ($14 \text{ nodes} \times 4 \text{ features} = 56$ input neurons). It passes these through fully connected dense layers.
+*   **The Underlying Dataset Reason:** 
+    *   Our training and testing datasets were generated on a **static grid topology** (the standard IEEE 14-bus layout with all 20 lines active and working). The shape of the grid never changes in this benchmark.
+*   **How it Achieved 100%:** 
+    *   Because the grid layout is static, the relationships between active power ($P$), reactive power ($Q$), voltage magnitude ($V$), and voltage angle ($\theta$) across the nodes are highly correlated and mathematically fixed.
+    *   The False Data Injection Attack (FDIA) we simulate involves a substantial localized load shift (a 1.5x to 2.0x load multiplier at the target bus).
+    *   Since the dataset has a small input space (56 features) and the attack boundaries are distinct, a dense MLP has more than enough parameters to easily memorize the exact numeric thresholds of the nominal vs. attacked states on this static grid.
+*   **The Critical Catch (Why it is a "False Security"):**
+    *   In a real-world power grid, transmission lines trip frequently. If just **one line goes down**, the input layout shifts. 
+    *   Because the MLP's input layer is hardcoded to 56 fixed column positions, any change in grid topology breaks the MLP's learned correlations. It cannot adapt and either crashes or drops to useless accuracy levels (**45.78% F1** in our outages test).
+
+---
+
+### B. How Did our Proposed GraphSAGE GNN Get 99.36% Detection and 99.03% Localization?
+Our GraphSAGE model achieves near-perfect F1-scores because of its **spatial aggregation** design and **multi-task shared backbone**.
+
+1.  **Topology-Invariant Feature Extraction:**
+    *   Unlike the MLP, GraphSAGE does not flatten the input. It treats the grid as a graph of nodes and edges.
+    *   It learns local message-passing rules: how node features (e.g. voltage at Bus 5) relate to neighbor features (e.g. Bus 4 and 11) across the active transmission lines (edges).
+    *   Because it learns *local relations* instead of a *global table*, it doesn't care about the layout size. If a line trips, we delete the edge from the graph, and the GNN runs successfully on the new layout *without retraining*.
+2.  **Why GraphSAGE Outperforms GCN by 25.19% on Localization:**
+    *   *GCN (Isotropic Aggregation) got 73.84%:* A standard GCN averages a node's features with all its neighbors' features. If a hacker attacks Bus 5, the attack signature (high voltage angle shift) gets averaged out with the healthy readings of Bus 4, 11, and 12. This is called **over-smoothing**, and it washes out local sensor differences, making GCN poor at finding the exact hacked node.
+    *   *GraphSAGE (Proposed) got 99.03%:* GraphSAGE aggregates neighbor features, but it **explicitly concatenates (joins)** the target node's own original features with this aggregated neighborhood representation:
+        $$h_v^{(k)} = \text{ReLU} \left( W_k \cdot \left[ h_v^{(k-1)} \,\|\, \text{Aggregate}_{u \in \mathcal{N}(v)} h_u^{(k-1)} \right] \right)$$
+        This concatenation preserves the target node's local sensor values, preventing the attack signature from getting washed out. This allows the model to localize the compromised substation almost perfectly.
+3.  **Multi-Task Joint Learning Optimization:**
+    *   The shared backbone extracts spatial representations, which then feed into two simultaneous heads:
+        *   *Graph Classification Head* (Binary Cross-Entropy Loss) for detection.
+        *   *Node Classification Head* (Weighted Cross-Entropy Loss) for localization.
+    *   By optimizing both heads jointly using a loss weight of $1.5$ on the node head, the GNN weights converged to a state that represents the physical AC power flow layout perfectly, yielding **99.36% detection** and **99.03% localization** on the test set.
 
 ---
 ---
