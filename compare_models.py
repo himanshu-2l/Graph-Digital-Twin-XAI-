@@ -210,6 +210,10 @@ def train_and_evaluate(model_name, model, train_loader, val_loader, test_loader,
     graph_auc = roc_auc_score(graph_targets, graph_preds) if len(np.unique(graph_targets)) > 1 else 0.5
     node_f1 = f1_score(node_targets, node_preds, zero_division=0)
     
+    # Save best weights to disk for comparison
+    file_friendly_name = model_name.lower().replace(" ", "_").replace("(", "").replace(")", "")
+    torch.save(best_model_weights, f"compare_{file_friendly_name}.pt")
+    
     print(f"Finished {model_name} | Test Det F1: {graph_f1*100:.2f}% | Test Loc F1: {node_f1*100:.2f}%")
     return graph_f1, graph_auc, node_f1
 
