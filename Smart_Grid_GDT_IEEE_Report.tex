@@ -238,7 +238,14 @@ Table \ref{tab:comparison} benchmarks the proposed GraphSAGE model against a fla
   }
 \end{table}
 
-GraphSAGE achieves **99.36\%** detection and **99.03\%** localization F1-scores, outperforming other GNN baselines. GCN performs poorly (**73.84\%** localization) due to over-smoothing.
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.48\textwidth]{model_comparison.png}
+\caption{Nominal Performance Benchmarks: Attack Detection and Node-Level Localization F1-scores across different neural network architectures.}
+\label{fig:comparison}
+\end{figure}
+
+GraphSAGE achieves **99.36\%** detection and **99.03\%** localization F1-scores, outperforming other GNN baselines as illustrated in Fig.~\ref{fig:comparison}. GCN performs poorly (**73.84\%** localization) due to over-smoothing.
 
 \subsection{Noise Sensitivity Analysis}
 To test robustness, sensor measurement noise was added to the test features. Under high noise ($\sigma = 0.08$), GraphSAGE maintains a solid **95.15\% detection** and **87.76\% localization** F1-score, confirming its stability. The noise sensitivity profile is shown in Fig.~\ref{fig:robustness}.
