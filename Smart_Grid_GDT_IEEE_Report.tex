@@ -224,16 +224,18 @@ Table \ref{tab:comparison} benchmarks the proposed GraphSAGE model against a fla
   \caption{Performance Comparison under Nominal Grid Layout}
   \label{tab:comparison}
   \centering
+  \resizebox{\columnwidth}{!}{%
   \begin{tabular}{lccc}
     \hline
-    \textbf{Model Architecture} & \textbf{Detection F1} & \textbf{Detection AUC} & \textbf{Localization F1} \\
+    \textbf{Model Architecture} & \textbf{Det. F1} & \textbf{Det. AUC} & \textbf{Loc. F1} \\
     \hline
     Traditional MLP (Flat) & 100.00\% & 1.0000 & 99.35\% \\
     GCN (Isotropic) & 88.73\% & 0.9405 & 73.84\% \\
     GAT (Attention) & 99.36\% & 1.0000 & 83.95\% \\
     \textbf{GraphSAGE (Proposed)} & \textbf{99.36\%} & \textbf{1.0000} & \textbf{99.03\%} \\
     \hline
-  \end{tabular}
+  \end{tabular}%
+  }
 \end{table}
 
 GraphSAGE achieves **99.36\%** detection and **99.03\%** localization F1-scores, outperforming other GNN baselines. GCN performs poorly (**73.84\%** localization) due to over-smoothing.
@@ -255,16 +257,18 @@ We evaluated the pre-trained models on a test set where a transmission line was 
   \caption{Generalization Metrics under Grid Reconfiguration}
   \label{tab:outages}
   \centering
+  \resizebox{\columnwidth}{!}{%
   \begin{tabular}{lcc}
     \hline
-    \textbf{Model Architecture} & \textbf{Outage Detection F1} & \textbf{Outage Localization F1} \\
+    \textbf{Model Architecture} & \textbf{Outage Det. F1} & \textbf{Outage Loc. F1} \\
     \hline
     Traditional MLP (Flat) & 70.76\% & 45.78\% \\
     GCN (Standard Graph) & 66.67\% & 31.08\% \\
     GAT (Attention GNN) & 68.59\% & 37.04\% \\
     \textbf{GraphSAGE (Proposed)} & \textbf{70.59\%} & \textbf{39.32\%} \\
     \hline
-  \end{tabular}
+  \end{tabular}%
+  }
 \end{table}
 
 The flat MLP's localization drops to **45.78\%**, proving it cannot adapt to topology changes. GraphSAGE maintains a **70.59\%** detection F1. By training the GNN on a mixed dataset containing line outages in the future, GNN performance can be restored to nominal levels. The comparative bar chart under reconfigured states is presented in Fig.~\ref{fig:outage}.
@@ -295,6 +299,7 @@ To evaluate the Integrated Gradients (IG) engine, a case study was conducted on 
   \caption{Feature Attributions for Attack Centered at Bus 5}
   \label{tab:attributions}
   \centering
+  \resizebox{\columnwidth}{!}{%
   \begin{tabular}{ccccc}
     \hline
     \textbf{Bus ID} & \textbf{Voltage ($V$)} & \textbf{Angle ($\theta$)} & \textbf{Active Power ($P$)} & \textbf{Reactive Power ($Q$)} \\
@@ -305,7 +310,8 @@ To evaluate the Integrated Gradients (IG) engine, a case study was conducted on 
     Bus 11 & 0.008 & 0.092 & 0.024 & 0.041 \\
     Bus 12 & 0.011 & 0.182 & 0.035 & 0.088 \\
     \hline
-  \end{tabular}
+  \end{tabular}%
+  }
 \end{table}
 
 The IG engine successfully attributes the highest importance to the voltage angle feature ($\theta$) at Bus 5 (attribution = 0.486), matching the physical signature of the FDIA. The comprehensive operator dashboard is illustrated in Fig.~\ref{fig:dashboard}.
