@@ -284,6 +284,28 @@ Once a bus is localized as compromised (e.g. Bus 5), we isolate its telemetry an
 \label{fig:mitigation}
 \end{figure}
 
+\subsection{Benchmarking Against State-of-the-Art Works}
+To evaluate the contribution of our proposed Graph Digital Twin (GDT) framework, we benchmark our performance metrics against the published results of the base paper by Araar et al. \cite{b10} and the IEEE Xplore paper by Yue et al. \cite{b14}. Both of these prior works utilized GNNs for cyberattack detection on the IEEE 14-bus test feeder. Table \ref{tab:sota} presents this comparative analysis:
+
+\begin{table}[htbp]
+  \caption{Performance Benchmarking Against Related State-of-the-Art Works}
+  \label{tab:sota}
+  \centering
+  \resizebox{\columnwidth}{!}{%
+  \begin{tabular}{lcccc}
+    \hline
+    \textbf{Framework Reference} & \textbf{Classifier Type} & \textbf{Det. F1} & \textbf{Det. AUC} & \textbf{Joint Loc. F1} \\
+    \hline
+    Araar et al. \cite{b10} (Base Paper) & GraphSAGE & 94.00\% & 0.9700 & N/A \\
+    Yue \& Qu \cite{b14} (IEEE Xplore) & GCN & 89.20\% & 0.9510 & N/A \\
+    \textbf{Proposed Graph Digital Twin} & \textbf{GraphSAGE} & \textbf{99.36\%} & \textbf{1.0000} & \textbf{99.03\%} \\
+    \hline
+  \end{tabular}%
+  }
+\end{table}
+
+As summarized in Table \ref{tab:sota}, our GDT framework outperforms existing state-of-the-art approaches in grid-level detection, raising the F1-score from 94.00\% to 99.36\%. Furthermore, while prior works \cite{b10}, \cite{b14} limit their scope to binary grid-level attack detection (reporting no localization metrics), our GDT framework solves the multi-task problem of joint attack detection and substation-level localization, achieving a localization F1-score of 99.03\% in the same forward pass.
+
 \section{Explainability Case Study}
 To evaluate the Integrated Gradients (IG) engine, a case study was conducted on a targeted attack on Bus 5 and its neighbors. Table \ref{tab:attributions} presents the feature-level and node-level attribution weights computed by the IG engine:
 
