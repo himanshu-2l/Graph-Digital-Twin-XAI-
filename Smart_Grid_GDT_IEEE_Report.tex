@@ -137,6 +137,14 @@ Because the compromised residual is mathematically identical to the benign resid
 
 \section{The Proposed Graph Digital Twin Architecture}
 
+\subsection{Digital Twin Cyber-Physical Coupling}
+Unlike standard deep learning classifiers that run as isolated software, a Graph Digital Twin (GDT) operates on a continuous, closed-loop cyber-physical coupling. This coupling consists of two main layers:
+\begin{enumerate}
+    \item \textbf{Physical Grid Layer:} The physical electrical network (buses and lines) equipped with SCADA meters that continuously measure telemetry ($V, \theta, P, Q$).
+    \item \textbf{Virtual Replica Layer (Digital Twin):} A software representation reflecting the active network topology, electrical admittance values, and nominal forecasting curves.
+\end{enumerate}
+The GDT maintains bidirectional data flows. The physical-to-virtual (monitoring) flow continuously feeds normalized SCADA telemetry into the virtual graph neural network. When the GDT detects anomalies, the virtual-to-physical (healing) flow sends corrective commands back to the substation control centers. This closed-loop design isolates compromised sensors and substitutes baseline profile estimations to preserve grid tracking stability without physical operator delays.
+
 \subsection{Virtual Graph Construction}
 The Graph Digital Twin structures incoming SCADA measurements into a node feature matrix $X \in \mathbb{R}^{N \times 4}$. This representation keeps the grid structured as a spatial layout:
 \begin{itemize}
