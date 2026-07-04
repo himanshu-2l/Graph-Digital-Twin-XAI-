@@ -144,7 +144,9 @@ Because the compromised residual is mathematically identical to the benign resid
 \section{The Proposed Graph Digital Twin Architecture}
 
 \subsection{Virtual Graph Construction}
-The Graph Digital Twin structures incoming measurements into a node feature matrix $X \in \mathbb{R}^{N \times 4}$, where each node feature vector $x_i = [V_i, \theta_i, P_i, Q_i]^T$ is normalized using rolling historical means and standard deviations. Edge attributes $E_{attr} \in \mathbb{R}^{|E| \times 2}$ store the normalized resistance $R$ and reactance $X$ of the active transmission lines.
+The Graph Digital Twin structures incoming SCADA measurements into a node feature matrix $X \in \mathbb{R}^{N \times 4}$. This representation keeps the grid structured as a spatial layout:
+* **Node Feature Vector:** For each bus $i$, $x_i = [V_i, \theta_i, P_i, Q_i]^T$, which is normalized using historical means and standard deviations.
+* **Edge Attributes:** For each connection line, $E_{attr} = [R_i, X_i]^T$, containing physical resistance and reactance parameters to feed transmission characteristics to the GNN.
 
 \subsection{Shared Multi-Task GraphSAGE Convolution}
 To prevent over-smoothing—where standard GCN isotropic averaging blurs local anomalies—we deploy GraphSAGE convolutional layers. GraphSAGE aggregates neighborhood representations but explicitly **concatenates** the target node's own feature representations:
@@ -237,7 +239,14 @@ Table \ref{tab:comparison} benchmarks the proposed GraphSAGE model against a fla
 GraphSAGE achieves **99.36\%** detection and **99.03\%** localization F1-scores, outperforming other GNN baselines. GCN performs poorly (**73.84\%** localization) due to over-smoothing.
 
 \subsection{Noise Sensitivity Analysis}
-To test robustness, sensor measurement noise was added to the test features. Under high noise ($\sigma = 0.08$), GraphSAGE maintains a solid **95.15\% detection** and **87.76\% localization** F1-score, confirming its stability.
+To test robustness, sensor measurement noise was added to the test features. Under high noise ($\sigma = 0.08$), GraphSAGE maintains a solid **95.15\% detection** and **87.76\% localization** F1-score, confirming its stability. The noise sensitivity profile is shown in Fig.~\ref{fig:robustness}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.48\textwidth]{robustness_analysis.png}
+\caption{Noise Robustness Analysis: F1-Scores under varying measurement noise levels ($\sigma = 0.00$ to $0.12$).}
+\label{fig:robustness}
+\end{figure}
 
 \subsection{Generalization under Line Outages (Grid Reconfiguration)}
 We evaluated the pre-trained models on a test set where a transmission line was tripped (deactivated) without retraining:
@@ -258,10 +267,24 @@ We evaluated the pre-trained models on a test set where a transmission line was 
   \end{tabular}
 \end{table}
 
-The flat MLP's localization drops to **45.78\%**, proving it cannot adapt to topology changes. GraphSAGE maintains a **70.59\%** detection F1. By training the GNN on a mixed dataset containing line outages in the future, GNN performance can be restored to nominal levels.
+The flat MLP's localization drops to **45.78\%**, proving it cannot adapt to topology changes. GraphSAGE maintains a **70.59\%** detection F1. By training the GNN on a mixed dataset containing line outages in the future, GNN performance can be restored to nominal levels. The comparative bar chart under reconfigured states is presented in Fig.~\ref{fig:outage}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.48\textwidth]{topology_outage_analysis.png}
+\caption{Zero-Shot Generalization: Detection and Localization F1-scores under single-line outage grid reconfigurations.}
+\label{fig:outage}
+\end{figure}
 
 \subsection{Closed-Loop Cyber-mitigation}
-Once a bus is localized as compromised (e.g. Bus 5), we isolate its telemetry and substitute its readings with historical baseline profiles (with +-2\% forecasting uncertainty). This restored grid state tracking: Active Power profile MSE dropped from **2.61 MW² (Under Attack)** to **1.69 MW² (Mitigated)**, showing a **35.20\% accuracy recovery** in real-time.
+Once a bus is localized as compromised (e.g. Bus 5), we isolate its telemetry and substitute its readings with historical baseline profiles (with +-2\% forecasting uncertainty). This restored grid state tracking: Active Power profile MSE dropped from **2.61 MW² (Under Attack)** to **1.69 MW² (Mitigated)**, showing a **35.20\% accuracy recovery** in real-time. The active power profile restoration curve is plotted in Fig.~\ref{fig:mitigation}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.48\textwidth]{cyber_mitigation_results.png}
+\caption{Closed-Loop Grid State Restoration: Comparison of Active Power profile between Nominal, Compromised, and AI-Mitigated states.}
+\label{fig:mitigation}
+\end{figure}
 
 ---
 
@@ -285,7 +308,14 @@ To evaluate the Integrated Gradients (IG) engine, a case study was conducted on 
   \end{tabular}
 \end{table}
 
-The IG engine successfully attributes the highest importance to the voltage angle feature ($\theta$) at Bus 5 (attribution = 0.486), matching the physical signature of the FDIA.
+The IG engine successfully attributes the highest importance to the voltage angle feature ($\theta$) at Bus 5 (attribution = 0.486), matching the physical signature of the FDIA. The comprehensive operator dashboard is illustrated in Fig.~\ref{fig:dashboard}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.48\textwidth]{grid_anomaly_explanation.png}
+\caption{Explainability Dashboard: GraphSAGE Node-level Predictions (Left) vs. Integrated Gradients Feature Attributions (Right) for Bus 5 Attack.}
+\label{fig:dashboard}
+\end{figure}
 
 ---
 
