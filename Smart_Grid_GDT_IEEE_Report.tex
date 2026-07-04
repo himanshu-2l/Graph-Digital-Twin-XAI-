@@ -28,7 +28,7 @@
 \maketitle
 
 \begin{abstract}
-Modern electrical grids are highly integrated Cyber-Physical Systems (CPS) where digital communication networks monitor and control physical transmission infrastructure. This integration exposes the grid to sophisticated cyber-physical threats, particularly False Data Injection Attacks (FDIAs). In an FDIA, an adversary tampers with Supervisory Control and Data Acquisition (SCADA) telemetry. By satisfying localized physical transmission laws, stealthy FDIAs can bypass classical State Estimation bad data detection (BDD) filters, misleading grid operators and risking wide-area outages. This report presents the development of a topology-invariant Graph Digital Twin (GDT) security framework. The GDT represents the electrical grid as a dynamic spatial graph and utilizes a joint multi-task Graph Neural Network (GNN) with a shared GraphSAGE backbone to perform concurrent grid-level attack detection and substation-level localization in a single forward pass. Explainable AI (XAI) is integrated using Integrated Gradients to calculate telemetry-level feature attributions, providing operator-level transparency. Simulated on the standard IEEE 14-bus test feeder under AC power flow constraints, the proposed model achieves a detection F1-score of 99.36\% and a localization F1-score of 99.03\% under nominal conditions. Under a reconfigured grid with random single-line outages, the GDT demonstrates high generalization, outperforming traditional flat Multi-Layer Perceptrons (MLPs). Finally, we demonstrate a closed-loop cyber-mitigation scheme that restores state tracking accuracy, reducing active power profile MSE from 2.61 MW² to 1.69 MW² (a 35.20\% recovery).
+Modern electrical grids are highly integrated Cyber-Physical Systems (CPS) where digital communication networks monitor and control physical transmission infrastructure. This integration exposes the grid to sophisticated cyber-physical threats, particularly False Data Injection Attacks (FDIAs). In an FDIA, an adversary tampers with Supervisory Control and Data Acquisition (SCADA) telemetry. By satisfying localized physical transmission laws, stealthy FDIAs can bypass classical State Estimation bad data detection (BDD) filters, misleading grid operators and risking wide-area outages. This report presents the development of a topology-invariant Graph Digital Twin (GDT) security framework. The GDT represents the electrical grid as a dynamic spatial graph and utilizes a joint multi-task Graph Neural Network (GNN) with a shared GraphSAGE backbone to perform concurrent grid-level attack detection and substation-level localization in a single forward pass. Explainable AI (XAI) is integrated using Integrated Gradients to calculate telemetry-level feature attributions, providing operator-level transparency. Simulated on the standard IEEE 14-bus test feeder under AC power flow constraints, the proposed model achieves a detection F1-score of 99.36\% and a localization F1-score of 99.03\% under nominal conditions. Under a reconfigured grid with random single-line outages, the GDT demonstrates high generalization, outperforming traditional flat Multi-Layer Perceptrons (MLPs). Finally, we demonstrate a closed-loop cyber-mitigation scheme that restores state tracking accuracy, reducing active power profile MSE from 2.61 MW$^2$ to 1.69 MW$^2$ (a 35.20\% recovery).
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -46,9 +46,7 @@ To resolve these challenges, machine learning (ML) models have been proposed. Ho
     \item \textbf{Black-Box Behavior:} Deep learning models lack transparency, making grid operators hesitant to act on abstract security alerts.
 \end{enumerate}
 
-This project report details the development of a topology-invariant Graph Digital Twin (GDT) security framework. The GDT represents the electrical grid as a dynamic spatial graph and utilizes a joint multi-task Graph Neural Network (GNN) with a shared GraphSAGE backbone to simultaneously perform grid-level detection and node-level localization of FDIAs in a single forward pass, providing operator-level explainability through Integrated Gradients.
-
----
+This project report details the development of a topology-invariant \textbf{Graph Digital Twin (GDT)} security framework. The GDT represents the electrical grid as a dynamic spatial graph and utilizes a joint multi-task Graph Neural Network (GNN) with a shared GraphSAGE backbone to simultaneously perform grid-level detection and node-level localization of FDIAs in a single forward pass, providing operator-level explainability through Integrated Gradients.
 
 \section{Related Work}
 
@@ -63,8 +61,6 @@ A major barrier to deploying AI in control centers is the black-box nature of de
 
 \subsection{Closed-Loop Active Cyber-Mitigation}
 Most literature stops at attack detection. However, maintaining grid resilience requires active mitigation. Once an attack is localized, operators must isolate the corrupted sensors and estimate the true state using healthy neighbor data. This report implements a closed-loop grid healing system, substituting compromised measurements with historical baseline profiles (incorporating forecasting uncertainty) to restore state estimation tracking accuracy.
-
----
 
 \section{Mathematical Modeling \& Threat Formulation}
 
@@ -139,17 +135,17 @@ r_{compromised} &= \|z_{compromised} - h(\hat{x} + c)\|_2^2 \nonumber \\
 \end{align}
 Because the compromised residual is mathematically identical to the benign residual, classical state estimators fail to flag the data, rendering the attack stealthy and unobservable.
 
----
-
 \section{The Proposed Graph Digital Twin Architecture}
 
 \subsection{Virtual Graph Construction}
 The Graph Digital Twin structures incoming SCADA measurements into a node feature matrix $X \in \mathbb{R}^{N \times 4}$. This representation keeps the grid structured as a spatial layout:
-* **Node Feature Vector:** For each bus $i$, $x_i = [V_i, \theta_i, P_i, Q_i]^T$, which is normalized using historical means and standard deviations.
-* **Edge Attributes:** For each connection line, $E_{attr} = [R_i, X_i]^T$, containing physical resistance and reactance parameters to feed transmission characteristics to the GNN.
+\begin{itemize}
+    \item \textbf{Node Feature Vector:} For each bus $i$, $x_i = [V_i, \theta_i, P_i, Q_i]^T$, which is normalized using historical means and standard deviations.
+    \item \textbf{Edge Attributes:} For each connection line, $E_{attr} = [R_i, X_i]^T$, containing physical resistance and reactance parameters to feed transmission characteristics to the GNN.
+\end{itemize}
 
 \subsection{Shared Multi-Task GraphSAGE Convolution}
-To prevent over-smoothing—where standard GCN isotropic averaging blurs local anomalies—we deploy GraphSAGE convolutional layers \cite{b8}. GraphSAGE aggregates neighborhood representations but explicitly **concatenates** the target node's own feature representations:
+To prevent over-smoothing—where standard GCN isotropic averaging blurs local anomalies—we deploy GraphSAGE convolutional layers \cite{b8}. GraphSAGE aggregates neighborhood representations but explicitly \textbf{concatenates} the target node's own feature representations:
 \begin{equation}
 h_{\mathcal{N}(v)}^{(k)} = \text{Aggregate}_{u \in \mathcal{N}(v)} \left( h_u^{(k-1)} \right)
 \end{equation}
@@ -189,8 +185,6 @@ In practice, the path integral is approximated using Riemann sums:
 \end{equation}
 where $M$ is the number of steps (set to 50 for convergence). This method satisfies the key axioms of **Completeness**, **Symmetry**, and **Implementation Invariance**, providing mathematically rigorous explainability \cite{b7}.
 
----
-
 \section{Experimental Setup \& Simulation}
 
 \subsection{IEEE 14-Bus Test System Details}
@@ -203,8 +197,10 @@ The GDT framework was evaluated using the IEEE 14-bus test feeder, a standard el
 
 \subsection{Dataset Generation Protocol}
 A dataset of 1,000 grid states (500 benign, 500 attacked) was generated.
-* **Benign States:** Generated by perturbing base loads at each bus using Gaussian noise ($\sigma = 0.04$).
-* **Attacked States:** Generated by selecting a target bus $k$ at random and multiplying its active and reactive power load by a random factor between 1.5 and 2.0. The attack signature was propagated to its neighbors using AC power flow equations to maintain physical consistency.
+\begin{itemize}
+    \item \textbf{Benign States:} Generated by perturbing base loads at each bus using Gaussian noise ($\sigma = 0.04$).
+    \item \textbf{Attacked States:} Generated by selecting a target bus $k$ at random and multiplying its active and reactive power load by a random factor between 1.5 and 2.0. The attack signature was propagated to its neighbors using AC power flow equations to maintain physical consistency.
+\end{itemize}
 
 \subsection{Training Protocol}
 The dataset was split into 70\% training, 15\% validation, and 15\% testing. Models were trained for 60 epochs using the Adam optimizer (learning rate = 0.005). The joint loss function was optimized using:
@@ -212,8 +208,6 @@ The dataset was split into 70\% training, 15\% validation, and 15\% testing. Mod
 \text{Loss} = \text{Loss}_{\text{Detection}} (BCE) + 1.5 \times \text{Loss}_{\text{Localization}} (WCE)
 \end{equation}
 The 1.5 weight prioritizes localization to handle class imbalance (as most nodes in an attacked state are healthy).
-
----
 
 \section{Numerical Results \& Analysis}
 
@@ -238,17 +232,10 @@ Table \ref{tab:comparison} benchmarks the proposed GraphSAGE model against a fla
   }
 \end{table}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.48\textwidth]{model_comparison.png}
-\caption{Nominal Performance Benchmarks: Attack Detection and Node-Level Localization F1-scores across different neural network architectures.}
-\label{fig:comparison}
-\end{figure}
-
-GraphSAGE achieves **99.36\%** detection and **99.03\%** localization F1-scores, outperforming other GNN baselines as illustrated in Fig.~\ref{fig:comparison}. GCN performs poorly (**73.84\%** localization) due to over-smoothing.
+GraphSAGE achieves \textbf{99.36\%} detection and \textbf{99.03\%} localization F1-scores, outperforming other GNN baselines. GCN performs poorly (\textbf{73.84\%} localization) due to over-smoothing.
 
 \subsection{Noise Sensitivity Analysis}
-To test robustness, sensor measurement noise was added to the test features. Under high noise ($\sigma = 0.08$), GraphSAGE maintains a solid **95.15\% detection** and **87.76\% localization** F1-score, confirming its stability. The noise sensitivity profile is shown in Fig.~\ref{fig:robustness}.
+To test robustness, sensor measurement noise was added to the test features. Under high noise ($\sigma = 0.08$), GraphSAGE maintains a solid \textbf{95.15\%} detection and \textbf{87.76\%} localization F1-score, confirming its stability. The noise sensitivity profile is shown in Fig.~\ref{fig:robustness}.
 
 \begin{figure}[htbp]
 \centering
@@ -278,7 +265,7 @@ We evaluated the pre-trained models on a test set where a transmission line was 
   }
 \end{table}
 
-The flat MLP's localization drops to **45.78\%**, proving it cannot adapt to topology changes. GraphSAGE maintains a **70.59\%** detection F1. By training the GNN on a mixed dataset containing line outages in the future, GNN performance can be restored to nominal levels. The comparative bar chart under reconfigured states is presented in Fig.~\ref{fig:outage}.
+The flat MLP's localization drops to \textbf{45.78\%}, proving it cannot adapt to topology changes. GraphSAGE maintains a \textbf{70.59\%} detection F1. By training the GNN on a mixed dataset containing line outages in the future, GNN performance can be restored to nominal levels. The comparative bar chart under reconfigured states is presented in Fig.~\ref{fig:outage}.
 
 \begin{figure}[htbp]
 \centering
@@ -288,7 +275,7 @@ The flat MLP's localization drops to **45.78\%**, proving it cannot adapt to top
 \end{figure}
 
 \subsection{Closed-Loop Cyber-mitigation}
-Once a bus is localized as compromised (e.g. Bus 5), we isolate its telemetry and substitute its readings with historical baseline profiles (with +-2\% forecasting uncertainty). This restored grid state tracking: Active Power profile MSE dropped from **2.61 MW² (Under Attack)** to **1.69 MW² (Mitigated)**, showing a **35.20\% accuracy recovery** in real-time. The active power profile restoration curve is plotted in Fig.~\ref{fig:mitigation}.
+Once a bus is localized as compromised (e.g. Bus 5), we isolate its telemetry and substitute its readings with historical baseline profiles (with $\pm 2\%$ forecasting uncertainty). This restored grid state tracking: Active Power profile MSE dropped from \textbf{2.61 MW$^2$ (Under Attack)} to \textbf{1.69 MW$^2$ (Mitigated)}, showing a \textbf{35.20\%} accuracy recovery in real-time. The active power profile restoration curve is plotted in Fig.~\ref{fig:mitigation}.
 
 \begin{figure}[htbp]
 \centering
@@ -296,8 +283,6 @@ Once a bus is localized as compromised (e.g. Bus 5), we isolate its telemetry an
 \caption{Closed-Loop Grid State Restoration: Comparison of Active Power profile between Nominal, Compromised, and AI-Mitigated states.}
 \label{fig:mitigation}
 \end{figure}
-
----
 
 \section{Explainability Case Study}
 To evaluate the Integrated Gradients (IG) engine, a case study was conducted on a targeted attack on Bus 5 and its neighbors. Table \ref{tab:attributions} presents the feature-level and node-level attribution weights computed by the IG engine:
@@ -330,12 +315,8 @@ The IG engine successfully attributes the highest importance to the voltage angl
 \label{fig:dashboard}
 \end{figure}
 
----
-
 \section{Discussion \& Operator Utility}
 The flat MLP achieves 100\% accuracy under static conditions but fails under line outages. The GDT's topology-invariance makes it suitable for real-world grids. By combining GraphSAGE with Integrated Gradients, operators receive visual attribution maps pinpointing compromised sensors. In a case study, when Bus 5 was compromised, the GDT localized it and identified the voltage angle feature as the primary attack vector.
-
----
 
 \section{Conclusion \& Future Work}
 This report presented a topology-invariant Graph Digital Twin that concurrently detects and localizes False Data Injection Attacks on smart grids. Future work will integrate spatiotemporal Graph Neural Networks (combining GraphSAGE with LSTMs) to detect slow-ramping, time-varying attacks and automate the closed-loop feedback mitigation system.
