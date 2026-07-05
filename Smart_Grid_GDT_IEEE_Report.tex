@@ -60,18 +60,7 @@ Power grids are naturally structured as graphs. Graph Neural Networks (GNNs), in
 Control room operators cannot trust black-box models during emergencies. They need to understand the reasoning behind an alert before taking action. Post-hoc explainability methods like SHAP and LIME require too much computation for real-time SCADA rates. In contrast, gradient-based methods like Integrated Gradients calculate attributions in just a few forward passes, making them fast enough for real-time monitoring \cite{b7}, \cite{b10}.
 
 \subsection{Closed-Loop Active Cyber-Mitigation}
-Most literature stops at attack detection. However, maintaining grid resilience requires active mitigation. Once an attack is localized, operators must isolate the corrupted sensors and estimate the true state using healthy neighbor data. This report implements a closed-loop grid healing system, substituting compromised measurements with historical baseline profiles (incorporating forecasting uncertainty) to restore state estimation tracking accuracy \cite{b13}.
-
-\subsection{Research Gaps in Prior Art}
-While related papers by Araar et al. \cite{b10} and Yue \& Qu \cite{b14} demonstrate the benefits of GNNs in smart grids, their frameworks exhibit several critical flaws and research gaps that limit real-world deployment:
-\begin{enumerate}
-    \item \textbf{Absence of Substation-Level Localization:} Both reference papers only perform binary grid-level attack detection (i.e., identifying whether the grid is under attack). They fail to identify the specific compromised substation or sensor channel in real-time, making it impossible for operators to deploy targeted physical maintenance.
-    \item \textbf{Lack of Active Mitigation (Grid Healing):} Both works act as passive alarm systems. Once they flag an FDIA, they offer no recovery mechanism. Consequently, the grid state estimator still consumes the corrupted telemetry, leading to state tracking failures.
-    \item \textbf{Unviable Explainability Overhead:} The base paper \cite{b10} utilizes GNNExplainer for operator interpretability. GNNExplainer is optimization-based and requires retraining mask parameters for every incoming sample, creating high latency that is incompatible with high-rate SCADA streams.
-    \item \textbf{Neglect of Dynamic Grid Topology:} Prior works evaluate their classifiers under a static transmission network layout. They do not simulate how GNN performance behaves during zero-shot grid reconfigurations (such as line outages or bypasses).
-\end{enumerate}
-
-To solve these gaps, our proposed Graph Digital Twin introduces a multi-task GraphSAGE structure that simultaneously detects and localizes attacks. It pairs with Integrated Gradients to yield real-time, axiomatic sensor attributions. Finally, we implement a closed-loop grid healing system that substitutes baseline profile forecasts to restore state estimation accuracy under dynamic reconfigurations.
+Most research stops at attack detection. However, maintaining grid operation requires active defense. Once an attack is localized, operators must isolate the corrupted sensors and reconstruct the grid state. This report implements a closed-loop grid healing system, replacing compromised telemetry with historical baseline profiles (with forecasting uncertainty) to restore state estimation tracking accuracy \cite{b13}.
 
 \section{Mathematical Modeling \& Threat Formulation}
 
