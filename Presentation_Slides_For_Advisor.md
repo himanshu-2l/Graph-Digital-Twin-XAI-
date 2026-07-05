@@ -89,7 +89,24 @@
 
 ---
 
-## 📽️ Slide 8: Defense: Overfitting Analysis & Publishability Proof
+## 📽️ Slide 8: Benchmarking & Gaps in Prior Art
+*   **Our References:** 
+    *   *Base Paper:* Sarra Araar et al. (2026) \cite{b10} (Algeria)
+    *   *2nd Reference:* Xiao Yue & Guangzhi Qu (2024) \cite{b14} (Oakland University, USA)
+*   **Identified Flaws & Research Gaps in Prior Works:**
+    1.  **Passive Detection Only:** Both papers only output a binary alarm (flagging *if* an attack is happening on the grid) but cannot locate *which* substation is compromised.
+    2.  **No Active Recovery:** Once an attack is flagged, they offer no mitigation. The grid state estimation remains corrupted.
+    3.  **High Explainability Latency:** The base paper uses GNNExplainer, which is too computationally heavy to run at real-time SCADA rates.
+    4.  **Static Layout Assumption:** Both papers evaluate models only on a static grid, ignoring line outages.
+*   **How Our proposed GDT Resolves these Gaps:**
+    *   *Joint Multi-Task Localization:* We output grid-level detection (99.36\% F1) and substation-level localization (99.03\% F1) concurrently.
+    *   *Closed-Loop Active Healing:* We isolate tampered sensors and substitute baseline forecasts to recover Active Power state tracking MSE by **35.20\%**.
+    *   *Real-Time Attribution:* We use **Integrated Gradients** (backpropagation-based), which computes attributions instantly.
+    *   *Outage Resilience:* We test zero-shot generalization under random transmission line outages.
+
+---
+
+## 📽️ Slide 9: Defense: Overfitting Analysis & Publishability Proof
 *   **Why the model is NOT Overfitting:**
     *   *Unseen Test Set:* Our 99.36% detection and 99.03% localization scores are evaluated on a held-out test set (15% of the data) that was never used in training.
     *   *Validation Checkpointing:* Model parameters were saved dynamically using validation set performance to prevent training memorization.
@@ -100,19 +117,19 @@
 
 ---
 
-## 📽️ Slide 9: Phase 2 Results: Active Mitigation & Topology Generalization
+## 📽️ Slide 10: Phase 2 Results: Active Mitigation & Topology Generalization
 *   **Grid Reconfiguration (Generalization under Line Outages):**
     *   We simulated random single-line outages (deactivating lines in `pandapower`) to test if models can generalize without retraining.
     *   Both detection and localization are evaluated under layout changes. While GraphSAGE maintains a solid **70.59% detection F1**, traditional MLP falls to **70.76%** detection and its localization F1 drops to **45.78%**.
     *   *Chart:* `topology_outage_analysis.png` shows the layout generalization metrics.
 *   **Closed-Loop Cyber-Mitigation (Active Grid Healing):**
-    *   When the GNN localization head flags compromised substations (e.g. Bus 5), we isolate their tampered sensors and substitute them with historical baseline estimation profiles (+-2% forecasting uncertainty).
+    *   When the GNN localization head flags compromised substations (e.g. Bus 5), we isolate their tampered sensors and substitute them with historical baseline estimation profiles, adding a realistic 2% forecasting uncertainty.
     *   This restores grid state tracking accuracy: Active Power profile MSE drops from **2.61 MW^2 (Under Attack)** to **1.69 MW^2 (Mitigated)**, showing a **35.20% accuracy recovery** in real-time.
     *   *Chart:* `cyber_mitigation_results.png` plots the spatial Active Power profile restoration.
 
 ---
 
-## 📽️ Slide 10: Key Contributions & Future Scope
+## 📽️ Slide 11: Key Contributions & Future Scope
 *   **Key Contributions of Our Work:**
     1.  Built a topology-invariant Graph Digital Twin using a joint multi-task GNN.
     2.  Achieved concurrent attack detection and node-level localization in a single forward pass.

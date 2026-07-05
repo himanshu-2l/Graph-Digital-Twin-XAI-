@@ -102,7 +102,23 @@
 
 ---
 
-### 📽️ Slide 8: Defense: Overfitting Analysis & Publishability Proof
+### 📽️ Slide 8: Benchmarking & Gaps in Prior Art
+**Visual on screen:** *Slide detailing flaws in the Araar et al. base paper [10] and Yue & Qu [14] paper, paired with our GDT solutions.*  
+
+**What to Say:**  
+> *"Now, Sir, I would like to benchmark our research contributions against prior works. Specifically, we analyzed our base paper by Araar et al., published in 2026, and the related IEEE paper by Yue and Qu, published in 2024. Both studies applied Graph Neural Networks to detect cyberattacks on the IEEE 14-bus feeder, but they left four critical gaps that we have resolved:  
+>  
+> First, **they only perform binary detection**. They warn the operator that the grid is under attack but cannot locate the target. In contrast, our joint GNN backbone performs **substation-level localization concurrently** in a single forward pass, achieving a 99.03% F1-score.  
+>  
+> Second, **they offer no recovery mechanism**. They act as passive alarms, leaving state estimation corrupted. We resolved this by implementing **active grid healing** that isolates compromised telemetry and substitutes baseline forecasts, recovering 35.20% of tracking accuracy.  
+>  
+> Third, **their explainability overhead is too slow**. The base paper uses GNNExplainer, which is optimization-based and takes too long to run at SCADA rates. Our model uses **Integrated Gradients**, running backpropagation calculations instantly.  
+>  
+> Finally, **they assume a static grid**. We evaluated our GNN under **dynamic line outages** without retraining to prove it generalizes successfully in real-world environments."*
+
+---
+
+### 📽️ Slide 9: Defense: Overfitting Analysis & Publishability Proof
 **Visual on screen:** *Slide addressing overfitting, validation splits, and publication novelty.*  
 
 **What to Say:**  
@@ -114,7 +130,7 @@
 
 ---
 
-### 📽️ Slide 9: Phase 2 Results: Active Mitigation & Topology Generalization
+### 📽️ Slide 10: Phase 2 Results: Active Mitigation & Topology Generalization
 **Visual on screen:** *Slide displaying the line outage generalization F1 bar chart (`topology_outage_analysis.png`) and the active power restoration profile (`cyber_mitigation_results.png`).*  
 
 **What to Say:**  
@@ -126,7 +142,7 @@
 
 ---
 
-### 📽️ Slide 10: Key Contributions & Future Scope
+### 📽️ Slide 11: Key Contributions & Future Scope
 **Visual on screen:** *Slide showing key contributions (now including Phase 2) and future software roadmap.*  
 
 **What to Say:**  
