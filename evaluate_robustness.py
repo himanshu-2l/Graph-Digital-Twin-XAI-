@@ -9,7 +9,7 @@ import pandapower as pp
 import pandapower.networks as pn
 from torch_geometric.data import Data
 from model import SmartGridGNN
-from data_generation import build_grid_graph, get_edge_index_and_attr
+from data_generation import build_grid_graph, get_active_edge_index_and_attr
 
 # Set random seeds for reproducibility
 random.seed(42)
@@ -141,7 +141,7 @@ def main():
     # Grid initialization
     net = pn.case14()
     G_topology = build_grid_graph(net)
-    edge_index, edge_attr = get_edge_index_and_attr(net)
+    edge_index, edge_attr = get_active_edge_index_and_attr(net)
     
     # Normalize edge attributes using training metadata
     edge_attr_mean = torch.tensor(metadata['edge_attr_mean'])

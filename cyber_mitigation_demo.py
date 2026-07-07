@@ -58,8 +58,8 @@ def main():
     raw_features = data_sample.x.numpy() * feat_std + feat_mean
     mitigated_features = raw_features.copy()
     
-    # Find matching nominal benign sample (sample_idx - 500) to act as the ground truth nominal grid state
-    matching_benign_idx = sample_idx - 500 if sample_idx >= 500 else sample_idx
+    # Find matching nominal benign sample (sample_idx - 2500) to act as the ground truth nominal grid state
+    matching_benign_idx = sample_idx - 2500 if sample_idx >= 2500 else sample_idx
     benign_sample = dataset[matching_benign_idx]
     true_nominal_raw = benign_sample.x.numpy() * feat_std + feat_mean
     
