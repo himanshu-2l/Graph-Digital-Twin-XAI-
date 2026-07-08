@@ -225,12 +225,12 @@ def main():
         if (u, v) not in bridges and (v, u) not in bridges:
             safe_lines.append(idx)
             
-    # 2. Generate 600 samples on IEEE 30-bus
+    # 2. Generate 1200 samples on IEEE 30-bus
     random.seed(100)
     np.random.seed(100)
     torch.manual_seed(100)
     
-    num_samples = 600
+    num_samples = 1200
     print(f"Generating {num_samples} samples on IEEE 30-bus system...")
     
     raw_samples = []
@@ -269,9 +269,9 @@ def main():
         )
         test_dataset.append(data)
         
-    # Split into 100 train (data-scarce), 50 val, 450 test using PyTorch random_split to ensure balanced classes
-    train_size = 100
-    val_size = 50
+    # Split into 200 train (data-scarce), 100 val, 900 test using PyTorch random_split to ensure balanced classes
+    train_size = 200
+    val_size = 100
     test_size = num_samples - train_size - val_size
     
     torch.manual_seed(100)
@@ -301,7 +301,7 @@ def main():
     # ----------------------------------------------------
     # CONFIG 2: TRANSFER LEARNING (FINE-TUNING ON 50 SAMPLES)
     # ----------------------------------------------------
-    print("Evaluating Transfer Learning (Fine-Tuning on 50 samples)...")
+    print("Evaluating Transfer Learning (Fine-Tuning on 200 samples)...")
     model_ft = SAGEModel(in_channels=4, hidden_channels=64).to(device)
     model_ft.load_state_dict(torch.load(checkpoint_path, map_location=device, weights_only=True))
     
@@ -334,7 +334,7 @@ def main():
     # ----------------------------------------------------
     # CONFIG 3: TRAINED FROM SCRATCH (NO PRE-TRAINING, 50 SAMPLES)
     # ----------------------------------------------------
-    print("Evaluating Scratch Model (No pre-training, 100 samples)...")
+    print("Evaluating Scratch Model (No pre-training, 200 samples)...")
     model_scratch = SAGEModel(in_channels=4, hidden_channels=64).to(device)
     optimizer_sc = torch.optim.Adam(model_scratch.parameters(), lr=0.005, weight_decay=1e-4)
     best_joint_sc = -1.0
@@ -385,7 +385,7 @@ def main():
     rects3 = ax.bar(x + width, sc_metrics, width, color='#e74c3c', edgecolor='black', hatch='//', label='Trained from Scratch (OOD)')
     
     ax.set_ylabel('Performance Metric (%)', fontsize=12, fontweight='bold')
-    ax.set_title('Cross-Grid Scalability on IEEE 30-Bus Grid (100 Training Samples)', fontsize=13, fontweight='bold')
+    ax.set_title('Cross-Grid Scalability on IEEE 30-Bus Grid (200 Training Samples)', fontsize=13, fontweight='bold')
     ax.set_xticks(x)
     ax.set_xticklabels(categories, fontsize=11, fontweight='bold')
     ax.set_ylim(0, 115)
