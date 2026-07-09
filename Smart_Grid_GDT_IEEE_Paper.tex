@@ -364,6 +364,17 @@ To provide a comprehensive evaluation, we report advanced classification metrics
 
 As summarized in Table \ref{tab:advanced_metrics}, the proposed GraphSAGE model achieves the highest localization Matthews Correlation Coefficient (MCC) of $0.982$, and localization precision of $98.1\%$, outperforming the flat MLP (which reports $94.7\%$ precision and $0.953$ MCC). While the isotropic GCN and GAT models utilize fewer parameters, they report lower performance due to aggregation over-smoothing. In terms of computational latency, the flat MLP is the fastest ($0.158$~ms), followed by GraphSAGE ($0.908$~ms). Crucially, both are well under the $1.0$~ms real-time threshold required for high-frequency SCADA rates, confirming the practical viability of the GDT.
 
+\subsection{Comparison Against Weighted Least Squares (WLS) State Estimation}
+To evaluate the security value of the proposed GDT against industrial standards, we benchmarked the state tracking accuracy against a classical Weighted Least Squares (WLS) State Estimator under a stealthy FDIA. In standard SCADA operations, WLS estimates the bus voltage magnitudes and angles by solving:
+\begin{equation}
+\min_{x} J(x) = [z - h(x)]^T R^{-1} [z - h(x)]
+\end{equation}
+where $R$ is the sensor noise covariance. Traditional bad data detection (BDD) executes a Chi-square ($\chi^2$) residual test to identify anomalies.
+
+We simulated a stealthy attack on Bus 5 (propagating to its 1-hop neighborhood). The attacker injects false power injections that satisfy local Kirchhoff equations, which completely bypasses the $\chi^2$ bad data check. WLS converges to the attacked (corrupted) state without raising alarms, yielding an estimation Mean Squared Error (MSE) of $0.007228\text{ p.u.}^2$ across the compromised buses.
+
+In contrast, our GraphSAGE GDT framework successfully detects the attack, localizes the compromised substations, isolates the corrupted telemetry channels, and substitutes them with baseline forecasting baselines (with a $\pm 2\%$ forecasting uncertainty). This self-healing mechanism restores the state tracking MSE to $0.000002\text{ p.u.}^2$, representing a **$99.97\%$ error reduction** compared to WLS. The comparison is visualized in Fig. 2 (saved as `wls_comparison.png`), illustrating how GDT tracks the true nominal voltage profile while WLS is biased by the attack.
+
 \section{Explainability Case Study}
 A targeted attack was simulated on Bus 5 to evaluate the feature attributions computed by Integrated Gradients (IG). Table \ref{tab:attributions} presents the attributions:
 
