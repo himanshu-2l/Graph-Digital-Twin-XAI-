@@ -363,7 +363,14 @@ Table \ref{tab:nominal_perf} summarizes model performance under nominal conditio
   \end{tabular}
 \end{table}
 
-GraphSAGE achieves the highest nominal localization F1-score of $97.62\%$, outperforming the flat MLP ($95.60\%$) and GCN ($70.21\%$). GCN suffers from over-smoothing in deep layers.
+GraphSAGE achieves the highest nominal localization F1-score of $97.62\%$, outperforming the flat MLP ($95.60\%$) and GCN ($70.21\%$). GCN suffers from over-smoothing in deep layers. The visual comparison of the model metrics under nominal settings is shown in Figure \ref{fig:model_comp}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{model_comparison.png}
+\caption{Nominal performance comparison (Detection and Localization F1-score) of ML models.}
+\label{fig:model_comp}
+\end{figure}
 
 \section{Generalization under Line Outages (Grid Reconfiguration)}
 Table \ref{tab:outage_perf} summarizes performance under outages.
@@ -384,7 +391,21 @@ Table \ref{tab:outage_perf} summarizes performance under outages.
   \end{tabular}
 \end{table}
 
-Under outages, GraphSAGE maintains a localization F1 of $86.96\%$, outperforming flat MLP ($82.20\%$). While the flat MLP requires a fixed dimensional input and fails when nodes scale, the GNN's topological invariance allows it to natively process reconfigured layouts.
+Under outages, GraphSAGE maintains a localization F1 of $86.96\%$, outperforming flat MLP ($82.20\%$). While the flat MLP requires a fixed dimensional input and fails when nodes scale, the GNN's topological invariance allows it to natively process reconfigured layouts. The performance degradation curve under transmission line and generator outages is presented in Figure \ref{fig:outage_analysis}. Furthermore, the robustness of the model under varying noise levels and load profiles is plotted in Figure \ref{fig:robustness_analysis}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{topology_outage_analysis.png}
+\caption{Model performance degradation analysis under transmission line and generator outages.}
+\label{fig:outage_analysis}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{robustness_analysis.png}
+\caption{Sensitivity analysis showing F1-scores under different SCADA noise levels and load profiles.}
+\label{fig:robustness_analysis}
+\end{figure}
 
 \section{Cross-Grid Inductive Scalability (IEEE 30-Bus Grid)}
 To verify scalability, we evaluated the pre-trained 14-bus model zero-shot and with transfer learning on the IEEE 30-bus grid system ($1,200$ samples, $200$ train).
@@ -404,7 +425,14 @@ To verify scalability, we evaluated the pre-trained 14-bus model zero-shot and w
   \end{tabular}
 \end{table}
 
-While zero-shot transfer suffers from physical scale mismatches, fine-tuning the GNN on a small dataset of $200$ samples restores detection F1 to $90.11\%$ and localization F1 to $80.06\%$. Flat MLPs cannot execute on the 30-bus system due to input size differences ($56$ vs $120$ features).
+While zero-shot transfer suffers from physical scale mismatches, fine-tuning the GNN on a small dataset of $200$ samples restores detection F1 to $90.11\%$ and localization F1 to $80.06\%$. Flat MLPs cannot execute on the 30-bus system due to input size differences ($56$ vs $120$ features). The performance gap between zero-shot, fine-tuned, and scratch models on the IEEE 30-bus grid is mapped in Figure \ref{fig:ieee30_scalability}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{ieee30_generalization.png}
+\caption{Cross-grid inductive scalability and transfer learning comparison on the IEEE 30-bus network.}
+\label{fig:ieee30_scalability}
+\end{figure}
 
 \section{Comparison Against Weighted Least Squares (WLS) State Estimation}
 We benchmarked the GDT against classical Weighted Least Squares (WLS) state estimation under a stealthy FDIA on Bus 5 (compromised buses: [5, 1, 2, 3, 4]). WLS is completely fooled by the attack, estimating the corrupted voltage magnitude state with a Mean Squared Error (MSE) of **$0.007228\text{ p.u.}^2$**. 
@@ -416,6 +444,25 @@ In contrast, our GraphSAGE GDT isolates the compromised sensors and substitutes 
 \includegraphics[width=0.85\textwidth]{wls_comparison.png}
 \caption{State Reconstruction: WLS State Estimation vs. GraphSAGE GDT under Attack.}
 \label{fig:wls_comp}
+\end{figure}
+
+To verify the physical dynamic response of the closed-loop grid healing system, the active power flow tracking curves under multi-bus outages and healing operations are presented in Figure \ref{fig:cyber_healing}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{cyber_mitigation_results.png}
+\caption{Closed-loop physical grid healing active power tracking profile before, during, and after mitigation.}
+\label{fig:cyber_healing}
+\end{figure}
+
+\section{Explainability Case Study}
+To evaluate the feature attributions computed by Integrated Gradients (IG), we simulated a targeted attack on Bus 5. The IG engine calculates the attribution weights for all telemetry features ($V_i, \theta_i, P_i, Q_i$) across the grid. The highest attribution magnitude ($0.486$) was correctly mapped to the voltage angle feature ($\theta$) at Bus 5, identifying it as the main attack vector. The spatial distribution of attributions is visualized as an explainability heatmap in Figure \ref{fig:ig_explanation}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\textwidth]{grid_anomaly_explanation.png}
+\caption{Integrated Gradients explainability heatmap illustrating telemetry feature attributions across buses.}
+\label{fig:ig_explanation}
 \end{figure}
 
 %----------------------------------------------------------------------------------------
