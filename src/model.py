@@ -128,12 +128,18 @@ def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"Training on device: {device}")
     
+    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    dataset_path = os.path.join(root_dir, 'data', 'dataset.pt')
+    checkpoint_dir = os.path.join(root_dir, 'checkpoints')
+    os.makedirs(checkpoint_dir, exist_ok=True)
+    best_model_path = os.path.join(checkpoint_dir, 'best_model.pt')
+    
     # Load dataset
-    if not os.path.exists('dataset.pt'):
-        print("dataset.pt not found! Please run data_generation.py first.")
+    if not os.path.exists(dataset_path):
+        print(f"{dataset_path} not found! Please run data_generation.py first.")
         return
         
-    dataset, metadata = torch.load('dataset.pt', map_location='cpu', weights_only=False)
+    dataset, metadata = torch.load(dataset_path, map_location='cpu', weights_only=False)
     num_samples = len(dataset)
     print(f"Loaded {num_samples} graph samples.")
     
@@ -190,10 +196,10 @@ def main():
         joint_score = val_graph['f1'] + val_node['f1']
         if joint_score > best_val_f1:
             best_val_f1 = joint_score
-            torch.save(model.state_dict(), 'best_model.pt')
+            torch.save(model.state_dict(), best_model_path)
             
     # Load best model and evaluate on test set
-    model.load_state_dict(torch.load('best_model.pt', weights_only=True))
+    model.load_state_dict(torch.load(best_model_path, weights_only=True))
     test_graph, test_node = evaluate(model, test_loader, device)
     
     print("\n" + "="*40)

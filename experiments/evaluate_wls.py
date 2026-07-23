@@ -156,7 +156,10 @@ def main():
     plt.grid(True, linestyle='--', alpha=0.5)
     plt.legend(frameon=True, facecolor='white', edgecolor='none', fontsize=11)
     
-    output_path = 'wls_comparison.png'
+    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    fig_dir = os.path.join(root_dir, 'figures')
+    os.makedirs(fig_dir, exist_ok=True)
+    output_path = os.path.join(fig_dir, 'wls_comparison.png')
     plt.savefig(output_path, dpi=300)
     print(f"WLS comparison plot saved as {output_path}!")
     plt.close()

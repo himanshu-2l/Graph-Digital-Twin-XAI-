@@ -291,8 +291,11 @@ def generate_dataset(num_samples=5000, load_noise_std=0.04):
         'edge_attr_std': edge_attr_std.numpy()
     }
     
-    torch.save((dataset, metadata), 'dataset.pt')
-    print("Dataset successfully saved as dataset.pt!")
+    data_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data')
+    os.makedirs(data_dir, exist_ok=True)
+    save_path = os.path.join(data_dir, 'dataset.pt')
+    torch.save((dataset, metadata), save_path)
+    print(f"Dataset successfully saved as {save_path}!")
 
 if __name__ == '__main__':
     random.seed(42)

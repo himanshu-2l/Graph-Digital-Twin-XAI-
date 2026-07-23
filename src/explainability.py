@@ -58,20 +58,26 @@ def compute_integrated_gradients(model, x, edge_index, target_class=1, steps=50)
 def main():
     device = torch.device('cpu')  # Run explainability on CPU for debugging
     
+    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    dataset_path = os.path.join(root_dir, 'data', 'dataset.pt')
+    checkpoint_dir = os.path.join(root_dir, 'checkpoints')
+    best_model_path = os.path.join(checkpoint_dir, 'best_model.pt')
+    results_path = os.path.join(checkpoint_dir, 'explainability_results.pt')
+    
     # Load dataset and metadata
-    if not os.path.exists('dataset.pt'):
-        print("dataset.pt not found! Run data_generation.py first.")
+    if not os.path.exists(dataset_path):
+        print(f"{dataset_path} not found! Run data_generation.py first.")
         return
         
-    dataset, metadata = torch.load('dataset.pt', map_location='cpu', weights_only=False)
+    dataset, metadata = torch.load(dataset_path, map_location='cpu', weights_only=False)
     
     # Load model
-    if not os.path.exists('best_model.pt'):
-        print("best_model.pt not found! Train the model first via model.py.")
+    if not os.path.exists(best_model_path):
+        print(f"{best_model_path} not found! Train the model first via model.py.")
         return
         
     model = SmartGridGNN(in_channels=4, hidden_channels=64)
-    model.load_state_dict(torch.load('best_model.pt', map_location='cpu', weights_only=True))
+    model.load_state_dict(torch.load(best_model_path, map_location='cpu', weights_only=True))
     model.eval()
     
     print("Searching for an attacked sample in the dataset...")
@@ -145,8 +151,8 @@ def main():
         'ground_truth': attack_sample.y_node.numpy(),
         'edge_index': attack_sample.edge_index.numpy()
     }
-    torch.save(explainability_data, 'explainability_results.pt')
-    print("Saved explainability results to explainability_results.pt")
+    torch.save(explainability_data, results_path)
+    print(f"Saved explainability results to {results_path}")
 
 if __name__ == '__main__':
     main()

@@ -9,18 +9,24 @@ from model import SmartGridGNN
 def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     
+    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    dataset_path = os.path.join(root_dir, 'data', 'dataset.pt')
+    best_model_path = os.path.join(root_dir, 'checkpoints', 'best_model.pt')
+    fig_dir = os.path.join(root_dir, 'figures')
+    os.makedirs(fig_dir, exist_ok=True)
+    
     # 1. Load dataset and pre-trained GNN model
-    if not os.path.exists('dataset.pt') or not os.path.exists('best_model.pt'):
-        print("Trained model or dataset.pt not found! Train model first.")
+    if not os.path.exists(dataset_path) or not os.path.exists(best_model_path):
+        print(f"Trained model or {dataset_path} not found! Train model first.")
         return
         
-    dataset, metadata = torch.load('dataset.pt', map_location='cpu', weights_only=False)
+    dataset, metadata = torch.load(dataset_path, map_location='cpu', weights_only=False)
     feat_mean = metadata['feat_mean']
     feat_std = metadata['feat_std']
     
     # Load model (64 hidden channels)
     model = SmartGridGNN(in_channels=4, hidden_channels=64).to(device)
-    model.load_state_dict(torch.load('best_model.pt', map_location=device, weights_only=True))
+    model.load_state_dict(torch.load(best_model_path, map_location=device, weights_only=True))
     model.eval()
     
     # 2. Select an attacked sample (e.g., sample index 500)
@@ -110,7 +116,7 @@ def main():
     plt.grid(True, linestyle='--', alpha=0.5)
     plt.legend(frameon=True, facecolor='white', edgecolor='none', fontsize=11)
     
-    output_path = 'cyber_mitigation_results.png'
+    output_path = os.path.join(fig_dir, 'cyber_mitigation_results.png')
     plt.savefig(output_path, dpi=300)
     print(f"\nMitigation results plot saved to {output_path}")
 

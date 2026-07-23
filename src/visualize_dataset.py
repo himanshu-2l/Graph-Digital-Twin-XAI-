@@ -4,7 +4,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def main():
-    dataset_path = 'dataset.pt'
+    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    dataset_path = os.path.join(root_dir, 'data', 'dataset.pt')
+    fig_dir = os.path.join(root_dir, 'figures')
+    os.makedirs(fig_dir, exist_ok=True)
+    
     if not os.path.exists(dataset_path):
         print(f"Error: {dataset_path} not found! Please run data_generation.py first.")
         return
@@ -123,7 +127,7 @@ def main():
                  fontsize=15, fontweight='bold', color="#2c3e50")
     plt.tight_layout(rect=[0, 0, 1, 0.96])
     
-    output_path = 'dataset_statistics.png'
+    output_path = os.path.join(fig_dir, 'dataset_statistics.png')
     plt.savefig(output_path, dpi=300)
     print(f"Dataset statistics visualization saved successfully to {output_path}!")
     plt.close()

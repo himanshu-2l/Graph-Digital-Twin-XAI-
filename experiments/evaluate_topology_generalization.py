@@ -195,14 +195,20 @@ def evaluate_model_on_outages(model_name, model, dataset, device):
 
 def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    print(f"Running evaluation on: {device}")
+    
+    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    dataset_path = os.path.join(root_dir, 'data', 'dataset.pt')
+    checkpoint_dir = os.path.join(root_dir, 'checkpoints')
+    fig_dir = os.path.join(root_dir, 'figures')
+    os.makedirs(fig_dir, exist_ok=True)
+    out_fig_path = os.path.join(fig_dir, 'topology_outage_analysis.png')
     
     # 1. Load metadata and check checkpoints
-    if not os.path.exists('dataset.pt'):
-        print("dataset.pt not found! Run data_generation.py first.")
+    if not os.path.exists(dataset_path):
+        print(f"{dataset_path} not found! Run data_generation.py first.")
         return
         
-    _, metadata = torch.load('dataset.pt', map_location='cpu', weights_only=False)
+    _, metadata = torch.load(dataset_path, map_location='cpu', weights_only=False)
     feat_mean = metadata['feat_mean']
     feat_std = metadata['feat_std']
     edge_attr_mean = torch.tensor(metadata['edge_attr_mean'])
@@ -261,11 +267,12 @@ def main():
     results = {}
     for name, model in models.items():
         file_name = f"compare_{name.lower().replace(' ', '_').replace('(', '').replace(')', '')}.pt"
-        if not os.path.exists(file_name):
-            print(f"Warning: Checkpoint {file_name} not found! Skipping {name}.")
+        ckpt_path = os.path.join(checkpoint_dir, file_name)
+        if not os.path.exists(ckpt_path):
+            print(f"Warning: Checkpoint {ckpt_path} not found! Skipping {name}.")
             continue
             
-        model.load_state_dict(torch.load(file_name, map_location=device, weights_only=True))
+        model.load_state_dict(torch.load(ckpt_path, map_location=device, weights_only=True))
         det_f1, loc_f1 = evaluate_model_on_outages(name, model, outage_dataset, device)
         results[name] = {
             'det_f1': det_f1,
@@ -315,9 +322,8 @@ def main():
     autolabel(rects2)
     
     plt.tight_layout()
-    output_path = 'topology_outage_analysis.png'
-    plt.savefig(output_path, dpi=300)
-    print(f"\nGeneralization analysis plot saved to {output_path}")
+    plt.savefig(out_fig_path, dpi=300)
+    print(f"\nGeneralization analysis plot saved to {out_fig_path}")
 
 if __name__ == '__main__':
     main()

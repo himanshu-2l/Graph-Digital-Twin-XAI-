@@ -7,6 +7,12 @@ import networkx as nx
 import copy
 import pandapower as pp
 import pandapower.networks as pn
+import sys
+root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+src_dir = os.path.join(root_dir, 'src')
+if src_dir not in sys.path:
+    sys.path.append(src_dir)
+
 from torch_geometric.data import Data
 from model import SmartGridGNN
 from data_generation import build_grid_graph, get_active_edge_index_and_attr
@@ -128,15 +134,21 @@ def evaluate_on_temp_dataset(model, dataset, device):
 def main():
     device = torch.device('cpu')
     
+    dataset_path = os.path.join(root_dir, 'data', 'dataset.pt')
+    best_model_path = os.path.join(root_dir, 'checkpoints', 'best_model.pt')
+    fig_dir = os.path.join(root_dir, 'figures')
+    os.makedirs(fig_dir, exist_ok=True)
+    out_fig_path = os.path.join(fig_dir, 'robustness_analysis.png')
+    
     # 1. Load trained model and metadata
-    if not os.path.exists('best_model.pt') or not os.path.exists('dataset.pt'):
-        print("Trained model or dataset.pt not found! Train the model first.")
+    if not os.path.exists(best_model_path) or not os.path.exists(dataset_path):
+        print(f"Trained model at {best_model_path} or {dataset_path} not found! Train the model first.")
         return
         
-    _, metadata = torch.load('dataset.pt', map_location='cpu', weights_only=False)
+    _, metadata = torch.load(dataset_path, map_location='cpu', weights_only=False)
     
     model = SmartGridGNN(in_channels=4, hidden_channels=64).to(device)
-    model.load_state_dict(torch.load('best_model.pt', map_location='cpu', weights_only=True))
+    model.load_state_dict(torch.load(best_model_path, map_location='cpu', weights_only=True))
     
     # Grid initialization
     net = pn.case14()
@@ -246,9 +258,8 @@ def main():
     plt.suptitle('Academic Validation: GNN Robustness & Sensitivity Curves', fontsize=16, fontweight='bold', y=0.98)
     plt.tight_layout()
     
-    output_path = 'robustness_analysis.png'
-    plt.savefig(output_path, dpi=300)
-    print(f"\nRobustness analysis completed successfully! Plot saved to {output_path}")
+    plt.savefig(out_fig_path, dpi=300)
+    print(f"\nRobustness analysis completed successfully! Plot saved to {out_fig_path}")
 
 if __name__ == '__main__':
     main()

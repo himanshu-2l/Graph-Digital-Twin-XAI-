@@ -17,18 +17,40 @@ The easiest way to run the project is to open the self-contained Jupyter noteboo
 
 ## 📁 Repository Structure
 
-* **`smart_grid_digital_twin.ipynb`**: The main combined Jupyter notebook containing all project sections, suitable for Google Colab.
-* **`data_generation.py`**: Simulates power grid dynamics using `pandapower`, adding nominal load fluctuations and injecting local stealthy FDI attacks.
-* **`model.py`**: Implements the optimized multi-task GraphSAGE model to simultaneously classify the overall grid state and localize compromised buses.
-* **`explainability.py`**: Runs the Integrated Gradients (XAI) engine to compute node and feature-level attributions.
-* **`visualize.py`**: Generates a side-by-side dashboard comparing localization predictions and XAI attribution heatmaps.
-* **`compare_models.py`**: Benchmarks the proposed GraphSAGE model against a Traditional MLP (Flat), GCN (Isotropic), and GAT (Attention).
-* **`evaluate_topology_generalization.py`**: [NEW] Tests the trained models under random transmission line outages to evaluate topology-invariant generalization.
-* **`cyber_mitigation_demo.py`**: [NEW] Runs a closed-loop grid healing simulation, muting flagged sensors and substituting them with forecasting profiles.
-* **`run_pipeline.ps1`**: PowerShell script to automate the entire dataset-generation-to-visualization pipeline.
-* **`Presentation_Script_and_Defense_Guide.md`**: [NEW] Slide-by-slide presentation script (talking points) and defense Q&A for academic reviews.
-* **`IEEE_Research_Paper_Structure.md`**: Draft outline in IEEE format containing math equations, threat models, and LaTeX tables.
-* **`Presentation_Slides_For_Advisor.md`**: Up-to-date presentation slides covering Phase 1 and Phase 2 research results.
+```
+Smart Grid/
+├── src/                                  # Core source modules
+│   ├── data_generation.py                # AC power flow dataset generator (IEEE 14-bus)
+│   ├── model.py                          # MultiTask GraphSAGE & baseline models
+│   ├── explainability.py                 # Integrated Gradients XAI engine
+│   ├── cyber_mitigation_demo.py          # Active grid healing & baseline substitution
+│   ├── visualize.py                      # XAI dashboard renderer
+│   └── visualize_dataset.py              # Dataset statistics visualizer
+├── experiments/                          # Benchmarking and evaluation scripts
+│   ├── compare_models.py                 # 5-seed model comparison suite
+│   ├── evaluate_topology_generalization.py # Zero-shot line outage evaluation
+│   ├── evaluate_ieee30.py                # IEEE 30-bus cross-grid transfer learning
+│   ├── evaluate_wls.py                   # WLS state estimator baseline benchmark
+│   ├── evaluate_robustness.py            # Noise & ablation study script
+│   └── smart_grid_digital_twin.ipynb     # Interactive Jupyter notebook
+├── data/                                 # Generated datasets
+│   └── dataset.pt                        # PyTorch Geometric dataset tensor
+├── checkpoints/                          # Saved model weights & evaluation outputs
+│   ├── best_model.pt
+│   ├── compare_*.pt
+│   └── explainability_results.pt
+├── docs/                                 # Papers, LaTeX reports, and presentation guides
+│   ├── latex/                            # IEEE research paper & project report .tex sources
+│   │   ├── Smart_Grid_GDT_IEEE_Paper.tex
+│   │   └── reference_reports/
+│   └── guides/                           # Presentation slides & defense guides
+│       ├── Presentation_Script_and_Defense_Guide.md
+│       ├── Presentation_Slides_For_Advisor.md
+│       └── IEEE_Research_Paper_Structure.md
+├── figures/                              # Visualization charts & output diagrams
+├── run_pipeline.ps1                      # Master PowerShell execution script
+└── README.md                             # Project overview & structure guide
+```
 
 ---
 
@@ -62,7 +84,7 @@ To test topology-invariance, we evaluated the pre-trained models on a test set w
 
 *Insight: Tripping a line diverts power flow and creates noise. While the flat MLP's localization F1-score drops to 45.78% due to dimension/correlation mismatches, the GNN structures adapt dynamically. Training on a mixed dataset containing line outages in the future will restore GNN accuracy.*
 
-![Topology Outage Analysis](topology_outage_analysis.png)
+![Topology Outage Analysis](figures/topology_outage_analysis.png)
 
 ---
 
@@ -73,14 +95,14 @@ Once the GraphSAGE model localizes an attack (e.g. Bus 5), we perform **cyber-is
 * **Active Power Profile MSE after healing:** `1.694295 MW^2`
 * **State Estimation Accuracy Recovery:** **35.20%**
 
-![Cyber Mitigation Results](cyber_mitigation_results.png)
+![Cyber Mitigation Results](figures/cyber_mitigation_results.png)
 
 ---
 
-### 4. Explainability Dashboard (`grid_anomaly_explanation.png`)
+### 4. Explainability Dashboard (`figures/grid_anomaly_explanation.png`)
 The Integrated Gradients engine attributes predictions directly to physical sensors. The left panel shows the localization output, and the right panel shows the attribution weights on the grid topology:
 
-![Dashboard](grid_anomaly_explanation.png)
+![Dashboard](figures/grid_anomaly_explanation.png)
 
 ---
 

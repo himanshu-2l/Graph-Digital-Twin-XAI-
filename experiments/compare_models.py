@@ -211,8 +211,12 @@ def train_and_evaluate(model_name, model, train_loader, val_loader, test_loader,
     node_f1 = f1_score(node_targets, node_preds, zero_division=0)
     
     # Save best weights to disk for comparison
+    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    checkpoint_dir = os.path.join(root_dir, 'checkpoints')
+    os.makedirs(checkpoint_dir, exist_ok=True)
     file_friendly_name = model_name.lower().replace(" ", "_").replace("(", "").replace(")", "")
-    torch.save(best_model_weights, f"compare_{file_friendly_name}.pt")
+    save_ckpt_path = os.path.join(checkpoint_dir, f"compare_{file_friendly_name}.pt")
+    torch.save(best_model_weights, save_ckpt_path)
     
     print(f"Finished {model_name} | Test Det F1: {graph_f1*100:.2f}% | Test Loc F1: {node_f1*100:.2f}%")
     return graph_f1, graph_auc, node_f1
@@ -224,12 +228,18 @@ def train_and_evaluate(model_name, model, train_loader, val_loader, test_loader,
 def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     
+    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    dataset_path = os.path.join(root_dir, 'data', 'dataset.pt')
+    fig_dir = os.path.join(root_dir, 'figures')
+    os.makedirs(fig_dir, exist_ok=True)
+    out_fig_path = os.path.join(fig_dir, 'model_comparison.png')
+    
     # Load dataset
-    if not os.path.exists('dataset.pt'):
-        print("dataset.pt not found! Run data_generation.py first.")
+    if not os.path.exists(dataset_path):
+        print(f"{dataset_path} not found! Run data_generation.py first.")
         return
         
-    dataset, metadata = torch.load('dataset.pt', map_location='cpu', weights_only=False)
+    dataset, metadata = torch.load(dataset_path, map_location='cpu', weights_only=False)
     num_samples = len(dataset)
     
     # Data Split
@@ -306,8 +316,8 @@ def main():
     autolabel(rects2)
     
     plt.tight_layout()
-    plt.savefig('model_comparison.png', dpi=300)
-    print("\nModel comparison plot saved as model_comparison.png!")
+    plt.savefig(out_fig_path, dpi=300)
+    print(f"\nModel comparison plot saved as {out_fig_path}!")
     
     # Print LaTeX Table representation for their paper!
     print("\n" + "="*60)

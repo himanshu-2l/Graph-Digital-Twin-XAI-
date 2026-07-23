@@ -203,12 +203,14 @@ def main():
         print("Pandapower not found. Cannot run 30-bus evaluation.")
         return
         
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    print(f"Running zero-shot & fine-tuning scalability evaluation on {device}...")
+    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    checkpoint_path = os.path.join(root_dir, 'checkpoints', 'compare_graphsage_proposed.pt')
+    fig_dir = os.path.join(root_dir, 'figures')
+    os.makedirs(fig_dir, exist_ok=True)
+    out_fig_path = os.path.join(fig_dir, 'ieee30_generalization.png')
     
-    checkpoint_path = r"c:\Users\Himanshu\Documents\Smart Grid\compare_graphsage_proposed.pt"
     if not os.path.exists(checkpoint_path):
-        print("Pre-trained GraphSAGE checkpoint not found!")
+        print(f"Pre-trained GraphSAGE checkpoint not found at {checkpoint_path}!")
         return
         
     # 1. Build the IEEE 30-bus grid
@@ -407,9 +409,8 @@ def main():
     autolabel(rects3)
     
     plt.tight_layout()
-    output_path = r"c:\Users\Himanshu\Documents\Smart Grid\ieee30_generalization.png"
-    plt.savefig(output_path, dpi=300)
-    print(f"Scalability comparison plot saved as {output_path}!")
+    plt.savefig(out_fig_path, dpi=300)
+    print(f"Scalability comparison plot saved as {out_fig_path}!")
     plt.close()
 
 if __name__ == '__main__':
