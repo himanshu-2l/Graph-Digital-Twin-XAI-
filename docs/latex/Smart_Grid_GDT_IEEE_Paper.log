@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.7.10)  23 JUL 2026 16:56
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.7.10)  23 JUL 2026 17:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -679,53 +679,50 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 35.
 (C:\Users\Himanshu\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \hbox (badness 5446) in paragraph at lines 48--49
-[]\OT1/ptm/m/n/10 Conventional ma-chine learn-ing ap-proaches, in-clud-ing
+Underfull \hbox (badness 1655) in paragraph at lines 48--49
+\OT1/ptm/m/n/10 Per-cep-trons (MLPs) and Con-vo-lu-tional Neu-ral Net-works
  []
 
 [1{C:/Users/Himanshu/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users
 /Himanshu/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}
 
 
-]
-Underfull \hbox (badness 1990) in paragraph at lines 66--67
-\OT1/ptm/m/n/10 ploy a concatenation-based Graph-SAGE con-vo-lu-tion
- []
-
-[2] [3]
-Overfull \hbox (6.73566pt too wide) detected at line 208
+] [2]
+Overfull \hbox (6.73566pt too wide) detected at line 206
 [][][]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 x\OT1/cmr/m/n/10 ) = (\OML/cmm/m/it/10 
 x[] \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 x[]\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10
  ^^B [] [] []
  []
 
+[3]
 <../../figures/topology_outage_analysis.png, id=31, 722.7pt x 433.62pt>
 File: ../../figures/topology_outage_analysis.png Graphic file (type png)
 <use ../../figures/topology_outage_analysis.png>
 Package pdftex.def Info: ../../figures/topology_outage_analysis.png  used on in
-put line 274.
+put line 272.
 (pdftex.def)             Requested size: 252.0pt x 151.20026pt.
 <../../figures/ieee30_generalization.png, id=33, 650.43pt x 469.755pt>
 File: ../../figures/ieee30_generalization.png Graphic file (type png)
 <use ../../figures/ieee30_generalization.png>
 Package pdftex.def Info: ../../figures/ieee30_generalization.png  used on input
- line 301.
+ line 299.
 (pdftex.def)             Requested size: 252.0pt x 181.99951pt.
-[4 <../../figures/topology_outage_analysis.png>]
-<../../figures/wls_comparison.png, id=38, 650.43pt x 433.62pt>
+ [4 <../../figures/topology_outage_analysis.png> <../../figures/ieee30_generali
+zation.png>]
+<../../figures/wls_comparison.png, id=41, 650.43pt x 433.62pt>
 File: ../../figures/wls_comparison.png Graphic file (type png)
 <use ../../figures/wls_comparison.png>
 Package pdftex.def Info: ../../figures/wls_comparison.png  used on input line 3
-81.
+79.
 (pdftex.def)             Requested size: 252.0pt x 167.99954pt.
-<../../figures/grid_anomaly_explanation.png, id=39, 1300.86pt x 578.16pt>
+<../../figures/grid_anomaly_explanation.png, id=42, 1300.86pt x 578.16pt>
 File: ../../figures/grid_anomaly_explanation.png Graphic file (type png)
 <use ../../figures/grid_anomaly_explanation.png>
 Package pdftex.def Info: ../../figures/grid_anomaly_explanation.png  used on in
-put line 412.
+put line 410.
 (pdftex.def)             Requested size: 252.0pt x 111.99529pt.
- [5 <../../figures/ieee30_generalization.png> <../../figures/wls_comparison.png
-> <../../figures/grid_anomaly_explanation.png>]
+ [5 <../../figures/wls_comparison.png> <../../figures/grid_anomaly_explanation.
+png>]
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -737,7 +734,9 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[6] (Smart_Grid_GDT_IEEE_Paper.aux)
+[6
+
+] (Smart_Grid_GDT_IEEE_Paper.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
@@ -746,11 +745,11 @@ L3 programming layer <2025-12-24>
 Here is how much of TeX's memory you used:
  15592 strings out of 467871
  322993 string characters out of 5416924
- 716031 words of memory out of 5000000
+ 715424 words of memory out of 5000000
  44202 multiletter control sequences out of 15000+600000
  674511 words of font info for 135 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,14n,94p,1704b,764s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,14n,94p,1445b,764s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/Himanshu/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/
 cm/cmex10.pfb><C:/Users/Himanshu/AppData/Local/Programs/MiKTeX/fonts/type1/publ
 ic/amsfonts/cm/cmmi10.pfb><C:/Users/Himanshu/AppData/Local/Programs/MiKTeX/font
@@ -773,7 +772,7 @@ times/utmb8a.pfb><C:/Users/Himanshu/AppData/Local/Programs/MiKTeX/fonts/type1/u
 rw/times/utmbi8a.pfb><C:/Users/Himanshu/AppData/Local/Programs/MiKTeX/fonts/typ
 e1/urw/times/utmr8a.pfb><C:/Users/Himanshu/AppData/Local/Programs/MiKTeX/fonts/
 type1/urw/times/utmri8a.pfb>
-Output written on Smart_Grid_GDT_IEEE_Paper.pdf (6 pages, 1235527 bytes).
+Output written on Smart_Grid_GDT_IEEE_Paper.pdf (6 pages, 1234706 bytes).
 PDF statistics:
  129 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
