@@ -219,6 +219,22 @@ We generated 5,000 grid states under AC power flow constraints:
 \end{itemize}
 We split data into 70\% training, 15\% validation, and 15\% testing sets. Models trained for 60 epochs using Adam ($\text{lr} = 0.005$, weight decay $10^{-4}$).
 
+\begin{table*}[t]
+  \caption{Advanced Performance Metrics and Computational Complexity}
+  \label{tab:advanced_metrics}
+  \centering
+  \begin{tabular}{lccccccccc}
+    \hline
+    \textbf{Model Architecture} & \textbf{Params} & \textbf{Latency (ms)} & \textbf{Det. Prec.} & \textbf{Det. Rec.} & \textbf{Det. MCC} & \textbf{Loc. Prec.} & \textbf{Loc. Rec.} & \textbf{Loc. MCC} \\
+    \hline
+    Traditional MLP (Flat) & 17437 & 0.158 & 99.7\% & 97.5\% & 0.974 & 94.7\% & 97.8\% & 0.953 \\
+    GCN (Isotropic) & 8835 & 1.442 & 94.6\% & 76.6\% & 0.740 & 72.6\% & 72.7\% & 0.660 \\
+    GAT (Attention) & 9475 & 1.309 & 100.0\% & 86.9\% & 0.879 & 82.5\% & 86.9\% & 0.808 \\
+    \textbf{GraphSAGE (Proposed)} & \textbf{17283} & \textbf{0.908} & \textbf{99.7\%} & \textbf{97.3\%} & \textbf{0.971} & \textbf{98.1\%} & \textbf{98.9\%} & \textbf{0.982} \\
+    \hline
+  \end{tabular}
+\end{table*}
+
 \section{Numerical Results \& Analysis}
 
 \subsection{Nominal Grid Performance Benchmark}
@@ -351,25 +367,7 @@ Table \ref{tab:sota} compares our GDT against existing GNN studies:
 GraphSAGE outperformed ARMA-GNN \cite{b10} in detection ($98.25\%$ vs. $96.25\%$) and localization ($97.62\%$ vs. $93.91\%$).
 
 \subsection{Advanced Performance Metrics \& Computational Latency}
-Table \ref{tab:advanced_metrics} shows precision, recall, Matthews Correlation Coefficient (MCC), and inference latency:
-
-\begin{table*}[t]
-  \caption{Advanced Performance Metrics and Computational Complexity}
-  \label{tab:advanced_metrics}
-  \centering
-  \begin{tabular}{lccccccccc}
-    \hline
-    \textbf{Model Architecture} & \textbf{Params} & \textbf{Latency (ms)} & \textbf{Det. Prec.} & \textbf{Det. Rec.} & \textbf{Det. MCC} & \textbf{Loc. Prec.} & \textbf{Loc. Rec.} & \textbf{Loc. MCC} \\
-    \hline
-    Traditional MLP (Flat) & 17437 & 0.158 & 99.7\% & 97.5\% & 0.974 & 94.7\% & 97.8\% & 0.953 \\
-    GCN (Isotropic) & 8835 & 1.442 & 94.6\% & 76.6\% & 0.740 & 72.6\% & 72.7\% & 0.660 \\
-    GAT (Attention) & 9475 & 1.309 & 100.0\% & 86.9\% & 0.879 & 82.5\% & 86.9\% & 0.808 \\
-    \textbf{GraphSAGE (Proposed)} & \textbf{17283} & \textbf{0.908} & \textbf{99.7\%} & \textbf{97.3\%} & \textbf{0.971} & \textbf{98.1\%} & \textbf{98.9\%} & \textbf{0.982} \\
-    \hline
-  \end{tabular}
-\end{table*}
-
-GraphSAGE hit the highest localization MCC ($0.982$) and precision ($98.1\%$). Its $0.908$~ms inference latency easily meets sub-second SCADA execution requirements.
+Table \ref{tab:advanced_metrics} shows precision, recall, Matthews Correlation Coefficient (MCC), and inference latency. GraphSAGE hit the highest localization MCC ($0.982$) and precision ($98.1\%$). Its $0.908$~ms inference latency easily meets sub-second SCADA execution requirements.
 
 \subsection{Comparison Against WLS State Estimation}
 We benchmarked state tracking accuracy against classical Weighted Least Squares (WLS) state estimation during a stealthy FDIA on Bus 5. WLS converged onto corrupted values without tripping $\chi^2$ checks, resulting in estimation MSE of $0.007228\text{ p.u.}^2$. Our GDT localized the attack, muted bad telemetry, and filled in baseline estimates, cutting MSE to $0.000002\text{ p.u.}^2$ ($99.97\%$ error reduction). Figure \ref{fig:wls_comp} shows state recovery performance.
