@@ -1,6 +1,6 @@
 # Sharing Your Notebook on Google Colab: Step-by-Step Guide
 
-To share this Jupyter Notebook (`smart_grid_digital_twin.ipynb`) with your advisor via Google Colab, choose one of the two methods below. 
+To share this Jupyter Notebook (`experiments/smart_grid_digital_twin.ipynb`) with your advisor via Google Colab, choose one of the two methods below. 
 
 ---
 
@@ -9,7 +9,7 @@ To share this Jupyter Notebook (`smart_grid_digital_twin.ipynb`) with your advis
 1. **Upload the Notebook to Google Drive:**
    * Go to [Google Drive](https://drive.google.com).
    * Click **New** -> **File upload**.
-   * Select `smart_grid_digital_twin.ipynb` from your workspace folder (`c:\Users\Himanshu\Documents\Smart Grid`).
+   * Select `experiments/smart_grid_digital_twin.ipynb` from your workspace folder (`c:\Users\Himanshu\Documents\Smart Grid`).
 2. **Open with Colab:**
    * Double-click the uploaded `.ipynb` file in Google Drive.
    * If it doesn't open in Colab automatically, click **Open with** at the top and select **Google Colaboratory**.
@@ -22,15 +22,11 @@ To share this Jupyter Notebook (`smart_grid_digital_twin.ipynb`) with your advis
 
 ---
 
-## Method 2: The GitHub Path (More Professional for IEEE Papers)
+## Method 2: The GitHub Path (Direct Public Colab Link)
 
-If you plan to publish your paper, hosting your code on GitHub is a standard requirement. Colab can load notebooks directly from public GitHub repos.
+Our repository hosts the notebook publicly on GitHub. You can share this direct link with your advisor:
 
-1. **Create a Public GitHub Repository:**
-   * Create a public repository (e.g., named `smart-grid-digital-twin`) on your [GitHub account](https://github.com).
-   * Upload `smart_grid_digital_twin.ipynb` directly to the `main` branch.
-2. **Get the Colab Link:**
-   * The URL format to open a GitHub notebook in Google Colab is:
-     `https://colab.research.google.com/github/<your-username>/<your-repo-name>/blob/main/smart_grid_digital_twin.ipynb`
-   * Replace `<your-username>` with your GitHub username, and `<your-repo-name>` with your repository name.
-   * Try visiting this link in your browser to verify it loads. You can share this link directly with your advisor!
+👉 **[Open Notebook in Google Colab](https://colab.research.google.com/github/himanshu-2l/Graph-Digital-Twin-XAI-/blob/main/experiments/smart_grid_digital_twin.ipynb)**
+
+Direct URL:
+`https://colab.research.google.com/github/himanshu-2l/Graph-Digital-Twin-XAI-/blob/main/experiments/smart_grid_digital_twin.ipynb`
