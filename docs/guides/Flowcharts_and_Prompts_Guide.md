@@ -62,8 +62,8 @@ graph TD
     D --> E[Inject +-2% Forecasting Uncertainty]:::action
     E --> F[Substitute Telemetry with Healthy Baseline]:::restoration
     F --> G[Run State Estimator on Restored Grid Profile]:::restoration
-    G --> H[State Tracking MSE drops from 2.61 to 1.69]:::restoration
-    H --> I[Grid Tracking Recovered by 35.20%]:::restoration
+    G --> H[WLS Error drops from 0.007228 to 0.000002 p.u.^2]:::restoration
+    H --> I[Grid Tracking Recovered by 99.97%]:::restoration
 
     %% Style Assignment
 ```
@@ -71,4 +71,4 @@ graph TD
 ### 2. Miro AI Prompt
 *Copy and paste this prompt into Miro AI to create the diagram:*
 
-> "Create a workflow diagram representing a Closed-Loop Cyber-Physical Mitigation (Grid Healing) system for electrical substations. The flow should start with 'GNN Flags Compromised Nodes' (e.g. Bus 5). Point to 'Trigger Cyber-Isolation'. From there, split into two actions: 'Mute Corrupted Sensor Telemetry' and 'Fetch Historical Load/Generation Profiles'. Point both actions to 'Inject 2% Forecast Uncertainty'. This leads to 'Substitute Bad Telemetry with Baseline Estimates'. Next, connect to 'Execute AC State Estimator'. End the flowchart with a success node: 'Grid State Tracking Restored (Active Power MSE drops by 35.20%)'."
+> "Create a workflow diagram representing a Closed-Loop Cyber-Physical Mitigation (Grid Healing) system for electrical substations. The flow should start with 'GNN Flags Compromised Nodes' (e.g. Bus 5). Point to 'Trigger Cyber-Isolation'. From there, split into two actions: 'Mute Corrupted Sensor Telemetry' and 'Fetch Historical Load/Generation Profiles'. Point both actions to 'Inject 2% Forecast Uncertainty'. This leads to 'Substitute Bad Telemetry with Baseline Estimates'. Next, connect to 'Execute AC State Estimator'. End the flowchart with a success node: 'Grid State Tracking Restored (WLS MSE drops by 99.97%)'."
