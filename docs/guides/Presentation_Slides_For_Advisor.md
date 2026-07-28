@@ -9,7 +9,7 @@
 *   **Internship:** Research Intern at IIIT Naya Raipur
 *   **Objective of this Presentation:** 
     *   Review feedback from the previous presentation.
-    *   Clarify our data-driven research approach.
+    *   Highlight major enhancements made over our earlier baseline project.
     *   Present our narrow scope, multi-task GNN methodology, and 5-seed benchmark results.
 
 ---
@@ -30,9 +30,23 @@
 
 ---
 
+## 📽️ Slide 2B: Key Project Enhancements (Previous Baseline vs. Current Advanced Framework)
+
+| Feature / Dimension | Previous Initial Project | Current Enhanced Framework (This Work) |
+| :--- | :--- | :--- |
+| **Grid Systems Evaluated** | IEEE 14-bus system only (Static layout) | **IEEE 14-bus & IEEE 30-bus cross-grid transfer** |
+| **Dataset Size & AC Physics** | 500–1,000 samples (Small scale) | **5,000 physics-conforming AC power flow samples** |
+| **Evaluation Rigor** | Single run (100% nominal accuracy) | **5-Seed Statistical Average ($98.25\% \pm 0.34\%$ Det F1)** |
+| **Sensor Noise & Robustness** | Tested on clean noise-free data | **Evaluated under Gaussian noise ($\sigma=0.04$--$0.08$) & scale sweeps** |
+| **Grid Outage Adaptability** | Failed when grid lines tripped | **Zero-Shot Line Outage Generalization ($92.80\%$ Det F1)** |
+| **Industrial WLS Benchmark** | Open-loop passive detector | **Benchmarked vs WLS ($99.97\%$ MSE error recovery)** |
+| **Turnitin AI Compliance** | Draft paper (43% AI flagged) | **Humanized IEEE Paper ($< 15\text{--}20\%$ Turnitin AI score)** |
+
+---
+
 ## 📽️ Slide 3: Scope Clarification: Narrowing the Focus
 *   **Decoupled the Domains:** We focused strictly on the **Smart Grid** power network to ensure physical modeling consistency under AC power flow equations.
-*   **Target Cyber Threat:** Stealthy **False Data Injection Attacks (FDIAs)**. These are smart attacks where hackers tamper with substation readings in a way that tricks traditional bad-data detection systems ($\chi^2$ residual checks).
+*   **Target Cyber Threat:** Stealthy **False Data Injection Attacks (FDIAs)**. These are smart attacks where hackers tamper with substation readings in a way that satisfies Kirchhoff's laws, keeping bad data detection (BDD) residuals below standard $\chi^2$ alarm thresholds.
 *   **Model Scale:** Simulating the **IEEE 14-Bus & 30-Bus Test Grids** using `pandapower` to create a dataset of 5,000 AC power flow grid states (50% benign, 50% attacked).
 
 ---
@@ -72,7 +86,7 @@
 
 ---
 
-## 📽️ Slide 7: Explainable AI & Industrial WLS Benchmark
+## 📽️ Slide 7: Industrial WLS Benchmark & Operator Explainability
 *   **Integrated Gradients (XAI Engine):** Computes exact gradient path attributions ($\theta, V, P, Q$), identifying voltage phase angle ($\theta$) at Bus 5 as the primary attack vector (attribution score $0.486$).
 *   **Benchmark Against Industrial WLS State Estimation:**
     *   Under stealthy FDIA, classical Weighted Least Squares (WLS) converges to corrupted states without triggering $\chi^2$ alarms (MSE $= 0.007228\text{ p.u.}^2$).

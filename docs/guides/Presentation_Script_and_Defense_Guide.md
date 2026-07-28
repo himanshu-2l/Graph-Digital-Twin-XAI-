@@ -6,7 +6,7 @@ This script gives you an exact line-by-line presentation script and defense guid
 
 ### 📽️ Slide 1: Title & Overview
 **What to Say:**  
-> *"Good morning, Sir. Today, I am presenting our research project: **An Adaptive Explainable Graph Digital Twin for Cyber-Resilient Smart Grids**. My name is Anshika Keshari, from KIIT Bhubaneswar, currently working as a Research Intern at IIIT Naya Raipur. The primary objective of this presentation is to review feedback from our previous meeting, present our data-driven Graph Digital Twin methodology, and share our 5-seed statistical benchmark results."*
+> *"Good morning, Sir. Today, I am presenting our research project: **An Adaptive Explainable Graph Digital Twin for Cyber-Resilient Smart Grids**. My name is Anshika Keshari, from KIIT Bhubaneswar, currently working as a Research Intern at IIIT Naya Raipur. The primary objective of this presentation is to review feedback from our previous meeting, highlight key enhancements over our earlier baseline project, present our data-driven Graph Digital Twin methodology, and share our 5-seed statistical benchmark results."*
 
 ---
 
@@ -15,6 +15,18 @@ This script gives you an exact line-by-line presentation script and defense guid
 > *"To quickly summarize our previous discussion: we proposed an Adaptive Explainable Graph Digital Twin framework for cyber-resilient smart grids. During our last review, you raised key strategic questions regarding whether our setup would be physical or software-based, and what system scope we were targeting.  
 >  
 > To answer directly: our Digital Twin is **entirely data-driven and software-based**. This choice allows us to simulate non-linear AC power flows using `pandapower` and test deep neural networks rapidly without the hardware overhead of real-time HIL simulators. Furthermore, we are modeling an **entire system-level network**—specifically the IEEE 14-bus test feeder (14 buses, 20 branches) and the IEEE 30-bus system (30 buses, 41 branches)."*
+
+---
+
+### 📽️ Slide 2B: Key Project Enhancements (Previous Baseline vs. Current Framework)
+**What to Say:**  
+> *"Before diving into the methodology, I want to highlight the major enhancements we have made compared to our earlier baseline version:  
+>  
+> First, **Dataset & System Expansion**: In our earlier baseline, we tested only 500-1000 samples on a static IEEE 14-bus layout. In this advanced version, we scaled our dataset to **5,000 AC power flow grid states** and expanded cross-grid testing to the **IEEE 30-bus system** (30 buses, 41 branches).  
+>  
+> Second, **Evaluation Rigor & Noise Testing**: Earlier, we reported a single 100% run on noise-free data. To ensure strict scientific validity, we now evaluate a **5-seed statistical average** ($98.25\% \pm 0.34\%$ Detection F1, $97.62\% \pm 0.84\%$ Localization F1) and explicitly test model stability under **Gaussian sensor noise ($\sigma = 0.04$ to $0.08$)**.  
+>  
+> Third, **Outage Adaptability & WLS Recovery**: While flat models failed when grid lines tripped, our GraphSAGE model achieves **zero-shot generalization under transmission line outages** ($92.80\%$ Detection F1) and is benchmarked directly against industrial **Weighted Least Squares (WLS) state estimation**, delivering a **99.97% error recovery**."*
 
 ---
 
@@ -56,7 +68,7 @@ This script gives you an exact line-by-line presentation script and defense guid
 
 ### 📽️ Slide 8: Benchmarking & Gaps in Prior Art
 **What to Say:**  
-> *"We benchmarked our results against published studies by Boyaci et al. (IEEE TSG 2022) and Yue & Qu (CARS 2024). Boyaci et al. achieved 96.25% detection and 93.91% localization using ARMA-GNNs. Our GraphSAGE GDT outperforms ARMA-GNN ($98.25\%$ detection, $97.62\%$ localization), operates at a sub-millisecond latency ($0.908$ ms), and provides active cyber-healing."*
+> *"We benchmarked our results against published studies by Boyaci et al. (IEEE TSG 2022) and Yue \& Qu (CARS 2024). Boyaci et al. achieved 96.25% detection and 93.91% localization using ARMA-GNNs. Our GraphSAGE GDT outperforms ARMA-GNN ($98.25\%$ detection, $97.62\%$ localization), operates at a sub-millisecond latency ($0.908$ ms), and provides active cyber-healing."*
 
 ---
 

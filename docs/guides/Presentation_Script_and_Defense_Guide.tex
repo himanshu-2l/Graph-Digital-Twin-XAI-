@@ -51,7 +51,7 @@ This document provides an exact, slide-by-slide spoken script (\textbf{``What to
 \subsection{Slide 1: Title \& Overview}
 \begin{mdframed}[style=saystyle]
 \textbf{What to Say:}\\
-``Good morning, Sir. Today, I am presenting our research project: \textbf{An Adaptive Explainable Graph Digital Twin for Cyber-Resilient Smart Grids}. My name is Anshika Keshari, from KIIT Bhubaneswar, currently working as a Research Intern at IIIT Naya Raipur. The primary objective of this presentation is to review feedback from our previous meeting, present our data-driven Graph Digital Twin methodology, and share our 5-seed statistical benchmark results.''
+``Good morning, Sir. Today, I am presenting our research project: \textbf{An Adaptive Explainable Graph Digital Twin for Cyber-Resilient Smart Grids}. My name is Anshika Keshari, from KIIT Bhubaneswar, currently working as a Research Intern at IIIT Naya Raipur. The primary objective of this presentation is to review feedback from our previous meeting, highlight key enhancements over our earlier baseline project, present our data-driven Graph Digital Twin methodology, and share our 5-seed statistical benchmark results.''
 \end{mdframed}
 
 \subsection{Slide 2: Previous Summary \& Strategic Approach}
@@ -60,6 +60,18 @@ This document provides an exact, slide-by-slide spoken script (\textbf{``What to
 ``To quickly summarize our previous discussion: we proposed an Adaptive Explainable Graph Digital Twin framework for cyber-resilient smart grids. During our last review, you raised key strategic questions regarding whether our setup would be physical or software-based, and what system scope we were targeting.\\
 
 To answer directly: our Digital Twin is \textbf{entirely data-driven and software-based}. This choice allows us to simulate non-linear AC power flows using \texttt{pandapower} and test deep neural networks rapidly without the hardware overhead of real-time HIL simulators. Furthermore, we are modeling an \textbf{entire system-level network}---specifically the IEEE 14-bus test feeder (14 buses, 20 branches) and the IEEE 30-bus system (30 buses, 41 branches).''
+\end{mdframed}
+
+\subsection{Slide 2B: Key Project Enhancements (Previous Baseline vs. Current Framework)}
+\begin{mdframed}[style=saystyle]
+\textbf{What to Say:}\\
+``Before diving into the methodology, I want to highlight the major enhancements we have made compared to our earlier baseline version:\\
+
+First, \textbf{Dataset \& System Expansion}: In our earlier baseline, we tested only 500-1000 samples on a static IEEE 14-bus layout. In this advanced version, we scaled our dataset to \textbf{5,000 AC power flow grid states} and expanded cross-grid testing to the \textbf{IEEE 30-bus system} (30 buses, 41 branches).\\
+
+Second, \textbf{Evaluation Rigor \& Noise Testing}: Earlier, we reported a single 100\% run on noise-free data. To ensure strict scientific validity, we now evaluate a \textbf{5-seed statistical average} ($98.25\% \pm 0.34\%$ Detection F1, $97.62\% \pm 0.84\%$ Localization F1) and explicitly test model stability under \textbf{Gaussian sensor noise ($\sigma = 0.04$ to $0.08$)}.\\
+
+Third, \textbf{Outage Adaptability \& WLS Recovery}: While flat models failed when grid lines tripped, our GraphSAGE model achieves \textbf{zero-shot generalization under transmission line outages} ($92.80\%$ Detection F1) and is benchmarked directly against industrial \textbf{Weighted Least Squares (WLS) state estimation}, delivering a \textbf{99.97\% error recovery}.''
 \end{mdframed}
 
 \subsection{Slide 3: Scope Clarification: Narrowing the Focus}
