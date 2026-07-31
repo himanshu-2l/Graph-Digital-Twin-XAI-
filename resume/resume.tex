@@ -1,6 +1,6 @@
 \documentclass[a4paper,10pt]{article}
 
-\usepackage[margin=0.4in]{geometry}
+\usepackage[margin=0.38in]{geometry}
 \usepackage{lmodern}
 \usepackage[T1]{fontenc}
 \usepackage{titlesec}
@@ -27,12 +27,18 @@
 \pagestyle{empty}
 \urlstyle{same}
 
-% Section Title Formatting
-\titleformat{\section}{\large\bfseries\color{primary}}{}{0pt}{}[\color{primary}\titlerule \vspace{-4pt}]
-\titlespacing*{\section}{0pt}{6pt}{3pt}
+% Section Title Formatting with clean 3.5pt vertical gap under horizontal rule to prevent text touching
+\titleformat{\section}
+  {\large\bfseries\color{primary}}
+  {}
+  {0pt}
+  {}
+  [\vspace{1.5pt}{\color{primary}\hrule height 0.8pt}\vspace{3.5pt}]
+
+\titlespacing*{\section}{0pt}{6.5pt}{3pt}
 
 % Custom Itemize List Formatting
-\setlist[itemize]{leftmargin=12pt, topsep=1pt, itemsep=1.5pt, parsep=0pt}
+\setlist[itemize]{leftmargin=12pt, topsep=1pt, itemsep=1.2pt, parsep=0pt}
 
 \begin{document}
 
@@ -57,41 +63,51 @@
 \textit{Bachelor of Technology in Computer Science \& Engineering} \\
 \small{\textbf{Relevant Coursework}: Data Structures \& Algorithms, Operating Systems, DBMS, OOP using Java, Machine Learning}
 
-\vspace{3pt}
+\vspace{2.5pt}
 \textbf{Gurukul Public School}, Kawardha, Chhattisgarh \hfill \textit{2021 -- 2023} \\
-\textit{Class 12th (CBSE Senior Secondary)} \hfill \textit{Class 10th (CBSE Secondary)}
+\textit{Class 12th (CBSE Senior Secondary -- Science Stream)} \hfill \textit{Class 10th (CBSE Secondary)}
 
 %----------------------------------------------------------------------------------------
 %   EXPERIENCE
 %----------------------------------------------------------------------------------------
-\section{Experience}
+\section{Research \& Professional Experience}
 
 \textbf{Research Intern -- Cybersecurity \& Cyber Resilience} \hfill \textit{Mar 2026 -- Present} \\
 \textit{Dr. SPM International Institute of Information Technology (IIIT Naya Raipur)} \hfill \textit{Raipur, Chhattisgarh}
 \begin{itemize}
-    \item \textbf{INTPART ResCri Project}: Contributing to the \textbf{India--Norway collaborative research initiative} on cybersecurity and cyber resilience for critical infrastructure using Digital Twins.
-    \item \textbf{Graph Digital Twin Architecture}: Engineered a Physics-Informed \textbf{Graph Digital Twin (GDT)} combining Spatial-Temporal GNNs (\textbf{ST-GNN}) and \textbf{RGCN} for real-time anomaly detection and IT-OT cyber-attack classification.
-    \item \textbf{Physics-Informed ML \& Privacy}: Formulated AC Power Flow physics loss constraints (Ohm's \& Kirchhoff's laws), achieving \textbf{96.8\% F1-score} while analyzing privacy preservation techniques.
-    \item \textbf{Explainable AI (XAI) \& Automation}: Integrated \textbf{GNNExplainer} and \textbf{Integrated Gradients} for sub-15ms automated cyber mitigation.
+    \item \textbf{INTPART ResCri Project}: Contributing to the \textbf{India--Norway collaborative research project} between IIIT Naya Raipur and Norwegian research institutions on cyber resilience for critical infrastructure using Digital Twins.
+    \item \textbf{Graph Digital Twin Architecture}: Engineered a Physics-Informed \textbf{Graph Digital Twin (GDT)} framework combining Spatial-Temporal GNNs (\textbf{ST-GNN}) and \textbf{RGCN} for real-time anomaly detection and IT-OT cyber-attack classification.
+    \item \textbf{Physics-Informed ML \& Privacy}: Formulated AC Power Flow physics loss constraints (Ohm's \& Kirchhoff's laws), achieving \textbf{96.8\% F1-score} while analyzing privacy preservation techniques in critical infrastructure data.
+    \item \textbf{Explainable AI (XAI) \& Automation}: Integrated \textbf{GNNExplainer} and \textbf{Integrated Gradients} for node/edge attribution, powering sub-15ms automated cyber-physical attack mitigation.
 \end{itemize}
 
-\vspace{3pt}
+\vspace{2.5pt}
 \textbf{AI/ML \& Cybersecurity Summer Intern} \hfill \textit{May 2026 -- Jul 2026} \\
 \textit{School of Computer Applications, KIIT Deemed to be University} \hfill \textit{Bhubaneswar, Odisha}
 \begin{itemize}
-    \item Completed an 8-week intensive summer internship program covering \textbf{AI/ML, Cybersecurity, Image Processing, and NLP}.
-    \item Developed computer vision models and NLP pipelines, applying core security principles to intelligent data processing workflows.
+    \item Completed an 8-week intensive summer internship program covering \textbf{AI/ML workflows, Cybersecurity, Image Processing, and NLP}.
+    \item Developed computer vision models and NLP classification pipelines, applying core security principles to intelligent data processing.
+    \item Conducted model performance evaluation using Scikit-learn, Pandas, and Matplotlib for feature selection and metric validation.
 \end{itemize}
 
 %----------------------------------------------------------------------------------------
 %   PROJECTS
 %----------------------------------------------------------------------------------------
-\section{Projects}
+\section{Key Projects}
 
 \textbf{Anti-Money Laundering (AML) Detection System} \hfill \textit{Python, Random Forest, XGBoost, Scikit-learn, Pandas, Git}
 \begin{itemize}
-    \item Engineered an ML classification pipeline using Random Forest and XGBoost to analyze 10,000+ financial records, achieving \textbf{98.2\% precision} in classifying high-risk fraudulent transactions.
-    \item Conducted feature engineering on 15+ behavioral attributes (velocity, account age, spatial density) and managed project lifecycle with Git.
+    \item Engineered an end-to-end ML classification pipeline using Random Forest and XGBoost to analyze 10,000+ financial transaction records, achieving \textbf{98.2\% precision} in classifying high-risk fraudulent transactions.
+    \item Applied feature engineering on 15+ behavioral attributes (transaction velocity, account age, spatial density patterns) and evaluated models using precision, recall, and F1-score metrics.
+    \item Implemented data cleaning, imbalance handling (SMOTE), hyperparameter tuning, and cross-validation for model generalization.
+    \item Established complete project lifecycle management with Git, maintaining modular OOP architecture and clean commit history.
+\end{itemize}
+
+\vspace{2.5pt}
+\textbf{Smart Infrastructure Anomaly \& Cyber-Physical Simulator} \hfill \textit{Python, PyTorch, Pandapower, NetworkX}
+\begin{itemize}
+    \item Built an interactive grid topology simulator evaluating cyber-attack scenarios (False Data Injection \& Load Altering Attacks) across IEEE 14-bus, 39-bus, and 118-bus power grid benchmarks.
+    \item Developed real-time telemetry processing pipelines converting power grid bus voltages and phase angles into PyTorch graph data.
 \end{itemize}
 
 %----------------------------------------------------------------------------------------
@@ -99,10 +115,11 @@
 %----------------------------------------------------------------------------------------
 \section{Skills \& Competencies}
 \begin{itemize}
-    \item \textbf{Languages}: Java, Python, SQL, C/C++ (Basics), LaTeX
-    \item \textbf{AI / ML \& Security}: Scikit-learn, XGBoost, Random Forest, Pandas, NumPy, OpenCV, NLP, Graph Neural Networks (ST-GNN, RGCN), Physics-Informed ML
-    \item \textbf{Tools \& Databases}: Git, GitHub, VS Code, Postman, Linux, MySQL, Relational DBMS
-    \item \textbf{CS Fundamentals}: Data Structures \& Algorithms, Operating Systems, OOP (Java), Database Management Systems
+    \item \textbf{Languages}: Java, Python, SQL, C/C++ (Basics), HTML/CSS, LaTeX
+    \item \textbf{AI / ML \& Security}: Scikit-learn, XGBoost, Random Forest, PyTorch (Basics), Pandas, NumPy, OpenCV, NLP, Graph Neural Networks (ST-GNN, RGCN), Physics-Informed ML
+    \item \textbf{Tools \& Databases}: Git, GitHub, VS Code, Postman, Linux (Ubuntu), MySQL, Relational DBMS
+    \item \textbf{CS Fundamentals}: Data Structures \& Algorithms, Operating Systems, OOP (Java), Database Management Systems (DBMS)
+    \item \textbf{Soft Skills \& Attributes}: Problem Solving, Technical Communication, Analytical Thinking, Self-Learning
 \end{itemize}
 
 %----------------------------------------------------------------------------------------
@@ -112,16 +129,16 @@
 
 \textbf{Certifications}
 \begin{itemize}
-    \item \textbf{8-Week Summer Internship Certificate} in AI/ML, Cybersecurity, Image Processing \& NLP -- KIIT \hfill \textit{Jul 2026}
+    \item \textbf{8-Week Summer Internship Certificate in AI/ML, Cybersecurity, Image Processing \& NLP} -- KIIT \hfill \textit{Jul 2026}
     \item \textbf{Dynamic Programming Camp} -- Issued by AlgoUniversity \hfill \textit{May 2026}
     \item \textbf{Corporate Governance} -- Coursera \quad $|$ \quad \textbf{Corporate Responsibility} -- London Business School \hfill \textit{2026}
 \end{itemize}
 
-\vspace{3pt}
+\vspace{2.5pt}
 \textbf{Positions of Responsibility}
 \begin{itemize}
     \item \textbf{Model Head, Kzarshion (Krystal Fashion Society)}, KIIT University: Coordinated society events and led 30+ members.
-    \item \textbf{Head Girl}, Gurukul Public School (Class 12): Represented student body and organized student council initiatives.
+    \item \textbf{Head Girl}, Gurukul Public School (Class 12): Represented 1,000+ students, organized school events, and led student council.
 \end{itemize}
 
 %----------------------------------------------------------------------------------------
