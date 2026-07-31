@@ -17,3 +17,12 @@ explainability_results.pt
 .vscode/
 .idea/
 .DS_Store
+
+# LaTeX Auxiliary Files
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+resume/*_preview*.png
+
