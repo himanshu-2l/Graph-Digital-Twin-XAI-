@@ -1,0 +1,132 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{mdframed}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue
+}
+
+\titleformat{\section}{\large\bfseries\color{blue!80!black}}{}{0pt}{}[\hrule]
+\titleformat{\subsection}{\bfseries\color{teal}}{}{0pt}{}
+
+\mdfdefinestyle{analogystyle}{
+    linecolor=orange!80!black,
+    backgroundcolor=orange!5,
+    leftmargin=10pt,
+    rightmargin=10pt,
+    innerleftmargin=10pt,
+    innerrightmargin=10pt,
+    innertopmargin=8pt,
+    innerbottommargin=8pt,
+    linewidth=1pt
+}
+
+\title{\textbf{Digital Twin Concept \& Architecture Guide}\\ \large How \& Where the Graph Digital Twin is Implemented in Our Paper and Codebase}
+\author{\textbf{Anshika Keshari} \\ Kalinga Institute of Industrial Technology (KIIT), Bhubaneswar \\ Research Intern, IIIT Naya Raipur}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{What is a ``Digital Twin''? (The Master Analogy)}
+
+\begin{mdframed}[style=analogystyle]
+\textbf{Real-World Analogy: Formula 1 Race Car \& Pit-Lane Simulator}\\
+Imagine a \textbf{Formula 1 race car} racing on a track:
+\begin{itemize}
+    \item \textbf{The Physical Car}: Has 300+ digital sensors measuring engine temperature, tire pressure, fuel flow, and speed.
+    \item \textbf{The Pit-Lane Computer (Digital Twin)}: In the pit lane, engineers monitor a \textbf{live virtual 3D computer model} of the race car. As the real car drives, sensor data streams wirelessly into the virtual model, causing the computer twin to mimic the physical car's exact state in real time.
+    \item \textbf{The Cyber Attack Scenario}: A rogue competitor hacks the physical car's tire pressure sensor, injecting fake readings to make the dashboard report a blowout when the tire is actually healthy.
+    \item \textbf{How the Digital Twin Saves the Day}:
+    \begin{enumerate}
+        \item \textbf{Detection \& Localization}: The Digital Twin compares incoming tire sensor numbers against physical aerodynamic and suspension laws. It immediately flags an anomaly and pinpoints Tire 3 as the source.
+        \item \textbf{Explainability}: The engineer's screen displays a red heatmap highlighting Sensor 3's pressure angle input.
+        \item \textbf{Closed-Loop Healing}: The Digital Twin automatically mutes the hacked sensor signal and substitutes real-time suspension physics estimates, allowing the driver to keep racing safely.
+    \end{enumerate}
+\end{itemize}
+\end{mdframed}
+
+\section{The Digital Twin Concept in Our Smart Grid Project}
+
+In our project, we apply this exact concept to \textbf{Electrical Power Grids}:
+
+\begin{enumerate}
+    \item \textbf{Physical Asset}: The physical IEEE 14-bus or IEEE 30-bus transmission grid streaming SCADA telemetry ($V, \theta, P, Q$).
+    \item \textbf{Virtual Mirror}: A spatial admittance graph $G = (V, E, X, E_{\text{attr}})$ where buses are nodes, transmission lines are edges, and nodal admittance $Y_{\text{bus}} = G_{\text{bus}} + jB_{\text{bus}}$ forms the graph topology.
+    \item \textbf{Bidirectional Communication}:
+    \begin{itemize}
+        \item \textbf{Physical to Virtual}: SCADA RTUs stream measurements ($V, \theta, P, Q$) into the GDT backend.
+        \item \textbf{Virtual to Physical}: When an attack is detected, the GDT sends quarantine commands back to the control center, muting bad RTU channels and restoring clean state tracking.
+    \end{itemize}
+\end{enumerate}
+
+\section{Where is Digital Twin Implemented in Our RESEARCH PAPER?}
+
+Every major section of our IEEE paper (\texttt{docs/latex/Smart\_Grid\_GDT\_IEEE\_Paper.tex}) directly maps to a component of the Digital Twin:
+
+\begin{table}[htbp]
+  \centering
+  \resizebox{\linewidth}{!}{%
+  \begin{tabular}{lll}
+    \hline
+    \textbf{Paper Section} & \textbf{Section Title} & \textbf{How Digital Twin Concept is Featured} \\
+    \hline
+    \textbf{Section I} & \textbf{Introduction} & Defines the need for a software-based Graph Digital Twin mirroring grid physics. \\
+    \textbf{Section IV-A} & \textbf{Digital Twin Coupling} & Formulates bidirectional link between physical SCADA and virtual graph mirror. \\
+    \textbf{Section IV-B} & \textbf{Virtual Graph Construction} & Converts physical bus signals into node features $X$ and branch admittance into edge attributes. \\
+    \textbf{Section IV-C} & \textbf{GraphSAGE Backbone} & Details GNN brain inside the Digital Twin running detection and localization at $0.908$~ms. \\
+    \textbf{Section IV-D} & \textbf{Operator Explainability} & Details the Digital Twin's forensic XAI dashboard calculating exact attribution scores. \\
+    \textbf{Section VIII} & \textbf{Closed-Loop Mitigation} & Details self-healing loop muting bad RTUs and substituting forecasts ($99.97\%$ recovery). \\
+    \hline
+  \end{tabular}%
+  }
+\end{table}
+
+\section{Where is Digital Twin Implemented in Our CODEBASE?}
+
+The Digital Twin framework is built across clean python modules in \texttt{src/} and benchmark scripts in \texttt{experiments/}:
+
+\begin{itemize}
+    \item \texttt{src/data\_generation.py}: Acts as the \textbf{Physical Grid Asset}, simulating AC power flow physics using \texttt{pandapower}.
+    \item \texttt{src/model.py}: Acts as the \textbf{Virtual Twin Inference Engine}, constructing PyTorch Geometric graph data objects and running the GraphSAGE multi-task model.
+    \item \texttt{src/explainability.py}: Acts as the \textbf{Digital Twin Diagnostic Engine}, computing exact Integrated Gradients attributions ($\theta, V, P, Q$).
+    \item \texttt{src/cyber\_mitigation\_demo.py}: Acts as the \textbf{Digital Twin Self-Healing Actuator}, quarantining corrupted RTU feeds and substituting load baseline forecasts.
+    \item \texttt{src/visualize.py}: Acts as the \textbf{Digital Twin Operator UI}, rendering the 3D-styled grid map and attribution heatmap.
+    \item \texttt{experiments/evaluate\_wls.py}: Benchmarks the Digital Twin against classical Weighted Least Squares (WLS) state estimation.
+\end{itemize}
+
+\section{Why Our Graph Digital Twin Outperforms Traditional Security}
+
+\begin{table}[htbp]
+  \centering
+  \resizebox{\linewidth}{!}{%
+  \begin{tabular}{lll}
+    \hline
+    \textbf{Feature / Capability} & \textbf{Traditional SCADA Security} & \textbf{Our Graph Digital Twin (GDT)} \\
+    \hline
+    \textbf{Grid Representation} & Flat list of numbers & \textbf{Spatial Admittance Graph $G(V, E, Y_{\text{bus}})$} \\
+    \textbf{Handling Line Outages ($N-1$)} & \textbf{Crashes / Fails} & \textbf{Zero-Shot Generalization} ($92.80\%$ Det F1) \\
+    \textbf{Stealthy FDIA Detection} & \textbf{Fooled} ($r \le \tau$) & \textbf{Detects 98.25\% of Attacks} ($0.908$ ms latency) \\
+    \textbf{Substation Localization} & No node-level pinpointing & \textbf{97.62\% Node Localization F1} \\
+    \textbf{Operator Explainability} & Black-box alarms & \textbf{Integrated Gradients Sensor Heatmaps} \\
+    \textbf{Post-Attack Recovery} & Open-loop passive warning & \textbf{Closed-Loop Self-Healing ($99.97\%$ MSE recovery)} \\
+    \hline
+  \end{tabular}%
+  }
+\end{table}
+
+\end{document}
