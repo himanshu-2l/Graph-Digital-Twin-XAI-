@@ -158,18 +158,26 @@ Since residual $r_{\text{comp}} \approx r \le \tau$ stays untouched, stealthy FD
 
 \section{The Proposed Graph Digital Twin Architecture}
 
-\subsection{Digital Twin Cyber-Physical Coupling}
-Our Graph Digital Twin maintains a direct bidirectional connection:
+\subsection{Digital Twin Cyber-Physical Coupling \& Multi-Domain Framework}
+As illustrated in Fig.~\ref{fig:conceptual_framework}, our proposed framework integrates a Physical Cyber-Physical Twin (IT-OT domain), a Virtual Graph Digital Twin layer, and a Cognitive Decision-Making \& Self-Healing cycle (Observe-Learn-Plan-Act).
 \begin{enumerate}
-    \item \textbf{Physical Grid Layer}: SCADA RTUs measure bus signals ($V, \theta, P, Q$) and send telemetry vectors over network channels.
-    \item \textbf{Virtual Twin Layer}: The GNN backend takes spatial graph inputs, runs joint attack detection and localization, computes feature attributions, and sends isolation commands back to bad sensors.
+    \item \textbf{Physical Cyber-Physical Layer}: SCADA RTUs and PMUs stream bus measurements ($V, \theta, P, Q$) over industrial networks (5G / IEC 61850).
+    \item \textbf{Virtual Graph Twin Layer}: The GNN backend maintains a spatial admittance mirror $G(V, E, Y_{\text{bus}})$. It runs multi-task attack detection and localization, computes exact feature attributions via Integrated Gradients, and transmits automated quarantine commands back to bad sensors.
+    \item \textbf{Multi-Domain CPS Applicability}: While evaluated on electric transmission grids, the underlying spatial graph representation and GNN backbone extend directly to other Cyber-Physical Systems (CPS), including Smart Water Distribution Networks (pipe junction flow/pressure graphs) and Industrial Microgrids (DER inverter state-of-charge tracking).
 \end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{cognitive_gdt_framework.png}
+\caption{Illustration of the Proposed Conceptual Cognitive Graph Digital Twin (GDT) Adaptive Cyber-Resilience Framework across IT-OT enabled Critical Infrastructures.}
+\label{fig:conceptual_framework}
+\end{figure}
 
 \subsection{Virtual Graph Construction \& Feature Engineering}
 We convert incoming SCADA readings into spatial graphs $G = (V, E, X, E_{\text{attr}})$:
 \begin{itemize}
     \item \textbf{Node Features} $X \in \mathbb{R}^{N \times 4}$: Each bus $i$ gets feature vector $x_i = [V_i, \theta_i, P_i, Q_i]^T$, normalized using mean $\mu$ and standard deviation $\sigma$.
-    \item \textbf{Edge Attributes} $E_{\text{attr}} \in \mathbb{R}^{|E| \times 2}$: Each transmission line $(i, j)$ gets attribute vector $e_{ij} = [R_{ij}, X_{ij}]^T$ containing resistance and reactance values.
+    \item \textbf{Edge Attributes} $E_{\text{attr}} \in \mathbb{R}^{|E| \times 2}$: Each transmission line $(i, j)$ gets attribute vector $e_{ij} = [R_{ij}, X_{ij}]^T$ containing branch resistance and reactance.
 \end{itemize}
 
 \subsection{Multi-Task GraphSAGE Convolution Backbone}
@@ -288,7 +296,16 @@ Pre-trained models were evaluated on tripped-line configurations without any ret
   }
 \end{table}
 
-Our model held $92.80\% \pm 3.37\%$ detection F1 and $86.96\% \pm 1.52\%$ localization F1 on zero-shot outage graphs (Fig.~\ref{fig:outage_analysis}). The flat MLP dropped $13.4$ points on localization---from $95.60\%$ nominal down to $82.20\%$ under outages---precisely because its input vector positions are fixed to a $14 \times 4$ nominal layout. GraphSAGE operates directly on the updated edge set, so a missing line simply removes an adjacency and aggregation adjusts automatically. Isotropic GCN crashed hardest ($53.40\%$ localization F1), since over-smoothing compounds when neighbor sets shrink.
+Our proposed GraphSAGE model maintained $92.80\% \pm 3.37\%$ detection F1 and $86.96\% \pm 1.52\%$ localization F1 on zero-shot outage graphs (Fig.~\ref{fig:outage_analysis}). 
+
+A key observation in Table~\ref{tab:outages} is that the Traditional Flat MLP retains a high graph-level detection F1 of $94.70\% \pm 1.93\%$ under line outages. This strong detection performance occurs because the flat MLP receives the entire unrolled vector of all 56 bus measurements simultaneously ($14 \text{ buses} \times 4 \text{ features}$). In a small 14-bus grid, a transmission line trip causes a widespread redistribution of AC voltage magnitudes and power flows across all remaining buses. The MLP acts as a global statistical density estimator, easily detecting that the global measurement distribution has shifted away from nominal conditions and flagging a graph-level anomaly.
+
+However, the flat MLP's fundamental flaw is revealed in node-level localization and structural scalability:
+\begin{enumerate}
+    \item \textbf{Localization Collapse}: Because the MLP lacks topological graph structure and relies on hardcoded input indices, its localization F1 drops sharply by $13.4$ percentage points under line trips---falling from $95.60\%$ down to $82.20\%$, significantly below GraphSAGE's $86.96\%$.
+    \item \textbf{Vulnerability of Isotropic GNNs}: Standard isotropic GCN ($66.82\%$ Det. F1, $53.40\%$ Loc. F1) and GAT ($79.27\%$ Det. F1) crash hardest during outages. Because isotropic graph filters distribute messages uniformly across remaining edges without preserving target node identity, line trips introduce heavy aggregation noise that corrupts neighbor representations.
+    \item \textbf{Superiority of GraphSAGE}: By retaining target node identity through explicit feature concatenation ($[h_v^{(k-1)} \,\|\, h_{\mathcal{N}(v)}^{(k)}]$), GraphSAGE adapts dynamically to updated edge sets, achieving the highest node localization F1 under outages ($86.96\%$) while maintaining superior nominal performance ($98.25\%$ Det F1 / $97.62\%$ Loc F1).
+\end{enumerate}
 
 \begin{figure}[htbp]
 \centering
@@ -428,7 +445,8 @@ A secondary finding is the value of tight coupling between detection and explana
 
 Three limitations deserve honest discussion. First, all experiments ran on simulated AC power flow data generated by \texttt{pandapower}; real RTU noise characteristics, communication delays, and substation-level measurement redundancy may introduce behaviors the simulation does not capture. Second, the attacker model assumed single-bus injection; coordinated multi-bus attacks with correlated injections could reduce localization precision below the reported numbers. Third, the healing module uses a fixed look-back window for load baselines, which may be inadequate during rapid demand swings or renewable intermittency events.
 
-Future experiments will address the first limitation through hardware-in-the-loop testbeds connected to real substation data streams \cite{b1}. On the model side, combining our GraphSAGE backbone with temporal recurrence---specifically, treating consecutive SCADA scans as a graph time series---should improve detection of slow-ramp attack patterns that spread injection across multiple measurement cycles. Cross-grid transfer results ($90.11\%$ on 30-bus) suggest the spatial representations are general enough to support this extension without full retraining.
+Future experiments will address the first limitation through hardware-in-the-loop testbeds connected to real substation data streams \cite{b1}. On the model side, combining our GraphSAGE backbone with temporal recurrence---specifically, treating consecutive SCADA scans as a graph time series---should improve detection of slow-ramp attack patterns that spread injection across multiple measurement cycles. \section*{Acknowledgment}
+The authors acknowledge the use of AI assistant tools, including Anthropic Claude and Google DeepMind Antigravity AI coding assistant, for aiding in LaTeX document structuring, code refactoring, prose humanization, and visualization scripting during the preparation of this manuscript. All mathematical modeling, experimental design, physics simulations, and scientific conclusions were authored, validated, and verified by the authors.
 
 \begin{thebibliography}{00}
 \bibitem{b1} N. E. M. Barreto and A. R. Aoki, ``Cyber-Physical Power System Digital Twins---A Study on the State of the Art,'' \emph{Energies}, vol. 18, no. 22, p. 5960, Nov. 2025.
