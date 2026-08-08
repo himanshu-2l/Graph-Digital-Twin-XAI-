@@ -1,0 +1,167 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{mdframed}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue
+}
+
+\titleformat{\section}{\large\bfseries\color{blue!80!black}}{}{0pt}{}[\hrule]
+\titleformat{\subsection}{\bfseries\color{teal}}{}{0pt}{}
+
+\mdfdefinestyle{pitchstyle}{
+    linecolor=blue!80!black,
+    backgroundcolor=blue!5,
+    leftmargin=10pt,
+    rightmargin=10pt,
+    innerleftmargin=10pt,
+    innerrightmargin=10pt,
+    innertopmargin=8pt,
+    innerbottommargin=8pt,
+    linewidth=1pt
+}
+
+\mdfdefinestyle{qastyle}{
+    linecolor=purple!80!black,
+    backgroundcolor=purple!5,
+    leftmargin=10pt,
+    rightmargin=10pt,
+    innerleftmargin=10pt,
+    innerrightmargin=10pt,
+    innertopmargin=8pt,
+    innerbottommargin=8pt,
+    linewidth=1pt
+}
+
+\title{\textbf{IEEE Research Paper Defense \& Reviewer Q\&A Guide}\\ \large Defense Strategy for ``An Adaptive Explainable Graph Digital Twin for Cyber-Resilient Smart Grids''}
+\author{\textbf{Anshika Keshari}*\textsuperscript{1}, \textbf{Mallikharjuna Rao K}\textsuperscript{2}, \textbf{Sabarathinam Chockalingam}\textsuperscript{3}, \textbf{Sandeep Pirbhulal}\textsuperscript{4} \\
+\small \textsuperscript{1}KIIT Bhubaneswar \& IIIT Naya Raipur, \textsuperscript{2}IIIT Naya Raipur, \textsuperscript{3}IFE Norway, \textsuperscript{4}NR Norway}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Executive Summary \& Elevator Pitches}
+
+\begin{mdframed}[style=pitchstyle]
+\textbf{30-Second Elevator Pitch}\\
+Traditional smart grid security relies on Weighted Least Squares (WLS) state estimation, which is completely blind to stealthy False Data Injection Attacks (FDIAs) that satisfy Kirchhoff's laws. Moreover, traditional machine learning detectors break when a power line trips because their input matrices are fixed. We designed an \textbf{Adaptive Explainable Graph Digital Twin (GDT)} using a multi-task GraphSAGE neural network. Our framework detects attacks ($98.25\%$ F1) and pinpoints compromised substations ($97.62\%$ F1) in $0.908$~ms, maintains high accuracy under line outages ($92.80\%$ zero-shot F1), provides sensor explainability via Integrated Gradients, and restores state tracking accuracy by $99.97\%$.
+\end{mdframed}
+
+\begin{mdframed}[style=pitchstyle]
+\textbf{2-Minute Defense Pitch}\\
+Modern power grids rely on SCADA telemetry ($V, \theta, P, Q$) for state estimation. However, adversaries with admittance matrix knowledge can construct stealthy attack vectors $a = h(x+c) - h(x)$ that bypass standard $\chi^2$ bad-data detectors while corrupting dispatch decisions.\\
+
+Existing ML detectors use flat input matrices. The moment a line trips or a breaker opens, feature positions shift, causing high false alarm rates unless retrained from scratch. Furthermore, standard isotropic GCNs suffer from over-smoothing in dense grids, blurring node features and dropping localization F1 to $70.21\%$.\\
+
+To solve this, we created a software-based Graph Digital Twin. By representing grid physics as an admittance-weighted spatial graph and applying GraphSAGE feature concatenation ($[h_v^{(k-1)} \,\|\, h_{\mathcal{N}(v)}^{(k)}]$), our model preserves node-level identity, achieving $97.62\%$ localization F1 and $92.80\%$ zero-shot detection F1 during transmission line outages.\\
+
+To give operators explainability, we integrated Integrated Gradients (IG), which correctly identified voltage phase angle ($\theta = 0.486$) as the primary attack vector during a stealthy Bus 5 attack. Finally, our automated healing module mutes bad RTUs and substitutes historical load forecasts, cutting WLS estimation MSE from $0.007228\text{ p.u.}^2$ down to $0.000002\text{ p.u.}^2$ ($99.97\%$ error recovery).
+\end{mdframed}
+
+\section{Section-by-Section Paper Defense Talking Points}
+
+\begin{table}[htbp]
+  \centering
+  \resizebox{\linewidth}{!}{%
+  \begin{tabular}{lll}
+    \hline
+    \textbf{Paper Section} & \textbf{Key Technical Focus} & \textbf{Defense Core Talking Point} \\
+    \hline
+    \textbf{Section I: Intro} & FDIA Vulnerability \& GNN Solution & Why flat MLPs fail under $N-1$ line trips. \\
+    \textbf{Section II: Rel. Work} & Gaps in Published Literature & Why GraphSAGE beats ARMA-GNN \& GCN. \\
+    \textbf{Section III: Math} & AC Power Flow \& Stealth FDIA Formula & $a = h(x+c) - h(x)$ cancels in WLS $\chi^2$ check. \\
+    \textbf{Section IV: Architecture} & GDT Coupling \& GraphSAGE Concatenation & $[h_v^{(k-1)} \,\|\, h_{\mathcal{N}(v)}^{(k)}]$ stops over-smoothing. \\
+    \textbf{Section V \& VI: Results} & 5-Seed Benchmarks \& Outage Tests & $98.25\%$ Det F1, $92.80\%$ Outage F1, $0.908$ ms. \\
+    \textbf{Section VII: XAI} & Integrated Gradients Attribution & Axiomatic completeness ($\sum \text{Attr}_i = \Delta F$). \\
+    \textbf{Section VIII: Healing} & Closed-Loop Mitigation & $99.97\%$ MSE state tracking recovery. \\
+    \textbf{Section IX: Conclusion} & Limitations \& Future Extensions & HIL testbeds \& Spatiotemporal GNN-LSTM. \\
+    \hline
+  \end{tabular}%
+  }
+\end{table}
+
+\section{Deep-Dive Section Defenses}
+
+\subsection{Section III: Mathematical Modeling \& Threat Formulation}
+An attacker targeting bus $k$ adds attack vector $a = h(x+c) - h(x)$, modifying measurement vector $z$:
+\begin{equation}
+z_{\text{comp}} = z + a = z + h(x + c) - h(x)
+\end{equation}
+Evaluating compromised measurements inside WLS gives:
+\begin{equation}
+r_{\text{comp}} = \|z_{\text{comp}} - h(\hat{x} + c)\|_2^2 \approx \|z - h(\hat{x})\|_2^2 = r \le \tau
+\end{equation}
+Because residual $r_{\text{comp}} \approx r \le \tau$ stays untouched, stealthy FDIAs easily bypass $\chi^2$ residual checks while distorting physical state estimates.
+
+\subsection{Section IV: Graph Digital Twin Architecture}
+GraphSAGE neighborhood features are aggregated and concatenated directly with target node vectors:
+\begin{equation}
+h_v^{(k)} = \text{ReLU} \left( W_k \cdot \left[ h_v^{(k-1)} \,\|\, h_{\mathcal{N}(v)}^{(k)} \right] \right)
+\end{equation}
+Multi-task loss balances detection and sparse node localization:
+\begin{equation}
+\mathcal{L} = \mathcal{L}_{\text{BCE}}(y_{\text{graph}}, \hat{y}_{\text{graph}}) + 1.5 \times \mathcal{L}_{\text{WCE}}(y_{\text{node}}, \hat{y}_{\text{node}})
+\end{equation}
+
+\section{Top Reviewer \& Defense Attack Questions}
+
+\begin{mdframed}[style=qastyle]
+\textbf{Q1: Why did you use synthetic dataset generation instead of real SCADA data?}\\
+\textbf{Answer}: Real-world power grid SCADA logs containing labeled cyberattack traces are strictly classified due to national security regulations. Using \texttt{pandapower} under full AC power flow equations allows us to generate 5,000 physics-conforming states with realistic load variations ($\sigma = 0.04$) and stealthy FDIA injections ($\lambda \in [1.5, 2.0]$).
+\end{mdframed}
+
+\begin{mdframed}[style=qastyle]
+\textbf{Q2: Why AC power flow and not DC power flow approximation?}\\
+\textbf{Answer}: DC power flow ignores reactive power ($Q$), assumes constant voltage magnitude ($V=1.0$), and linearizes phase angle differences ($\sin \theta \approx \theta$). In real grids, stealthy attacks manipulate both voltage and reactive power. AC power flow ensures full physical fidelity under Kirchhoff's non-linear laws.
+\end{mdframed}
+
+\begin{mdframed}[style=qastyle]
+\textbf{Q3: What is over-smoothing in GNNs, and how does your model prevent it?}\\
+\textbf{Answer}: Over-smoothing occurs when multi-layer GNNs repeatedly average node features across neighbors, causing all node embeddings to converge to identical mean vectors. GraphSAGE prevents this by explicitly concatenating the target node's own embedding $[h_v^{(k-1)} \,\|\, h_{\mathcal{N}(v)}^{(k)}]$ rather than taking a uniform average.
+\end{mdframed}
+
+\begin{mdframed}[style=qastyle]
+\textbf{Q4: How does your model handle transmission line outages ($N-1$ contingencies)?}\\
+\textbf{Answer}: Traditional MLPs have hardcoded input shapes (\texttt{14x4 = 56}) and collapse when a line trips ($82.20\%$ localization F1). GraphSAGE operates directly on the admittance graph $Y_{\text{bus}}$. When a line trips, the edge set updates dynamically, allowing GraphSAGE to maintain \textbf{92.80\% zero-shot detection F1} without needing to be retrained.
+\end{mdframed}
+
+\begin{mdframed}[style=qastyle]
+\textbf{Q5: How does the self-healing module recover grid state tracking?}\\
+\textbf{Answer}: Under a stealthy FDIA, classical Weighted Least Squares (WLS) state estimation converges to corrupted states without triggering $\chi^2$ alarms (MSE $= 0.007228\text{ p.u.}^2$). Our GDT localizes the attack, mutes bad RTU sensors, and inserts load forecast baselines ($\pm 2\%$ noise), reducing state tracking MSE to $0.000002\text{ p.u.}^2$ (\textbf{99.97\% error recovery}).
+\end{mdframed}
+
+\section{Quick Reference Paper Metric Cheat Sheet}
+
+\begin{table}[htbp]
+  \centering
+  \resizebox{\linewidth}{!}{%
+  \begin{tabular}{lccc}
+    \hline
+    \textbf{Metric / Dimension} & \textbf{Nominal Grid (14-Bus)} & \textbf{Line Outages ($N-1$)} & \textbf{IEEE 30-Bus Transfer} \\
+    \hline
+    \textbf{Attack Detection F1} & \textbf{98.25\% $\pm$ 0.34\%} & \textbf{92.80\% $\pm$ 3.37\%} & \textbf{90.11\%} \\
+    \textbf{Attack Detection AUC} & \textbf{0.9993 $\pm$ 0.0004} & \textbf{0.9650 $\pm$ 0.0120} & \textbf{0.9410} \\
+    \textbf{Attack Localization F1} & \textbf{97.62\% $\pm$ 0.84\%} & \textbf{86.96\% $\pm$ 1.52\%} & \textbf{80.06\%} \\
+    \textbf{Inference Latency} & \textbf{0.908 ms} & \textbf{0.920 ms} & \textbf{1.850 ms} \\
+    \textbf{WLS MSE Recovery} & \textbf{99.97\% Recovery} & \textbf{98.50\% Recovery} & \textbf{95.20\% Recovery} \\
+    \hline
+  \end{tabular}%
+  }
+\end{table}
+
+\end{document}
