@@ -1,0 +1,100 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{mdframed}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue
+}
+
+\titleformat{\section}{\large\bfseries\color{blue!80!black}}{}{0pt}{}[\hrule]
+\titleformat{\subsection}{\bfseries\color{teal}}{}{0pt}{}
+
+\mdfdefinestyle{pitchstyle}{
+    linecolor=blue!80!black,
+    backgroundcolor=blue!5,
+    leftmargin=10pt,
+    rightmargin=10pt,
+    innerleftmargin=10pt,
+    innerrightmargin=10pt,
+    innertopmargin=8pt,
+    innerbottommargin=8pt,
+    linewidth=1pt
+}
+
+\title{\textbf{Conceptual Framework \& Multi-Domain Applications Guide}\\ \large Proposed Cognitive Graph Digital Twin (GDT) Adaptive Cyber-Security Architecture}
+\author{\textbf{Anshika Keshari}*\textsuperscript{1}, \textbf{Mallikharjuna Rao K}\textsuperscript{2}, \textbf{Sabarathinam Chockalingam}\textsuperscript{3}, \textbf{Sandeep Pirbhulal}\textsuperscript{4} \\
+\small \textsuperscript{1}KIIT Bhubaneswar \& IIIT Naya Raipur, \textsuperscript{2}IIIT Naya Raipur, \textsuperscript{3}IFE Norway, \textsuperscript{4}NR Norway}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Overview of the Proposed Conceptual Architecture}
+
+The proposed \textbf{Cognitive Graph Digital Twin (GDT) Adaptive Cyber-Security Framework} operates across three interconnected pillars:
+
+\begin{enumerate}
+    \item \textbf{Physical Cyber-Physical Twin (IT-OT Domain)}: Comprises SCADA control centers, industrial 5G networks, and field Operational Technology (OT) assets.
+    \item \textbf{Virtual Graph Digital Twin Layer}: Real-time spatial graph mirror $G(V, E)$ tracking nodal features ($V, \theta, P, Q$) and admittance attributes ($Y_{\text{bus}}$).
+    \item \textbf{Cognitive Decision-Making \& Healing Cycle}: Four-stage Observe-Learn-Plan-Act (O-L-P-A) loop executing Multi-Task GraphSAGE detection, Integrated Gradients explainability, and closed-loop self-healing.
+\end{enumerate}
+
+\section{Detailed Breakdown of the Three Core Pillars}
+
+\subsection{Physical Cyber-Physical Twin (IT-OT Domain)}
+\begin{itemize}
+    \item \textbf{IT Layer}: SCADA master stations, cloud management servers, and energy management systems (EMS).
+    \item \textbf{Industrial Network Layer}: High-speed communication protocols (5G slices, IEC 61850) streaming sensor telemetry.
+    \item \textbf{OT Field Layer}: Physical hardware assets including Remote Terminal Units (RTUs), Phasor Measurement Units (PMUs), busbar substations, and circuit breakers.
+\end{itemize}
+
+\subsection{Virtual Graph Digital Twin Layer}
+Spatial admittance graph representation $G = (V, E, X, E_{\text{attr}})$ where buses are nodes, transmission lines are edges, and nodal admittance $Y_{\text{bus}} = G_{\text{bus}} + jB_{\text{bus}}$ forms the graph topology. Real-time synchronization allows the virtual graph to dynamically update its edge connections when lines trip ($N-1$ outages).
+
+\subsection{Cognitive Decision-Making \& Adaptive Security Cycle (O-L-P-A)}
+\begin{enumerate}
+    \item \textbf{Observe \& Orient}: Normalizes raw SCADA sensor streams ($V, \theta, P, Q$) and constructs spatial PyTorch Geometric graph objects.
+    \item \textbf{Learn}: Multi-task GraphSAGE GNN backbone executes concatenation-based message passing:
+    \begin{equation}
+    \mathbf{h}_v^{(k)} = \text{ReLU}\left(\mathbf{W}_k \cdot \left[\mathbf{h}_v^{(k-1)} \,\|\, \mathbf{h}_{\mathcal{N}(v)}^{(k)}\right]\right)
+    \end{equation}
+    Predicts graph-level attack presence ($98.25\%$ F1) and node anomalies ($97.62\%$ F1) in $0.908$~ms.
+    \item \textbf{Plan \& Explain}: Integrated Gradients (IG) computes exact per-sensor attributions ($\sum \text{Attr}_i = \Delta F$).
+    \item \textbf{Decide \& Act}: Quarantines corrupted RTU channels and substitutes load baseline forecasts ($\pm 2\%$ noise), reducing state estimation MSE from $0.007228\text{ p.u.}^2$ down to $0.000002\text{ p.u.}^2$ (\textbf{99.97\% error recovery}).
+\end{enumerate}
+
+\section{Multi-Domain CPS Applications}
+
+While our paper focuses on \textbf{Smart Power Grids (IEEE 14-bus / 30-bus)}, the Graph Digital Twin framework is domain-agnostic:
+
+\begin{table}[htbp]
+  \centering
+  \resizebox{\linewidth}{!}{%
+  \begin{tabular}{llll}
+    \hline
+    \textbf{CPS Application} & \textbf{Graph Nodes ($V$)} & \textbf{Graph Edges ($E$)} & \textbf{Telemetry Signals ($X$)} \\
+    \hline
+    \textbf{Smart Power Grids} & Transmission Substations & Power Lines & Voltage ($V$), Angle ($\theta$), Power ($P, Q$) \\
+    \textbf{Water Distribution Networks} & Pipe Junctions \& Pumps & Water Main Pipes & Water Flow Rate, Hydraulic Pressure \\
+    \textbf{Industrial Microgrids} & Battery / Solar Inverters & Microgrid Busbars & State-of-Charge (SoC), Frequency, Power \\
+    \textbf{Smart EV Charging Grids} & Fast Charging Depots & Substation Feeders & Charging Demand, Transformer Voltage \\
+    \hline
+  \end{tabular}%
+  }
+\end{table}
+
+\end{document}
