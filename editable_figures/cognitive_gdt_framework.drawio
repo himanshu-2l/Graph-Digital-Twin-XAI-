@@ -1,0 +1,143 @@
+<mxfile host="app.diagrams.net" modified="2026-08-08T19:37:00.000Z" agent="Mozilla/5.0" version="21.6.8" type="device">
+  <diagram id="cognitive-gdt-diagram" name="Cognitive GDT Framework">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- TITLE BANNER -->
+        <mxCell id="title" value="Conceptual Cognitive Graph Digital Twin (GDT) Adaptive Cyber-Resilience Framework" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#1A237E;" vertex="1" parent="1">
+          <mxGeometry x="120" y="20" x2="930" y2="40" as="geometry" />
+        </mxCell>
+
+        <!-- CONTAINER 1: PHYSICAL CYBER-PHYSICAL TWIN -->
+        <mxCell id="c1" value="Physical Cyber-Physical Twin (IT-OT Domain)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#2E7D32;fontStyle=1;fontSize=14;fontColor=#1B5E20;startSize=30;rounded=1;arcSize=4;" vertex="1" parent="1">
+          <mxGeometry x="40" y="80" width="480" height="660" as="geometry" />
+        </mxCell>
+
+        <!-- IT Layer -->
+        <mxCell id="it_layer" value="IT Layer (SCADA Master Station / Control Center / Cloud EMS)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C8E6C9;strokeColor=#388E3C;fontStyle=1;fontSize=11;fontColor=#1B5E20;" vertex="1" parent="c1">
+          <mxGeometry x="30" y="50" width="420" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Network Cloud -->
+        <mxCell id="net_cloud" value="Industrial Network (5G Slices / IEC 61850 / Modbus TCP)" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#E1F5FE;strokeColor=#0288D1;fontStyle=1;fontSize=12;fontColor=#01579B;" vertex="1" parent="c1">
+          <mxGeometry x="40" y="140" width="400" height="240" as="geometry" />
+        </mxCell>
+
+        <!-- Application Badges inside Network -->
+        <mxCell id="app1" value="Smart Power Grids&#10;(IEEE 14 / 30 Bus Feeder)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1BEE7;strokeColor=#8E24AA;fontSize=10;fontStyle=1;" vertex="1" parent="c1">
+          <mxGeometry x="70" y="210" width="150" height="60" as="geometry" />
+        </mxCell>
+        
+        <mxCell id="app2" value="Water Distribution&#10;(WDN Hydraulic Flow)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#B2EBF2;strokeColor=#00ACC1;fontSize=10;fontStyle=1;" vertex="1" parent="c1">
+          <mxGeometry x="260" y="210" width="150" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="app3" value="Industrial Microgrids&#10;(DER Solar/Wind/BESS)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF59D;strokeColor=#FBC02D;fontSize=10;fontStyle=1;" vertex="1" parent="c1">
+          <mxGeometry x="70" y="290" width="150" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="app4" value="Smart EV Infrastructure&#10;(V2G Charging Hubs)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFCCBC;strokeColor=#F4511E;fontSize=10;fontStyle=1;" vertex="1" parent="c1">
+          <mxGeometry x="260" y="290" width="150" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- OT Layer -->
+        <mxCell id="ot_layer" value="OT Field Layer (Substation Busbars / RTUs / PMUs / Valves)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C8E6C9;strokeColor=#388E3C;fontStyle=1;fontSize=11;fontColor=#1B5E20;" vertex="1" parent="c1">
+          <mxGeometry x="30" y="420" width="420" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Threat Box -->
+        <mxCell id="threat_box" value="Cyber Threat Surface: Stealthy FDIA Injection a = h(x+c) - h(x) &amp; Sensor Tampering" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFEBEE;strokeColor=#C62828;fontStyle=1;fontSize=10;fontColor=#B71C1C;" vertex="1" parent="c1">
+          <mxGeometry x="30" y="520" width="420" height="50" as="geometry" />
+        </mxCell>
+
+
+        <!-- CONTAINER 2: VIRTUAL GRAPH DIGITAL TWIN LAYER -->
+        <mxCell id="c2" value="Virtual Graph Digital Twin Layer" style="swimlane;whiteSpace=wrap;html=1;fillColor=#FFF3E0;strokeColor=#E65100;fontStyle=1;fontSize=14;fontColor=#E65100;startSize=30;rounded=1;arcSize=4;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="580" y="80" width="530" height="280" as="geometry" />
+        </mxCell>
+
+        <mxCell id="vgraph" value="Spatial Admittance Graph Mirror G = (V, E, X, E_attr)&#10;&#10;Node Features: X = [V, Theta, P, Q]  |  Edge Attributes: Y_bus = G_bus + j B_bus&#10;Real-Time Topology Tracking &amp; Dynamic Outage (N-1) Invariance" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE0B2;strokeColor=#FB8C00;fontStyle=1;fontSize=11;fontColor=#BF360C;" vertex="1" parent="c2">
+          <mxGeometry x="30" y="50" width="470" height="190" as="geometry" />
+        </mxCell>
+
+
+        <!-- CONTAINER 3: COGNITIVE DECISION-MAKING CYCLE -->
+        <mxCell id="c3" value="Cognitive Decision-Making &amp; Self-Healing Cycle" style="swimlane;whiteSpace=wrap;html=1;fillColor=#E8F1F5;strokeColor=#1565C0;fontStyle=1;fontSize=14;fontColor=#0D47A1;startSize=30;rounded=1;arcSize=4;" vertex="1" parent="1">
+          <mxGeometry x="580" y="390" width="530" height="350" as="geometry" />
+        </mxCell>
+
+        <!-- Stage 1: Observe -->
+        <mxCell id="stage1" value="1. Observe &amp; Orient&#10;(Telemetry Normalization &amp; Spatial Graph Construction)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#BBDEFB;strokeColor=#1976D2;fontStyle=1;fontSize=10;align=center;" vertex="1" parent="c3">
+          <mxGeometry x="40" y="60" width="200" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Stage 2: Learn -->
+        <mxCell id="stage2" value="2. Learn&#10;(Multi-Task GraphSAGE GNN: Detection &amp; Localization)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C8E6C9;strokeColor=#388E3C;fontStyle=1;fontSize=10;align=center;" vertex="1" parent="c3">
+          <mxGeometry x="290" y="60" width="200" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Stage 3: Plan -->
+        <mxCell id="stage3" value="3. Plan &amp; Explain&#10;(Integrated Gradients XAI Feature Attribution Heatmap)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE0B2;strokeColor=#F57C00;fontStyle=1;fontSize=10;align=center;" vertex="1" parent="c3">
+          <mxGeometry x="290" y="200" width="200" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Stage 4: Decide & Act -->
+        <mxCell id="stage4" value="4. Decide &amp; Act&#10;(Quarantine Corrupted RTU &amp; Inject Load Baseline Forecasts)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFCDD2;strokeColor=#D32F2F;fontStyle=1;fontSize=10;align=center;" vertex="1" parent="c3">
+          <mxGeometry x="40" y="200" width="200" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Cycle Connections (1->2, 2->3, 3->4, 4->1) -->
+        <mxCell id="edge12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#1565C0;" edge="1" parent="c3" source="stage1" target="stage2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="edge23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#1565C0;" edge="1" parent="c3" source="stage2" target="stage3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="edge34" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#1565C0;" edge="1" parent="c3" source="stage3" target="stage4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="edge41" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#1565C0;" edge="1" parent="c3" source="stage4" target="stage1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+
+        <!-- EXTERNAL SYNCHRONIZATION ARROWS -->
+        <!-- Top Synchronization Arrow -->
+        <mxCell id="sync_top" value="Real-Time Telemetry &amp; Physical Topology Synchronization" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#E65100;fontStyle=1;fontSize=11;fontColor=#E65100;startArrow=classic;endArrow=classic;" edge="1" parent="1" source="c1" target="c2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="280" y="50" />
+              <mxPoint x="845" y="50" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Inbound SCADA Telemetry Stream -->
+        <mxCell id="scada_inbound" value="Inbound SCADA Stream" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2.5;strokeColor=#1565C0;fontStyle=1;fontSize=10;fontColor=#1565C0;endArrow=classic;" edge="1" parent="1" source="c1" target="c3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="540" y="470" />
+              <mxPoint x="540" y="470" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Outbound Quarantine & Healing Stream -->
+        <mxCell id="healing_outbound" value="Quarantine &amp; Healing Control Commands" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2.5;strokeColor=#D32F2F;fontStyle=1;fontSize=10;fontColor=#D32F2F;startArrow=classic;endArrow=none;" edge="1" parent="1" source="c1" target="c3">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="540" y="620" />
+              <mxPoint x="540" y="620" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
