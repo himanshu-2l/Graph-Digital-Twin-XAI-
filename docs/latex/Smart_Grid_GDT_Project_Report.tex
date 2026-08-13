@@ -2,7 +2,7 @@
 \usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{graphicx}
-\graphicspath{{./}{figures/}}
+\graphicspath{{./}{figures/}{../../figures/}}
 \usepackage{xcolor}
 \usepackage{booktabs}
 \usepackage{geometry}
@@ -323,7 +323,7 @@ To evaluate the proposed framework, we generated a physics-conforming cyber-phys
 \section{Dataset Generation Strategy}
 A dataset of **5,000 samples** ($2,500$ benign, $2,500$ attacked) was simulated under AC power flow rules. We incorporated:
 \begin{itemize}
-    \item \textbf{Load Scaling & Profiles}: Base load demands scaled randomly between $80\%$ and $120\%$ to represent daily load profiles, with an additional random fluctuation ($\sigma = 4\%$).
+    \item \textbf{Load Scaling \& Profiles}: Base load demands scaled randomly between $80\%$ and $120\%$ to represent daily load profiles, with an additional random fluctuation ($\sigma = 4\%$).
     \item \textbf{Measurement Sensor Noise}: Gaussian noise added directly to all telemetry features to simulate instrument errors ($\sigma_{V}=0.001$, $\sigma_{\theta}=0.02^\circ$, $\sigma_{P,Q}=0.01$).
     \item \textbf{Topology Reconfigurations (Outages)}: $10\%$ of samples contain a random active transmission line outage (avoiding bridge lines), and $10\%$ contain a generator outage.
     \item \textbf{Attack Profiles}: Stealthy FDIAs targeting single or multiple buses simultaneously, increasing the target load by $1.3\times - 1.7\times$.
