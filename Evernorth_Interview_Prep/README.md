@@ -9,10 +9,11 @@
 
 ## 📚 Study Roadmap & Document Index
 
-The preparation documents are strictly numbered in chronological order. Follow this exact sequence from `01` to `06`:
+The preparation documents are strictly numbered in chronological order. Follow this exact sequence from `00` to `06`:
 
 | Step | Document | File (PDF) | LaTeX Source | Key Topics & Focus |
 |:---:|:---|:---|:---|:---|
+| **00** | **IIIT Research Project Deep-Dive** | [`00_IIIT_Smart_Grid_Project_Complete_Mastery_Guide.pdf`](./00_IIIT_Smart_Grid_Project_Complete_Mastery_Guide.pdf) | [`00_IIIT...tex`](./00_IIIT_Smart_Grid_Project_Complete_Mastery_Guide.tex) | **Ground-zero explanation ("assume I know nothing")**: Smart grid water pipe analogy, FDIA rogue accountant math ($a=Hc$), GraphSAGE vs GCN/GAT, Integrated Gradients, sub-15ms healing (99.97% WLS recovery), 12 viva Q&As. |
 | **01** | **Master Preparation Plan** | [`01_START_HERE_2_Day_Preparation_Master_Plan.pdf`](./01_START_HERE_2_Day_Preparation_Master_Plan.pdf) | [`01_START_HERE...tex`](./01_START_HERE_2_Day_Preparation_Master_Plan.tex) | 48-Hour hour-by-hour study schedule, syllabus breakdown, 3 emergency interview rules. |
 | **02** | **Company Research & Role Fit** | [`02_Evernorth_Company_Research_And_Role_Fit.pdf`](./02_Evernorth_Company_Research_And_Role_Fit.pdf) | [`02_Evernorth...tex`](./02_Evernorth_Company_Research_And_Role_Fit.tex) | Evernorth corporate profile (Express Scripts, Accredo, MDLIVE), 2024 healthcare threats (Change Healthcare breach fallout), JD alignment, 4-point intern contribution plan, 10 company Q&As. |
 | **03** | **Projects Mastery & Bridging** | [`03_Technical_Projects_Mastery_And_Bridging.pdf`](./03_Technical_Projects_Mastery_And_Bridging.pdf) | [`03_Technical...tex`](./03_Technical_Projects_Mastery_And_Bridging.tex) | First-principles analogies (ICU & Airport customs), mathematical foundations (GraphSAGE, Integrated Gradients, SMOTE, XGBoost), bridging to healthcare IoMT & pharmacy fraud, 15+ grilling technical Q&As. |

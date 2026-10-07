@@ -1,0 +1,446 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1.8cm]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+
+% Color Palette: Deep Navy, Vibrant Teal, Crimson Alert, Warm Neutral
+\definecolor{primary}{RGB}{10, 37, 64}       % Deep Corporate Navy
+\definecolor{secondary}{RGB}{0, 136, 145}    % Vibrant Cyan / Teal
+\definecolor{accent}{RGB}{214, 40, 40}       % Alert Red
+\definecolor{success}{RGB}{43, 147, 72}      % Forest Green
+\definecolor{darkgray}{RGB}{45, 55, 72}      % Slate Text
+\definecolor{lightgray}{RGB}{247, 250, 252}  % Off-white
+\definecolor{boxborder}{RGB}{203, 213, 225}  % Slate Border
+\definecolor{gold}{RGB}{217, 119, 6}         % Warm Amber
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=secondary,
+    urlcolor=secondary,
+    citecolor=secondary
+}
+
+\titleformat{\section}{\Large\bfseries\color{primary}}{}{0em}{}[\titlerule]
+\titleformat{\subsection}{\large\bfseries\color{secondary}}{}{0em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{darkgray}}{}{0em}{}
+
+\newtcolorbox{analogybox}[1]{
+    colback=secondary!5!white,
+    colframe=secondary,
+    coltitle=white,
+    fonttitle=\bfseries\normalsize,
+    title={#1},
+    arc=2.5mm,
+    boxrule=0.9pt,
+    left=3mm,
+    right=3mm,
+    top=2.5mm,
+    bottom=2.5mm
+}
+
+\newtcolorbox{calloutbox}[1]{
+    colback=lightgray,
+    colframe=boxborder,
+    coltitle=primary,
+    fonttitle=\bfseries\normalsize,
+    title={#1},
+    arc=2.5mm,
+    boxrule=0.9pt,
+    left=3mm,
+    right=3mm,
+    top=2.5mm,
+    bottom=2.5mm
+}
+
+\newtcolorbox{alertbox}[1]{
+    colback=accent!5!white,
+    colframe=accent!75!black,
+    coltitle=accent!85!black,
+    fonttitle=\bfseries\normalsize,
+    title={#1},
+    arc=2.5mm,
+    boxrule=0.9pt,
+    left=3mm,
+    right=3mm,
+    top=2.5mm,
+    bottom=2.5mm
+}
+
+\newtcolorbox{qabox}[1]{
+    colback=white,
+    colframe=primary,
+    coltitle=white,
+    fonttitle=\bfseries\small,
+    title={#1},
+    arc=2mm,
+    boxrule=0.8pt,
+    left=2.5mm,
+    right=2.5mm,
+    top=2mm,
+    bottom=2mm
+}
+
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+
+\begin{document}
+
+\begin{center}
+    {\Huge \textbf{\color{primary}00. IIIT RESEARCH PROJECT MASTERY GUIDE}}\\[5pt]
+    {\Large \textbf{\color{secondary}Graph Digital Twin for Smart Grid Cyber-Resilience \& Explainable AI}}\\[4pt]
+    \textbf{Project:} India--Norway INTPART ResCri Initiative \quad|\quad \textbf{Institution:} Dr. SPM IIIT Naya Raipur\\[2pt]
+    \textbf{Researcher:} Anshika Keshari (KIIT University, B.Tech CSE) \quad|\quad \textbf{Target:} Technical Interview / Viva Defense
+\end{center}
+
+\vspace{0.2cm}
+
+\begin{calloutbox}{How to Use This Master Document}
+This document is designed for \textbf{zero-knowledge comprehension}. Even if you haven't reviewed electrical engineering or graph neural networks in months, every single concept is explained through an \textbf{everyday real-world analogy first}, followed by \textbf{exact mathematical and architectural rigor}, and concluding with \textbf{bulletproof interview Q\&A talking points}.
+\end{calloutbox}
+
+\section{1. The 60-Second Elevator Pitch \& Key Numbers}
+
+\begin{analogybox}{The 60-Second Spoken Pitch (Memorize This!)}
+``In my research internship at IIIT Naya Raipur under the Indo-Norwegian INTPART ResCri project, I engineered a \textbf{Graph Digital Twin} to defend smart electrical power grids against stealthy False Data Injection Attacks (FDIAs). 
+
+Traditional grid security relies on Weighted Least Squares (WLS) state estimation, which fails against sophisticated attackers who manipulate sensor telemetry while respecting Kirchhoff's physical laws. 
+
+To solve this, I modeled the power grid as a \textbf{spatial admittance graph} and deployed a multi-task \textbf{GraphSAGE neural network}. My framework achieves a \textbf{98.25\% detection F1 score} and \textbf{97.62\% substation localization F1 score} at a sub-millisecond inference latency of \textbf{0.908 ms}. 
+
+Furthermore, I integrated \textbf{Integrated Gradients (XAI)} to provide operators with transparent sensor-level attribution heatmaps, and implemented an automated \textbf{closed-loop self-healing module} that mutes corrupted sensors and substitutes historical baseline forecasts, reducing grid state estimation error by \textbf{99.97\%}.''
+\end{analogybox}
+
+\subsection{The 6 Critical Project Numbers You Must Never Forget}
+\begin{table}[h!]
+\centering
+\small
+\begin{tabularx}{\textwidth}{>{\bfseries\raggedright\arraybackslash}p{3.2cm} >{\raggedright\arraybackslash}p{2.6cm} >{\raggedright\arraybackslash}X}
+\toprule
+\textbf{Metric} & \textbf{Exact Value} & \textbf{Engineering Significance} \\
+\midrule
+Detection F1 & 98.25\% $\pm$ 0.34\% & 5-seed statistical average on IEEE 14-bus system (ROC-AUC: 0.9993). \\
+\addlinespace
+Localization F1 & 97.62\% $\pm$ 0.84\% & Pinpoints exact hacked substations among all 14 grid buses. \\
+\addlinespace
+Inference Latency & 0.908 ms & Sub-millisecond execution, well within SCADA's 2--4 second scan cycle. \\
+\addlinespace
+Outage Generalization & 92.80\% Det F1 & Zero-shot adaptation to $N-1$ transmission line trips without retraining. \\
+\addlinespace
+WLS Recovery Error & 99.97\% Recovery & State tracking MSE drops from $0.007228\text{ p.u.}^2$ down to $0.000002\text{ p.u.}^2$. \\
+\addlinespace
+Dataset Scale & 5,000 samples & Solved under non-linear AC power flow laws using \texttt{pandapower}. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{2. Ground Zero: The Smart Power Grid Explained Simply}
+
+\subsection{Everyday Analogy: The City Water Plumbing System}
+Imagine a massive metropolitan drinking water network:
+\begin{itemize}[noitemsep]
+    \item \textbf{Generators = Water Reservoirs / Pumping Stations:} Where clean water originates.
+    \item \textbf{Buses (Nodes) = Pipe Junctions / Intersections:} Junctions where multiple pipes meet.
+    \item \textbf{Branches / Lines (Edges) = Heavy Water Pipes:} High-capacity pipes transporting water between junctions.
+    \item \textbf{Loads / Consumers = Neighborhoods / Faucets:} Homes drawing water out of the system.
+    \item \textbf{SCADA Sensors (RTUs) = Digital Flow Meters \& Pressure Gauges:} Sensors reporting pressure and flow rate every 2 seconds.
+    \item \textbf{Energy Management System (EMS) = Central City Water Control Room:} Computer consoles monitoring the entire city to prevent pipe bursts or dry taps.
+\end{itemize}
+
+\subsection{The Four Core Electrical Telemetry Measurements}
+At every electrical bus (junction) in an Alternating Current (AC) power grid, Remote Terminal Units (RTUs) report 4 numbers:
+\begin{enumerate}[noitemsep]
+    \item \textbf{Voltage Magnitude ($V$):} Like water pressure. Standard target is $1.0\text{ per-unit (p.u.)}$.
+    \item \textbf{Voltage Phase Angle ($\theta$):} Like the tilt of a pipe that determines water flow direction. Power flows from higher angle to lower angle.
+    \item \textbf{Active Power ($P$):} Measured in Megawatts (MW). Real electricity doing physical work (spinning motors, lighting bulbs).
+    \item \textbf{Reactive Power ($Q$):} Measured in Megavars (MVAr). The invisible magnetic field needed to sustain AC transmission lines and transformers.
+\end{enumerate}
+
+\subsection{The IEEE 14-Bus Test System}
+In our research, we use the standard **IEEE 14-bus test system**. It represents a portion of the American Midwestern power grid:
+\begin{itemize}[noitemsep]
+    \item \textbf{14 Buses (Nodes):} 5 generator buses (Buses 1, 2, 3, 6, 8) and 9 load/transmission substations.
+    \item \textbf{20 Branches (Edges):} High-voltage transmission lines and transformers connecting the buses.
+    \item \textbf{56 Total Telemetry Points:} 14 buses $\times$ 4 state measurements ($V, \theta, P, Q$) = 56 features per snapshot.
+\end{itemize}
+
+\section{3. The Cyber Attack: False Data Injection Attacks (FDIA)}
+
+\subsection{Everyday Analogy: The Rogue Accountant \& Balanced Ledgers}
+\begin{analogybox}{Why Traditional Security Fails}
+Suppose a thief steals \$100,000 from a bank safe and leaves. The auditor counts the safe, sees \$100,000 missing, and immediately rings the alarm. That is a \textbf{crude attack} (random noise).
+
+Now imagine a \textbf{clever rogue accountant}. When stealing \$100,000, the accountant alters invoices, vendor receipts, and tax calculations \textit{simultaneously} across 10 accounting books so that every ledger entry adds up to zero. 
+When the auditor runs standard accounting checks:
+\[
+\text{Total Assets} - \text{Total Liabilities} = 0
+\]
+The system reports zero discrepancy! The auditor stamps ``ALL CLEAN'' while the bank is bleeding cash.
+
+This is exactly what a \textbf{False Data Injection Attack (FDIA)} does to a smart power grid.
+\end{analogybox}
+
+\subsection{The Mathematics of State Estimation (WLS) \& The Attack Vector}
+In a standard SCADA control center, the relationship between grid states $x$ (voltages and phase angles) and sensor measurements $z$ is:
+\[
+z = h(x) + e
+\]
+where $h(x)$ represents physical non-linear AC power flow laws, and $e \sim \mathcal{N}(0, \sigma^2)$ is Gaussian sensor noise.
+
+\textbf{1. Weighted Least Squares (WLS) Estimation:}
+The grid control center estimates state $\hat{x}$ by minimizing measurement residuals:
+\[
+\hat{x} = \arg\min_x [z - h(x)]^T W [z - h(x)]
+\]
+where $W$ is the inverse covariance measurement error matrix.
+
+\textbf{2. Traditional Bad Data Detection (BDD):}
+The control center calculates the measurement residual:
+\[
+r = \|z - h(\hat{x})\|_2
+\]
+If $r \le \tau$ (where $\tau$ is determined by a Chi-Square $\chi^2$ distribution test), the data is declared normal. If $r > \tau$, an alarm is raised.
+
+\textbf{3. The Hacker's Secret Formula ($a = Hc$):}
+Under DC power flow approximation, $z = Hx + e$, where $H$ is the grid Jacobian measurement matrix.
+An attacker with grid topology knowledge constructs an attack vector $a = Hc$, where $c$ is the false state bias injected into the buses.
+The corrupted telemetry received by the control center is:
+\[
+z_{\text{attack}} = z + a = Hx + Hc + e = H(x + c) + e
+\]
+When the control center calculates the post-attack residual:
+\[
+r_{\text{attack}} = \|z_{\text{attack}} - H\hat{x}_{\text{attack}}\|_2 = \|(Hx + a) - H(\hat{x} + c)\|_2 = \|Hx + Hc - H\hat{x} - Hc\|_2 = \|Hx - H\hat{x}\|_2 = r_{\text{nominal}}
+\]
+\textbf{The residual is mathematically identical to nominal clean data!} The $\chi^2$ test detects \textbf{NOTHING}.
+
+\textbf{The Disaster:} The operator believes Bus 5 is running cool, so they route more power through it. In reality, Bus 5 is severely overloaded, causing transmission lines to sag, transformers to catch fire, and protective breakers to trip, triggering a cascading regional blackout.
+
+\section{4. The Solution: Our Graph Digital Twin (GDT) Architecture}
+
+\subsection{Everyday Analogy: The Formula 1 Pit-Lane Simulator}
+In Formula 1 racing, a car has hundreds of telemetry sensors. In the pit lane, engineers monitor a \textbf{live virtual 3D software replica (Digital Twin)} running aerodynamic physics simulations. If a competitor hacks tire sensor \#3 to report a false blowout, the Digital Twin cross-verifies suspension strain and velocity physics, flags sensor \#3 as spoofed, mutes it, and keeps the car racing safely.
+
+\subsection{The 4-Pillar GDT Architecture}
+\begin{enumerate}
+    \item \textbf{Spatial Admittance Graph Mirror ($Y_{\text{bus}}$):}
+    Instead of treating telemetry as a flat table of numbers, we map it onto a mathematical graph $G = (V, E, X, E_{\text{attr}})$:
+    \begin{itemize}[noitemsep]
+        \item Nodes $V$: 14 substations (buses).
+        \item Edges $E$: 20 transmission lines.
+        \item Node Features $X \in \mathbb{R}^{14 \times 4}$: $[V_i, \theta_i, P_i, Q_i]$.
+        \item Edge Attributes $E_{\text{attr}}$: Physical branch admittance $Y_{ij} = G_{ij} + jB_{ij}$ (conductance and susceptance).
+    \end{itemize}
+    \item \textbf{AI Inference Brain (Multi-Task GraphSAGE):}
+    Processes graph neighborhood messages to detect if an attack is happening (Global Head) and identify which buses are hacked (Local Head) in $0.908$~ms.
+    \item \textbf{Forensic Explainability Engine (Integrated Gradients):}
+    Computes exact gradient attribution paths to tell the operator which sensor was tampered with.
+    \item \textbf{Closed-Loop Self-Healing Actuator:}
+    Mutes corrupted RTUs and injects rolling historical load forecast baselines ($\pm 2\%$ noise), restoring state tracking.
+\end{enumerate}
+
+\section{5. Why GraphSAGE? The Architectural Showdown}
+
+Why did we choose **GraphSAGE** over Flat MLPs, GCNs, and GATs? This is the most frequently asked question in technical defenses!
+
+\subsection{The 3-Way Architectural Comparison}
+\begin{table}[h!]
+\centering
+\small
+\begin{tabularx}{\textwidth}{>{\bfseries\raggedright\arraybackslash}p{2.8cm} >{\raggedright\arraybackslash}p{4cm} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}p{2.6cm}}
+\toprule
+\textbf{Architecture} & \textbf{How It Aggregates} & \textbf{Fatal Flaw / Limitation} & \textbf{Localization F1} \\
+\midrule
+Flat MLP \newline (Multi-Layer Perceptron) & Concatenates features into flat 1D vector: $[z_1, z_2, \dots, z_{56}]$. & Completely ignores graph topology. \textbf{Collapses under line outages} ($N-1$ trips) because input dimension changes. & 82.20\% (outages) \\
+\addlinespace
+GCN \newline (Graph Convolutional Net) & Normalized Laplacian convolutions: $\sum_{u} \frac{\mathbf{W}\mathbf{h}_u}{\sqrt{d_v d_u}}$. & \textbf{Over-Smoothing Problem:} Uniform neighbor averaging blurs node features into identical mean vectors in dense electrical loops. & 70.21\% (dense grids) \\
+\addlinespace
+GAT \newline (Graph Attention Net) & Dynamic attention weights $\alpha_{ij}$ via pairwise node projections. & Excessive quadratic parameter overhead; attention weights fluctuate on static electrical branch admittances. & 94.12\% (slower) \\
+\addlinespace
+\textbf{GraphSAGE} \newline (Our Proposed Backbone) & \textbf{Explicit Concatenation:} $\mathbf{h}_v = \sigma(\mathbf{W} [\mathbf{h}_v \,\|\, \text{AGG}(\mathcal{N}(v))])$. & \textbf{No over-smoothing!} Keeps the node's own state separate from neighbors. Generalizes zero-shot to $N-1$ line trips! & \textbf{97.62\% $\pm$ 0.84\%} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{The GraphSAGE Mathematical Core Equation}
+At each layer $k$, GraphSAGE updates node $v$'s representation through two steps:
+\begin{equation*}
+\begin{split}
+\mathbf{h}_{\mathcal{N}(v)}^{(k)} &= \text{MEAN}\left(\left\{\mathbf{h}_u^{(k-1)}, \forall u \in \mathcal{N}(v)\right\}\right) \\
+\mathbf{h}_v^{(k)} &= \text{ReLU}\left(\mathbf{W}_k \cdot \left[\mathbf{h}_v^{(k-1)} \,\|\, \mathbf{h}_{\mathcal{N}(v)}^{(k)}\right]\right)
+\end{split}
+\end{equation*}
+where $[\mathbf{h}_v \,\|\, \mathbf{h}_{\mathcal{N}(v)}]$ denotes \textbf{vector concatenation}. By explicitly isolating the substation's own telemetry from its neighbors, the model retains the unique electrical fingerprint of each bus!
+
+\section{6. Explainable AI (XAI) via Integrated Gradients}
+
+\subsection{Everyday Analogy: Forensic Fingerprint Analysis}
+When a burglar breaks into a house, a smart alarm doesn't just say ``Intruder detected.'' A forensic investigator dusts for fingerprints, inspects the broken window lock, and confirms: \textit{``The intruder picked lock \#3 on the back door.''} 
+
+In power grids, operators will \textbf{never} disconnect a billion-dollar substation based on an opaque AI black box. They demand mathematical proof.
+
+\subsection{Why Integrated Gradients Instead of SHAP or LIME?}
+\begin{itemize}[noitemsep]
+    \item \textbf{The Latency Bottleneck:} SHAP (KernelSHAP) and LIME evaluate models by generating thousands of random perturbations. Calculating SHAP values takes \textbf{5 to 15 seconds per sample}. SCADA systems require decisions within \textbf{sub-seconds}! SHAP is too slow for real-time cyber defense.
+    \item \textbf{Axiomatic Completeness:} Integrated Gradients (Sundararajan et al., ICML 2017) integrates gradients along the straight-line path from a neutral baseline $x_0$ (clean grid state) to the input $x$:
+    \[
+    \text{Attribution}_i(x) = (x_i - x_{0,i}) \times \int_{0}^{1} \frac{\partial F(x_0 + \alpha(x - x_0))}{\partial x_i} d\alpha
+    \]
+    The sum of all attributions precisely equals the difference between the attacked prediction and baseline prediction:
+    \[
+    \sum_{i=1}^{M} \text{Attribution}_i(x) = F(x) - F(x_0)
+    \]
+    This is computed via a single PyTorch backward pass in **under 2 milliseconds**!
+\end{itemize}
+
+\textbf{What the Operator Sees:} The GDT generates an interactive heatmap showing that Voltage Phase Angle $\theta$ at Bus 5 had an attribution weight of **0.486**, proving that Bus 5's phase angle sensor was the attacker's primary manipulation vector.
+
+\section{7. Closed-Loop Active Healing: The Self-Recovery Engine}
+
+Most research papers stop at detection (``We found the attack!''). Our framework implements an automated **closed-loop active healing pipeline**:
+
+\begin{center}
+\textbf{Detection} (GraphSAGE) $\longrightarrow$ \textbf{Localization} (Bus 5) $\longrightarrow$ \textbf{Mute Bad RTU} $\longrightarrow$ \textbf{Inject Load Baseline} $\longrightarrow$ \textbf{WLS Recovers}
+\end{center}
+
+\subsection{The 3-Step Self-Healing Process}
+\begin{enumerate}
+    \item \textbf{Step 1: Automated Sensor Quarantine:} The GDT control loop sends an out-of-band signal to SCADA, instructing the Energy Management System to flag and ignore telemetry arriving from Bus 5.
+    \item \textbf{Step 2: Physics-Consistent Baseline Substitution:} Instead of leaving Bus 5 with missing values (which causes WLS matrix singularity), the GDT fetches historical rolling load forecasts ($z_{\text{clean}} \pm 2\%$ noise) based on typical time-of-day power profiles.
+    \item \textbf{Step 3: State Reconstruction \& Verification:} The EMS re-runs WLS state estimation with clean surrogate values.
+\end{enumerate}
+
+\subsection{Self-Healing Benchmark Results}
+\begin{itemize}[noitemsep]
+    \item \textbf{Under Unmitigated FDIA:} WLS converges to corrupted states without raising alarms. State estimation error is $0.007228\text{ p.u.}^2$.
+    \item \textbf{Under GDT Closed-Loop Healing:} State estimation error drops to $0.000002\text{ p.u.}^2$ (\textbf{99.97\% error recovery}).
+    \item \textbf{Active Power Tracking:} Grid-wide active power Mean Squared Error (MSE) drops from $51.19\text{ MW}^2$ down to $21.91\text{ MW}^2$ (\textbf{57.21\% recovery}).
+\end{itemize}
+
+\section{8. Codebase Tour: Where Everything Lives}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabularx}{\textwidth}{>{\bfseries\raggedright\arraybackslash}p{3.2cm} >{\raggedright\arraybackslash}p{3.4cm} >{\raggedright\arraybackslash}X}
+\toprule
+\textbf{Script / Module} & \textbf{Architecture Role} & \textbf{Key Responsibilities \& Functions} \\
+\midrule
+\texttt{data\_generation.py} \newline \textmd{\scriptsize(in \texttt{src/})} & Physical Grid Simulator & Uses \texttt{pandapower} to solve non-linear AC power flows across 5,000 states; injects stealthy FDIA vectors $a = Hc$; saves \texttt{data/dataset.pt}. \\
+\addlinespace
+\texttt{model.py} \newline \textmd{\scriptsize(in \texttt{src/})} & GNN Backend Brain & Implements \texttt{MultiTaskGraphSAGE}, \texttt{BaselineMLP}, \texttt{BaselineGCN}, and \texttt{BaselineGAT}; builds PyG graph batches. \\
+\addlinespace
+\texttt{explainability.py} \newline \textmd{\scriptsize(in \texttt{src/})} & XAI Forensic Engine & Computes Integrated Gradients path integrals across sensor features ($V, \theta, P, Q$) for each substation. \\
+\addlinespace
+\texttt{cyber\_mitigation\_} \newline \texttt{demo.py} \newline \textmd{\scriptsize(in \texttt{src/})} & Active Healing Engine & Mutes compromised RTUs, substitutes historical load baselines, and benchmarks WLS state recovery. \\
+\addlinespace
+\texttt{visualize.py} \newline \textmd{\scriptsize(in \texttt{src/})} & Operator Dashboard & Renders 3D grid layout charts and feature attribution heatmaps (\texttt{figures/grid\_anomaly\_explanation.png}). \\
+\addlinespace
+\texttt{compare\_models.py} \newline \textmd{\scriptsize(in \texttt{experiments/})} & Statistical Benchmark & Executes 5-seed comparative benchmarks across GraphSAGE, MLP, GCN, and GAT models. \\
+\addlinespace
+\texttt{evaluate\_} \newline \texttt{topology.py} \newline \textmd{\scriptsize(in \texttt{experiments/})} & Outage Generalization & Simulates $N-1$ transmission line outages (tripped lines) to test zero-shot graph adaptability. \\
+\addlinespace
+\texttt{evaluate\_ieee30.py} \newline \textmd{\scriptsize(in \texttt{experiments/})} & Cross-Grid Transfer & Evaluates inductive transfer learning from IEEE 14-bus to IEEE 30-bus feeder network. \\
+\addlinespace
+\texttt{evaluate\_wls.py} \newline \textmd{\scriptsize(in \texttt{experiments/})} & Classical WLS Benchmark & Compares GDT against classical industrial WLS state estimation and $\chi^2$ bad data detection. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{9. Master Technical Viva \& Interview Q\&A (Top 12 Questions)}
+
+\begin{qabox}{Q1: Why did you build a software Digital Twin rather than using physical hardware?}
+\textbf{Answer:}
+``Hardware-in-the-Loop (HIL) testbeds (such as OPAL-RT or Typhoon HIL) cost hundreds of thousands of dollars and are restricted to rigid physical layouts. Our data-driven software Digital Twin solves non-linear AC power flows using \texttt{pandapower} under exact Kirchhoff's laws. This allowed us to generate 5,000 physics-conforming states, simulate complex $N-1$ transmission line outages, and rapidly evaluate advanced GNN architectures with sub-millisecond execution.''
+\end{qabox}
+
+\begin{qabox}{Q2: Why is reporting 5-seed statistical averages important?}
+\textbf{Answer:}
+``In machine learning research, single-run numbers (like a single 100\% accuracy result) are often misleading because they can stem from favorable random weight initializations or test set splits. Reporting 5-seed statistical averages ($98.25\% \pm 0.34\%$ Detection F1, $97.62\% \pm 0.84\%$ Localization F1) proves the mathematical stability and reproducibility of our GraphSAGE model across diverse initializations, satisfying rigorous IEEE publication standards.''
+\end{qabox}
+
+\begin{qabox}{Q3: How does your model handle transmission line outages ($N-1$ contingencies)?}
+\textbf{Answer:}
+``In traditional machine learning, models like MLPs treat inputs as a fixed flat vector ($14 \times 4 = 56$). If a transmission line trips for maintenance, the physical relationship changes, causing MLP localization performance to plunge to 82.20\%. 
+
+In contrast, GraphSAGE operates directly on the dynamic admittance graph $Y_{\text{bus}}$. When a line trips, we simply update the edge connectivity matrix. GraphSAGE processes the altered graph zero-shot, retaining a \textbf{92.80\% detection F1 score} without requiring any retraining.''
+\end{qabox}
+
+\begin{qabox}{Q4: Why did GraphSAGE outperform GCN and GAT?}
+\textbf{Answer:}
+``Standard GCNs average features across all neighbors using a normalized Laplacian matrix. In electrical power grids with dense cyclic loops, repeated averaging causes **over-smoothing**, where node embeddings collapse into identical mean vectors (dropping localization F1 to 70.21\%). 
+
+GraphSAGE solves this by explicitly **concatenating** the node's previous representation with its aggregated neighbor features: $\mathbf{h}_v = \text{ReLU}(\mathbf{W} \cdot [\mathbf{h}_v \| \mathbf{h}_{\mathcal{N}(v)}])$. This keeps each substation's unique telemetry signature distinct. GAT introduces attention overhead without performance gain because power grid physical branch admittances are fixed physical properties rather than dynamic attention weights.''
+\end{qabox}
+
+\begin{qabox}{Q5: Explain how a stealthy FDIA bypasses Chi-Square ($\chi^2$) bad data detection.}
+\textbf{Answer:}
+``Classical state estimation computes the measurement residual $r = \|z - H\hat{x}\|_2$. If $r \le \tau$, data is accepted. An attacker with grid topology access constructs an injection vector $a = Hc$. The corrupted telemetry is $z_{\text{attack}} = Hx + a + e = H(x+c) + e$. When the control center calculates the post-attack residual:
+\[
+r_{\text{attack}} = \|(Hx + a) - H(\hat{x} + c)\|_2 = \|Hx + Hc - H\hat{x} - Hc\|_2 = \|Hx - H\hat{x}\|_2 = r_{\text{nominal}}
+\]
+Because the injected bias algebraically cancels out in the residual calculation, $r_{\text{attack}}$ is identical to clean data, completely blinding the Chi-Square detector!''
+\end{qabox}
+
+\begin{qabox}{Q6: Why did you use Integrated Gradients instead of SHAP or LIME?}
+\textbf{Answer:}
+``Real-time SCADA operations have strict temporal constraints (scan cycles every 2 to 4 seconds). SHAP and LIME rely on stochastic perturbation sampling, taking 5 to 15 seconds per sample, which is far too slow for real-time cyber defense. 
+
+Integrated Gradients computes path integrals via a single backpropagation pass in under 2 milliseconds. Additionally, it satisfies \textbf{axiomatic completeness}, meaning the sum of all sensor attributions mathematically equals the exact difference between the model's attacked prediction and clean baseline prediction.''
+\end{qabox}
+
+\begin{qabox}{Q7: How does your closed-loop self-healing module recover the grid state?}
+\textbf{Answer:}
+``Once GraphSAGE pinpoints the compromised substations (e.g., Bus 5), the GDT isolates telemetry coming from those RTUs. Leaving those buses with missing values would cause matrix singularity in WLS state estimation. Therefore, our module fetches historical rolling load forecasts ($\pm 2\%$ noise) matching typical load curves, injects them as surrogate inputs, and re-runs WLS. This reduces state tracking error from $0.007228\text{ p.u.}^2$ down to $0.000002\text{ p.u.}^2$ (\textbf{99.97\% error recovery}).''
+\end{qabox}
+
+\begin{qabox}{Q8: How does your research compare against published literature?}
+\textbf{Answer:}
+``We benchmarked our GDT against prominent published works:
+\begin{itemize}[noitemsep]
+    \item \textbf{Boyaci et al. (IEEE Trans. Smart Grid 2022):} Evaluated an ARMA-GNN achieving 96.25\% detection and 93.91\% localization. Our GraphSAGE model achieves **98.25\% detection** and **97.62\% localization**.
+    \item \textbf{Yue \& Qu (CARS 2024):} Evaluated GCN models on cyber-physical anomaly detection. Our framework incorporates closed-loop active healing and explainable AI attribution, which their work lacked.
+\end{itemize}
+Furthermore, our model runs at sub-millisecond inference latency ($0.908$~ms), demonstrating full operational feasibility for real-time SCADA deployment.''
+\end{qabox}
+
+\begin{qabox}{Q9: How did you test cross-grid scalability (IEEE 30-bus system)?}
+\textbf{Answer:}
+``We evaluated inductive transfer learning by training GraphSAGE on the IEEE 14-bus grid and evaluating it on the larger IEEE 30-bus feeder network. Because GraphSAGE learns localized node-to-neighbor aggregation functions rather than a global adjacency matrix, fine-tuning the model with only 200 samples of IEEE 30-bus data restored detection F1 to **90.11%** and localization F1 to **80.06%**, proving strong transferability to larger utility systems.''
+\end{qabox}
+
+\begin{qabox}{Q10: What is the difference between AC power flow and DC power flow in your simulation?}
+\textbf{Answer:}
+``DC power flow is a linearized, simplified approximation: it assumes voltage magnitudes are constant ($1.0$~p.u.), ignores reactive power ($Q = 0$), and assumes voltage angle differences are very small. While attackers often design FDIAs using the linear DC Jacobian ($a = Hc$), real power grids operate under non-linear AC Kirchhoff laws. We simulated the physical asset using full non-linear AC power flows via \texttt{pandapower}, ensuring our models were trained on realistic, physics-conforming telemetry.''
+\end{qabox}
+
+\begin{qabox}{Q11: What were the biggest debugging challenges you faced during implementation?}
+\textbf{Answer:}
+``Two major technical hurdles:
+\begin{enumerate}[noitemsep]
+    \item \textbf{Exploding Gradients during Multi-Task Training:} The global detection loss and multi-label localization loss had different gradient magnitudes. I balanced them by tuning the loss weighting parameter $\lambda = 0.5$ and incorporating Layer Normalization and residual connections in \texttt{src/model.py}.
+    \item \textbf{Data Leakage in Baseline Substitution:} In early healing experiments, substituting clean test states directly resulted in unrealistically perfect reconstruction. I corrected this by introducing $\pm 2\%$ stochastic load forecasting noise to mirror realistic industrial forecasting inaccuracy.''
+\end{enumerate}
+\end{qabox}
+
+\begin{qabox}{Q12: How does this project directly apply to cybersecurity at Evernorth / Healthcare?}
+\textbf{Answer:}
+``While power grids and healthcare systems manage different physical assets, their cybersecurity architectures are mathematically isomorphic:
+\begin{itemize}[noitemsep]
+    \item In smart grids, SCADA sensors stream voltage and power telemetry; in Evernorth, IoMT devices, pharmacy clearinghouse APIs, and claims servers stream transaction and medical data.
+    \item In both environments, stealthy attackers avoid noisy attacks and blend into legitimate traffic (FDIA in grids $\Longleftrightarrow$ claims manipulation or API credential abuse in healthcare).
+    \item Modeling entities as a graph, enforcing sub-millisecond anomaly detection, demanding explainable root-cause attribution, and automating closed-loop containment are identical core competencies. That is the exact analytical rigor I bring to Evernorth's threat management team!''
+\end{itemize}
+\end{qabox}
+
+\end{document}

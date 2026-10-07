@@ -114,15 +114,15 @@ The Evernorth Cybersecurity Internship JD explicitly requires: \textit{``Support
 \begin{table}[h!]
 \centering
 \small
-\begin{tabularx}{\textwidth}{p{2.5cm}p{4cm}p{4.5cm}p{4cm}}
+\begin{tabularx}{\textwidth}{>{\bfseries\raggedright\arraybackslash}p{2.6cm} >{\raggedright\arraybackslash}p{3.8cm} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}X}
 \toprule
 \textbf{CTI Tier} & \textbf{Audience} & \textbf{Content / Focus} & \textbf{Example at Evernorth} \\
 \midrule
-\textbf{Strategic} & CISO, Board of Directors, VP of Security & High-level business risk, geopolitical cyber threats, financial loss projections. & Briefing leadership on Russian state-sponsored attacks targeting US pharmacy infrastructure. \\
+Strategic & CISO, Board of Directors, VP of Security & High-level business risk, geopolitical cyber threats, financial loss projections. & Briefing leadership on Russian state-sponsored attacks targeting US pharmacy infrastructure. \\
 \addlinespace
-\textbf{Operational} & SOC Managers, Incident Handlers & Adversary intent, campaigns, attack timelines, actor profiling. & Tracking the BlackCat ransomware gang's active targeting of healthcare EDI clearinghouses. \\
+Operational & SOC Managers, Incident Handlers & Adversary intent, campaigns, attack timelines, actor profiling. & Tracking the BlackCat ransomware gang's active targeting of healthcare EDI clearinghouses. \\
 \addlinespace
-\textbf{Tactical / Technical} & SOC Level 1/2 Analysts, SIEM Engineers & Indicators of Compromise (IoCs): IPs, domain hashes, Yara rules, CVE exploit signatures. & Ingesting STIX/TAXII feeds of malicious C2 IPs into Evernorth firewalls and Splunk SIEM. \\
+Tactical / Technical & SOC Level 1/2 Analysts, SIEM Engineers & Indicators of Compromise (IoCs): IPs, domain hashes, Yara rules, CVE exploit signatures. & Ingesting STIX/TAXII feeds of malicious C2 IPs into Evernorth firewalls and Splunk SIEM. \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -166,9 +166,12 @@ Interviewers frequently test if you know the difference between \textbf{Severity
 \end{calloutbox}
 
 \subsection{Cyber Risk Calculation Formula}
-\[
-\text{Cyber Risk} = \text{Threat (Actor capability \& intent)} \times \text{Vulnerability (Weakness)} \times \text{Asset Impact (Criticality of PHI/Data)}
-\]
+\begin{equation*}
+\begin{split}
+\text{Cyber Risk} &= \text{Threat} \times \text{Vulnerability} \times \text{Asset Criticality} \\
+&= (\text{Actor Capability}) \times (\text{System Weakness}) \times (\text{Impact to PHI/Operations})
+\end{split}
+\end{equation*}
 If an internal server has a critical RCE vulnerability (CVSS 9.8) but is air-gapped with zero network access and contains no patient data, its risk score is low. Conversely, an API with a medium CVSS 5.3 flaw that exposes prescription fulfillment routes directly to the internet carries \textbf{critical operational risk}.
 
 \section{4. Security Operations Center (SOC) Metrics \& Reporting}
@@ -179,19 +182,19 @@ As stated in the JD, Evernorth requires interns to \textit{``contribute to secur
 \begin{table}[h!]
 \centering
 \small
-\begin{tabularx}{\textwidth}{p{3.2cm}p{4.5cm}p{4cm}p{3.5cm}}
+\begin{tabularx}{\textwidth}{>{\bfseries\raggedright\arraybackslash}p{2.8cm} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}p{3.2cm} >{\raggedright\arraybackslash}X}
 \toprule
-\textbf{Metric} & \textbf{Formal Definition} & \textbf{Goal / Healthy Target} & \textbf{Analytic Value} \\
+\textbf{Metric} & \textbf{Formal Definition} & \textbf{Goal / Target} & \textbf{Analytic Value} \\
 \midrule
-\textbf{MTTD} \newline (Mean Time to Detect) & Average elapsed time between an adversary's initial breach and security alert generation. & $< 15$ minutes (automated alerts) & Identifies visibility gaps and sensor blind spots. \\
+MTTD \newline \textmd{\scriptsize(Mean Time to Detect)} & Average elapsed time between an adversary's initial breach and security alert generation. & $< 15$ minutes \newline (automated alerts) & Identifies visibility gaps and sensor blind spots. \\
 \addlinespace
-\textbf{MTTA} \newline (Mean Time to Acknowledge) & Average time an analyst takes to claim a generated alert in the triage queue. & $< 5$ minutes & Detects SOC staffing bottlenecks and triage queues. \\
+MTTA \newline \textmd{\scriptsize(Mean Time to Acknowledge)} & Average time an analyst takes to claim a generated alert in the triage queue. & $< 5$ minutes & Detects SOC staffing bottlenecks and triage queues. \\
 \addlinespace
-\textbf{MTTR} \newline (Mean Time to Respond / Remediate) & Time taken to contain, isolate, and eradicate an active threat once confirmed. & $< 30$--$60$ minutes & Measures effectiveness of SOAR playbooks and incident teams. \\
+MTTR \newline \textmd{\scriptsize(Mean Time to Respond)} & Time taken to contain, isolate, and eradicate an active threat once confirmed. & $< 30$--$60$ minutes & Measures effectiveness of SOAR playbooks and incident teams. \\
 \addlinespace
-\textbf{Dwell Time} & Total elapsed duration an intruder roams undetected inside the corporate perimeter. & Target: Zero days (Industry avg: 10--16 days) & Direct indicator of enterprise defense depth. \\
+Dwell Time & Total elapsed duration an intruder roams undetected inside the corporate perimeter. & Target: Zero days \newline (Industry: 10--16 d) & Direct indicator of enterprise defense depth. \\
 \addlinespace
-\textbf{False Positive Rate} & Percentage of alerts investigated that turn out to be benign activity. & Target: $< 20\%$ (Often $> 75\%$ in noisy rules) & Pinpoints SIEM rule debt causing analyst burnout. \\
+False Positive Rate & Percentage of alerts investigated that turn out to be benign activity. & Target: $< 20\%$ \newline (Often $> 75\%$) & Pinpoints SIEM rule debt causing analyst burnout. \\
 \bottomrule
 \end{tabularx}
 \end{table}
