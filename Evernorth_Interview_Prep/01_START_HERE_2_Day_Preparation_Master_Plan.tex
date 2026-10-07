@@ -1,0 +1,171 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.8in]{geometry}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{titlesec}
+\usepackage{parskip}
+
+% Color Definitions
+\definecolor{primaryblue}{RGB}{18, 52, 102}
+\definecolor{evernorthgreen}{RGB}{0, 130, 90}
+\definecolor{accentteal}{RGB}{0, 128, 128}
+\definecolor{darkcharcoal}{RGB}{35, 39, 42}
+\definecolor{alertred}{RGB}{165, 29, 42}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primaryblue,
+    urlcolor=evernorthgreen,
+    pdftitle={Step 1: 2-Day Preparation Master Plan - Evernorth Cybersecurity Interview},
+    pdfauthor={Anshika Keshari}
+}
+
+% Section Titles
+\titleformat{\section}{\large\bfseries\color{primaryblue}}{\thesection}{0.8em}{}[\titlerule]
+\titleformat{\subsection}{\normalsize\bfseries\color{evernorthgreen}}{\thesubsection}{0.6em}{}
+\titlespacing*{\section}{0pt}{14pt}{6pt}
+\titlespacing*{\subsection}{0pt}{10pt}{4pt}
+
+% Callout Boxes
+\newtcolorbox{evernorthbox}[1]{
+    enhanced,
+    colback=green!3!white,
+    colframe=evernorthgreen,
+    fonttitle=\bfseries\color{white},
+    colbacktitle=evernorthgreen,
+    title={Evernorth Critical Mission: #1},
+    arc=2mm,
+    boxrule=0.8pt,
+    left=9pt, right=9pt, top=7pt, bottom=7pt
+}
+
+\newtcolorbox{ansbox}[1]{
+    enhanced,
+    colback=blue!3!white,
+    colframe=primaryblue,
+    fonttitle=\bfseries\color{white},
+    colbacktitle=primaryblue,
+    title={Battle Plan Directive: #1},
+    arc=2mm,
+    boxrule=0.8pt,
+    left=9pt, right=9pt, top=7pt, bottom=7pt
+}
+
+\newtcolorbox{trapbox}[1]{
+    enhanced,
+    colback=red!4!white,
+    colframe=alertred,
+    fonttitle=\bfseries\color{white},
+    colbacktitle=alertred,
+    title={Emergency Rule: #1},
+    arc=2mm,
+    boxrule=0.8pt,
+    left=9pt, right=9pt, top=7pt, bottom=7pt
+}
+
+\begin{document}
+
+\begin{center}
+    {\LARGE \bfseries \color{primaryblue} STEP 1: 2-DAY EMERGENCY PREPARATION MASTER PLAN}\\[4pt]
+    {\large \bfseries Evernorth Health Services (The Cigna Group) -- Cybersecurity Technical Interview}\\[2pt]
+    {\small \color{darkcharcoal} Candidate: \textbf{Anshika Keshari} $|$ B.Tech CSE (KIIT) $|$ 8.32 CGPA}\\[2pt]
+    {\footnotesize \textbf{Target Role:} Cybersecurity Internship (Threat Management, Intelligence, Analytics \& Cloud)}
+\end{center}
+\vspace{-4pt}
+\hrule height 1pt
+\vspace{8pt}
+
+\section{Introduction: How to Use This 6-Part Dossier in 48 Hours}
+You have **48 hours** before your technical interview at Evernorth Health Services (The Cigna Group). Every hour must be spent on high-yield, structured preparation. This dossier is organized into 6 sequentially numbered PDF guides:
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{@{}cllp{7.2cm}@{}}
+\toprule
+\textbf{Step} & \textbf{Filename} & \textbf{Focus Area} & \textbf{Estimated Study Time} \\
+\midrule
+\textbf{1} & \texttt{01\_START\_HERE...pdf} & Master Battle Plan & \textbf{30 mins} (Roadmap, schedule, mindset). \\
+\textbf{2} & \texttt{02\_Evernorth\_Company...pdf} & Deep Company Research & \textbf{3.5 hours} (What they do, challenges, role fit). \\
+\textbf{3} & \texttt{03\_Technical\_Projects...pdf} & Smart Grid \& AML Projects & \textbf{4.5 hours} (First-principles, math, Evernorth bridge). \\
+\textbf{4} & \texttt{04\_Core\_CS...pdf} & Core CS Fundamentals & \textbf{4.0 hours} (Java OOP, DSA, OS, DBMS, Networks, Cloud). \\
+\textbf{5} & \texttt{05\_Cybersecurity...pdf} & Security Domain & \textbf{4.0 hours} (Threat Intel, MITRE, SIEM, Zero Trust, Incident Resp). \\
+\textbf{6} & \texttt{06\_Final\_Review...pdf} & CheatSheet \& Scripts & \textbf{1.5 hours} (The 90-sec pitch, handling blanks, questions). \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{The Hour-by-Hour 48-Hour Study Schedule}
+
+\begin{ansbox}{Day 1: Company Intelligence \& Technical Projects Defense}
+\begin{itemize}
+    \item \textbf{09:00 -- 12:30 (File 02: Company Intelligence):}
+    \begin{itemize}
+        \item Understand Evernorth as the pharmacy and health services division of The Cigna Group (Fortune 15).
+        \item Master the Hyderabad Innovation Hub's mission (threat management, adversary simulation, SOC analytics).
+        \item Memorize the **"Golden Bridge Pitch"** connecting your background directly to Evernorth's JD.
+    \end{itemize}
+    \item \textbf{12:30 -- 13:30:} Lunch \& Mental Refresh.
+    \item \textbf{13:30 -- 18:00 (File 03: Projects Masterclass):}
+    \begin{itemize}
+        \item Master the **Smart Grid Graph Digital Twin**: GraphSAGE, FDIA evasion math ($a=Hc$), XAI Integrated Gradients, and sub-15ms mitigation. Bridge it to **Healthcare IoMT and hospital systems**.
+        \item Master the **AML Detection System**: 10,000+ logs, 98.2\% precision, 15+ behavioral attributes, SMOTE without data leakage, and XGBoost. Bridge it to **SOC alert triage \& security analytics**.
+        \item Rehearse the top 20 project grilling questions.
+    \end{itemize}
+    \item \textbf{18:00 -- 19:00:} Dinner \& Physical Walk.
+    \item \textbf{19:00 -- 22:30 (File 04: Java OOP \& DSA):}
+    \begin{itemize}
+        \item Revise the 4 Pillars of OOP in Java with real code metaphors.
+        \item Practice HashMap internals (collisions, $O(1)$ vs $O(n)$) and Graph traversals (BFS/DFS).
+    \end{itemize}
+\end{itemize}
+\end{ansbox}
+
+\begin{ansbox}{Day 2: Core CS Systems, Security Domain \& Mock Rehearsal}
+\begin{itemize}
+    \item \textbf{09:00 -- 12:30 (File 04 Cont.: OS, DBMS, Networks \& Cloud):}
+    \begin{itemize}
+        \item OS: Process vs Thread, Deadlocks (4 Coffman conditions), Concurrency.
+        \item DBMS: ACID properties (bank/patient transfer example), Normalization, B+ Trees.
+        \item Networks \& Cloud: OSI layers, DNS, TLS 1.3 handshake, Azure Key Vault \& RBAC.
+    \end{itemize}
+    \item \textbf{12:30 -- 13:30:} Lunch \& Mental Refresh.
+    \item \textbf{13:30 -- 17:30 (File 05: Cybersecurity Domain Mastery):}
+    \begin{itemize}
+        \item Threat Intelligence: MITRE ATT\&CK Framework tactics \& techniques.
+        \item Vulnerability Management: CVEs, CVSS v3.1 scoring, and patch SLAs.
+        \item Metrics: MTTD, MTTR, False Positive Ratio, and SIEM Dashboards.
+        \item Security Architecture: Zero Trust, HIPAA/PHI data protection, and NIST Incident Response.
+    \end{itemize}
+    \item \textbf{17:30 -- 18:30:} Dinner \& Relaxation.
+    \item \textbf{18:30 -- 21:00 (File 06: Final Rehearsal \& Scripting):}
+    \begin{itemize}
+        \item Practice saying your 90-second introduction aloud in front of a mirror or camera.
+        \item Memorize the 10 smart questions to ask Evernorth interviewers.
+        \item Sleep early (minimum 7.5 hours of sleep to ensure cognitive sharpness!).
+    \end{itemize}
+\end{itemize}
+\end{ansbox}
+
+\section{The 3 Non-Negotiable Interview Rules}
+
+\begin{trapbox}{The 3 Rules to Clear the Technical Round}
+\begin{enumerate}
+    \item \textbf{Rule 1: Always Think Aloud.} The interviewer wants to assess your engineering thought process. Never sit in silence for 30 seconds. Say: \textit{"Here is how I am analyzing this problem: first, let me clarify the constraints..."}
+    \item \textbf{Rule 2: Never Fake an Answer.} If asked about a tool you have not used (e.g., a specific proprietary SIEM tool): \textit{"I haven't used that specific tool in production yet, but conceptually I understand it ingests log telemetry like Syslog and NetFlow, which relates to the data ingestion pipelines I built in Python. I am very eager to learn it."}
+    \item \textbf{Rule 3: Tie Everything to Evernorth's Mission.} Constantly remind the interviewer: \textit{"In healthcare, security failures risk patient care and sensitive medical records. That's why high precision and automated mitigation are essential."}
+\end{enumerate}
+\end{trapbox}
+
+\begin{evernorthbox}{Next Action}
+Proceed immediately to \textbf{File 02: \texttt{02\_Evernorth\_Company\_Research\_And\_Role\_Fit.pdf}} to master Evernorth's business, current cybersecurity challenges, and role fit!
+\end{evernorthbox}
+
+\end{document}

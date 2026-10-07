@@ -1,0 +1,233 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.8in]{geometry}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{titlesec}
+\usepackage{parskip}
+
+% Color Definitions
+\definecolor{primaryblue}{RGB}{18, 52, 102}
+\definecolor{evernorthgreen}{RGB}{0, 130, 90}
+\definecolor{accentteal}{RGB}{0, 128, 128}
+\definecolor{darkcharcoal}{RGB}{35, 39, 42}
+\definecolor{analogyamber}{RGB}{180, 95, 6}
+\definecolor{questiongreen}{RGB}{24, 114, 58}
+\definecolor{alertred}{RGB}{165, 29, 42}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primaryblue,
+    urlcolor=evernorthgreen,
+    pdftitle={Step 3: Technical Projects Mastery & Evernorth Bridging},
+    pdfauthor={Anshika Keshari}
+}
+
+% Section Titles
+\titleformat{\section}{\large\bfseries\color{primaryblue}}{\thesection}{0.8em}{}[\titlerule]
+\titleformat{\subsection}{\normalsize\bfseries\color{evernorthgreen}}{\thesubsection}{0.6em}{}
+\titlespacing*{\section}{0pt}{14pt}{6pt}
+\titlespacing*{\subsection}{0pt}{10pt}{4pt}
+
+% Callout Boxes
+\newtcolorbox{evernorthbox}[1]{
+    enhanced,
+    colback=green!3!white,
+    colframe=evernorthgreen,
+    fonttitle=\bfseries\color{white},
+    colbacktitle=evernorthgreen,
+    title={Evernorth Strategic Bridge: #1},
+    arc=2mm,
+    boxrule=0.8pt,
+    left=9pt, right=9pt, top=7pt, bottom=7pt
+}
+
+\newtcolorbox{analogybox}[1]{
+    enhanced,
+    colback=orange!5!white,
+    colframe=analogyamber,
+    fonttitle=\bfseries\color{white},
+    colbacktitle=analogyamber,
+    title={Everyday Intuition \& Real-World Analogy: #1},
+    arc=2mm,
+    boxrule=0.8pt,
+    left=9pt, right=9pt, top=7pt, bottom=7pt
+}
+
+\newtcolorbox{techbox}[1]{
+    enhanced,
+    colback=blue!3!white,
+    colframe=primaryblue,
+    fonttitle=\bfseries\color{white},
+    colbacktitle=primaryblue,
+    title={Engineering \& Mathematical Core: #1},
+    arc=2mm,
+    boxrule=0.8pt,
+    left=9pt, right=9pt, top=7pt, bottom=7pt
+}
+
+\newtcolorbox{ansbox}[1]{
+    enhanced,
+    colback=green!4!white,
+    colframe=questiongreen,
+    fonttitle=\bfseries\color{white},
+    colbacktitle=questiongreen,
+    title={Winning Interview Strategy: #1},
+    arc=2mm,
+    boxrule=0.8pt,
+    left=9pt, right=9pt, top=7pt, bottom=7pt
+}
+
+\newtcolorbox{trapbox}[1]{
+    enhanced,
+    colback=red!4!white,
+    colframe=alertred,
+    fonttitle=\bfseries\color{white},
+    colbacktitle=alertred,
+    title={Interview Trap \& Pro-Tip: #1},
+    arc=2mm,
+    boxrule=0.8pt,
+    left=9pt, right=9pt, top=7pt, bottom=7pt
+}
+
+\begin{document}
+
+\begin{center}
+    {\LARGE \bfseries \color{primaryblue} STEP 3: TECHNICAL PROJECTS MASTERY \& BRIDGING}\\[4pt]
+    {\large \bfseries Comprehensive First-Principles Breakdown \& Evernorth Healthcare Mapping}\\[2pt]
+    {\small \color{darkcharcoal} Candidate: \textbf{Anshika Keshari} $|$ B.Tech CSE (KIIT) $|$ IIIT Naya Raipur Research Intern}\\[2pt]
+    {\footnotesize \textbf{Projects:} (1) Smart Grid Physics-Informed Graph Digital Twin \quad $|$ \quad (2) Anti-Money Laundering ML Pipeline}
+\end{center}
+\vspace{-4pt}
+\hrule height 1pt
+\vspace{8pt}
+
+\section{The Strategic Framing: How to Introduce Your Projects at Evernorth}
+
+\begin{evernorthbox}{The Dual-Project Power Pitch}
+"Both of my core technical projects address the exact challenges facing Evernorth Health Services:
+\begin{enumerate}
+    \item **My Research Project (Graph Digital Twin)** addresses **Cyber-Physical Resilience in Life-Critical Infrastructure**. In smart grids, attacks manipulate electrical sensors; in healthcare, the exact same attacks target connected medical devices (IoMT) and hospital microgrids. My model detects stealthy sensor spoofing with a \textbf{96.8\% F1-score} and triggers sub-15ms automated cyber mitigation.
+    \item **My Applied ML Project (Anti-Money Laundering)** addresses **Security Analytics \& Threat Detection in Massive Skewed Datasets**. By engineering 15+ behavioral attributes and tuning XGBoost to achieve \textbf{98.2\% Precision}, I solved the problem of 'analyst alert fatigue'—the exact challenge faced by Evernorth's Security Operations Center (SOC) managing millions of daily authentication and claim events."
+\end{enumerate}
+\end{evernorthbox}
+
+\section{Project 1: Physics-Informed Graph Digital Twin (IIIT Naya Raipur \& Norway INTPART)}
+
+\subsection{Intuition \& Real-World Analogies (Explain Like I'm 5)}
+
+\begin{analogybox}{The ICU Hospital Patient Analogy}
+Imagine a critically ill patient in a hospital Intensive Care Unit (ICU):
+\begin{itemize}
+    \item \textbf{Normal Hardware Glitch:} A sensor wire comes loose. The monitor beeps loudly and reads 0 BPM. The nurse plugs it back in. This is classical "Bad Data Detection."
+    \item \textbf{Stealthy Cyber-Attack (FDIA):} A hacker infiltrates the hospital network. The patient is actually suffering sudden cardiac arrest, but the hacker's computer injects fake electrical signals so the monitor displays a peaceful 72 BPM with normal blood pressure. Doctors take no action, and the patient suffers severe harm.
+    \item \textbf{The Solution (Graph Digital Twin):} Our AI doesn't look at one sensor in isolation. It understands the connected biology of the whole body: \textit{"If the heart is beating at 72 BPM, the blood flow in the neck and oxygen saturation in the lungs must follow exact physical laws. Because they contradict each other, Bus 9 is lying!"}
+\end{itemize}
+\end{analogybox}
+
+\subsection{The Engineering \& Mathematical Reality}
+
+\begin{techbox}{Power Grid as an Attributed Graph}
+The power grid network is modeled as an undirected attributed graph:
+$$\mathcal{G} = (\mathcal{V}, \mathcal{E}, \mathbf{X}, \mathbf{E})$$
+\begin{itemize}
+    \item \textbf{Nodes ($|\mathcal{V}| = 14$ Buses):} Power substations where lines intersect (IEEE 14-bus benchmark).
+    \item \textbf{Edges ($|\mathcal{E}| = 20$ Branches):} Transmission lines and transformers.
+    \item \textbf{Node Feature Matrix $\mathbf{X} \in \mathbb{R}^{14 \times 4}$:} Telemetry at bus $i$:
+    $$\mathbf{x}_i = [V_i, \theta_i, P_i, Q_i]^T$$
+    where $V$ is Voltage Magnitude, $\theta$ is Phase Angle, $P$ is Active Power (MW), and $Q$ is Reactive Power (MVAr).
+    \item \textbf{Edge Features $\mathbf{E} \in \mathbb{R}^{40 \times 2}$:} Resistance $R$ and Reactance $X$ in ohms.
+\end{itemize}
+\end{techbox}
+
+\begin{techbox}{Why Classical State Estimation Fails: The FDIA Math}
+Classical power system state estimation checks measurement residuals:
+$$r = \|z - H\hat{x}\|_2 \le \tau$$
+A sophisticated cyber-adversary designs an attack vector $a$ lying in the column space of the Jacobian matrix $H$:
+$$a = Hc$$
+for an arbitrary false state shift $c \in \mathbb{R}^n$. The compromised measurement is $z_a = z + a$, and the estimated state becomes $\hat{x}_a = \hat{x} + c$.
+
+The resulting residual is:
+$$r_a = \|z_a - H\hat{x}_a\|_2 = \|(z + a) - H(\hat{x} + c)\|_2 = \|(z - H\hat{x}) + (a - Hc)\|_2 = \|z - H\hat{x}\|_2 = r \le \tau$$
+\textbf{The Conclusion:} The residual is mathematically identical to normal operation! The classical security estimator sees zero anomaly. This is why a Graph Neural Network is mandatory.
+\end{techbox}
+
+\begin{techbox}{GraphSAGE Architecture \& Multi-Task Training}
+\begin{enumerate}
+    \item \textbf{3 SAGEConv Layers:}
+    $$h_i^{(l+1)} = \text{ReLU} \left( \mathbf{W}^{(l)} \cdot \left[ h_i^{(l)} \,\|\, \text{MEAN}_{j \in \mathcal{N}(i)} (h_j^{(l)}) \right] \right)$$
+    with hidden dimension 64 and Dropout ($p=0.2$).
+    \item \textbf{Joint Multi-Task Loss:}
+    $$\mathcal{L}_{\text{total}} = \mathcal{L}_{\text{graph}} + 1.5 \cdot \mathcal{L}_{\text{node}}$$
+    Simultaneously performs **Graph Classification** (Is the grid under attack? $\to$ \textbf{96.8\% F1}) and **Node Classification** (Which specific substation is compromised?).
+    \item \textbf{Sub-15ms Automated Mitigation:} Isolates compromised telemetry at Bus $k$ and substitutes the nominal baseline forecast profile ($\pm 2\%$ uncertainty), recovering state estimation accuracy by **95.2\%** in **12.4 ms** without tripping circuit breakers!
+\end{enumerate}
+\end{techbox}
+
+\section{Project 2: Anti-Money Laundering (AML) Detection System}
+
+\subsection{Intuition \& Real-World Analogies}
+
+\begin{analogybox}{The Airport Baggage Customs Analogy}
+Imagine customs screening at an airport with 10,000 travelers:
+\begin{itemize}
+    \item \textbf{Normal Passengers (9,980):} Tourists carrying clothes and souvenirs.
+    \item \textbf{Smugglers (20):} Criminals carrying contraband disguised as common items.
+    \item \textbf{The Accuracy Paradox:} An inspector who approves everyone without looking is **99.8\% accurate**, but lets every criminal through! In ML, raw accuracy is meaningless on imbalanced data.
+    \item \textbf{The Smart Investigator (Feature Engineering):} The officer checks behavioral cues: \textit{Did this traveler buy a cash ticket 10 minutes before boarding? Did they visit 4 countries in 24 hours with no luggage?} That is **Feature Engineering**!
+\end{itemize}
+\end{analogybox}
+
+\subsection{The Machine Learning Reality}
+
+\begin{techbox}{15+ Behavioral Attributes \& The SMOTE Pipeline}
+\begin{enumerate}
+    \item \textbf{Velocity Features:} \texttt{tx\_count\_1h}, \texttt{tx\_count\_24h}, \texttt{tx\_amount\_sum\_24h}.
+    \item \textbf{Financial Ratios:} $\frac{\text{Amount}}{\text{Balance} + \epsilon}$ (fraudsters drain 95--100\% of balance immediately).
+    \item \textbf{Behavioral Flags:} \texttt{dormancy\_reactivation} (accounts dormant for $>180$ days suddenly moving large funds), \texttt{geo\_velocity\_flag} (impossible physical travel speed between login IPs).
+    \item \textbf{SMOTE (Synthetic Minority Over-sampling Technique):}
+    Interpolates new synthetic minority instances along line segments connecting $k$-nearest neighbors:
+    $$x_{\text{new}} = x_i + \lambda \cdot (x_{zi} - x_i), \quad \lambda \sim \mathcal{U}(0, 1)$$
+    \textbf{Data Leakage Prevention:} SMOTE was embedded **exclusively inside the training fold** of 5-fold cross-validation using an \texttt{imblearn.pipeline.Pipeline}.
+    \item \textbf{Why XGBoost Won:} Handled non-linear feature interactions and minimized loss using second-order gradients ($g_i, h_i$), achieving \textbf{98.2\% Precision} to stop compliance analyst alert fatigue!
+\end{enumerate}
+\end{techbox}
+
+\section{Top 15 Technical Grilling Questions \& Master Answers}
+
+\subsection*{Q1: Why did you choose Graph Neural Networks over Random Forest or CNNs?}
+\begin{ansbox}{Answer Strategy}
+"Power grids and computer networks are non-Euclidean graphs. Flattening bus measurements into a 1D vector for Random Forest destroys topological adjacency—it treats two substations 500 miles apart the same as two connected by a high-voltage line. CNNs require rigid grid matrices (like pixels), whereas electrical networks have irregular degree connectivity. GNNs perform localized message-passing along transmission lines, directly reflecting physical flow laws."
+\end{ansbox}
+
+\subsection*{Q2: How does your AML project apply to Evernorth's Security Operations Center?}
+\begin{ansbox}{Answer Strategy}
+"Evernorth's SOC processes millions of security logs and authentication events daily. In security analytics, 99.9\% of logs are benign, while true cyber intrusions are rare. If a SIEM rule has low precision, analysts are flooded with false alarms and suffer from alert fatigue. By engineering high-signal behavioral features and tuning XGBoost for **98.2\% Precision**, I demonstrated how to build high-confidence alert mechanisms that allow security analysts to respond rapidly."
+\end{ansbox}
+
+\subsection*{Q3: What was your hyperparameter optimization strategy for XGBoost?}
+\begin{ansbox}{Answer Strategy}
+"We used 5-fold Stratified Cross-Validation with \texttt{RandomizedSearchCV} followed by \texttt{GridSearchCV}:
+\begin{itemize}
+    \item \texttt{max\_depth} (3--6): Kept shallow to avoid fitting noisy outlier fraud instances.
+    \item \texttt{learning\_rate} ($\eta = 0.05$): Low step size with \texttt{n\_estimators} = 300 for smooth convergence.
+    \item \texttt{subsample} (0.8) \& \texttt{colsample\_bytree} (0.8): Added feature and row randomization to prevent dominant features from biasing trees.
+\end{itemize}
+\end{ansbox}
+
+\subsection*{Q4: How did you avoid over-smoothing in your Graph Neural Network?}
+\begin{ansbox}{Answer Strategy}
+"Over-smoothing causes node embeddings across the entire graph to converge to the same average vector as layers increase. We prevented this by restricting our depth to **3 SAGEConv layers** (matching the graph diameter of the IEEE 14-bus grid) and applying **Dropout ($p=0.2$)** between convolutions."
+\end{ansbox}
+
+\begin{trapbox}{Pro-Tip for Project Explanations}
+Always transition from the **everyday analogy** $\to$ **the exact mathematical terms** $\to$ **how it helps Evernorth**. This shows both deep intuition and business maturity!
+\end{trapbox}
+
+\end{document}

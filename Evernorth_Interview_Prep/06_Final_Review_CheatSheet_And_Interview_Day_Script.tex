@@ -1,0 +1,232 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1.8cm]{geometry}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+
+\definecolor{primary}{RGB}{0, 45, 98}      % Evernorth Deep Navy
+\definecolor{secondary}{RGB}{0, 130, 200}  % Bright Blue
+\definecolor{accent}{RGB}{220, 53, 69}     % Alert Red
+\definecolor{success}{RGB}{40, 167, 69}    % Green
+\definecolor{gold}{RGB}{212, 160, 23}      % Gold accent
+\definecolor{darkgray}{RGB}{40, 40, 40}
+\definecolor{lightgray}{RGB}{245, 247, 250}
+\definecolor{boxborder}{RGB}{210, 220, 230}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=secondary,
+    urlcolor=secondary,
+    citecolor=secondary
+}
+
+\titleformat{\section}{\Large\bfseries\color{primary}}{}{0em}{}[\titlerule]
+\titleformat{\subsection}{\large\bfseries\color{secondary}}{}{0em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{darkgray}}{}{0em}{}
+
+\newtcolorbox{calloutbox}[1]{
+    colback=lightgray,
+    colframe=boxborder,
+    coltitle=primary,
+    fonttitle=\bfseries\normalsize,
+    title={#1},
+    arc=3mm,
+    boxrule=1pt,
+    left=3mm,
+    right=3mm,
+    top=2mm,
+    bottom=2mm
+}
+
+\newtcolorbox{scriptbox}[1]{
+    colback=primary!5!white,
+    colframe=primary,
+    coltitle=white,
+    fonttitle=\bfseries\normalsize,
+    title={#1},
+    arc=3mm,
+    boxrule=1pt,
+    left=3mm,
+    right=3mm,
+    top=2.5mm,
+    bottom=2.5mm
+}
+
+\newtcolorbox{alertbox}[1]{
+    colback=accent!5!white,
+    colframe=accent!60!black,
+    coltitle=accent!80!black,
+    fonttitle=\bfseries\normalsize,
+    title={#1},
+    arc=3mm,
+    boxrule=1pt,
+    left=3mm,
+    right=3mm,
+    top=2mm,
+    bottom=2mm
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+
+\begin{document}
+
+\begin{center}
+    {\Huge \textbf{\color{primary}06. FINAL REVIEW CHEATSHEET \& VERBAL SCRIPTS}}\\[5pt]
+    {\Large \textbf{\color{secondary}The 60-Minute Pre-Interview Pocket Guide \& Word-for-Word Delivery}}\\[4pt]
+    \textbf{Target Role:} Cybersecurity Intern -- Evernorth Health Services (The Cigna Group)\\[2pt]
+    \textbf{Candidate:} Anshika Keshari \quad|\quad \textbf{Target Location:} Hyderabad Innovation Hub
+\end{center}
+
+\vspace{0.2cm}
+
+\begin{calloutbox}{How to Use This Final Document}
+Read this document in the final 2 hours before your interview. It condenses all critical numbers, metrics, acronyms, and verbatim scripts into a single pocket guide. Review Section 2 aloud multiple times so your verbal delivery sounds natural, confident, and professional.
+\end{calloutbox}
+
+\section{1. The Master Metrics \& Numbers Cheat Sheet}
+
+Whenever you speak about your work or Evernorth, cite these exact validated figures:
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabularx}{\textwidth}{p{4cm}p{6cm}p{6cm}}
+\toprule
+\textbf{Category} & \textbf{Key Figures / Names} & \textbf{Interview Context} \\
+\midrule
+\textbf{Candidate Profile} & Anshika Keshari, KIIT University, B.Tech CSE (3rd Year), 8.32 CGPA & High academic consistency with zero backlogs, strong DSA/CS fundamentals. \\
+\addlinespace
+\textbf{Evernorth / Cigna} & 1 Billion+ annual prescriptions, 100M+ customers, Express Scripts, Accredo, MDLIVE & Demonstrates profound awareness of enterprise healthcare scale. \\
+\addlinespace
+\textbf{Smart Grid Digital Twin} & IEEE 14-bus power grid, GraphSAGE GNN, sub-15ms mitigation, FDIA evasion ($a=Hc$) & Bridges directly to IoMT (Internet of Medical Things) and hospital telemetry defense. \\
+\addlinespace
+\textbf{AML Fraud System} & 10,000+ synthetic transactions, 98.2\% precision, 97.4\% recall, 15+ features, XGBoost & Bridges directly to pharmacy claims anomaly detection and SOC alert deduplication. \\
+\addlinespace
+\textbf{Security Frameworks} & NIST CSF 2.0 (6 functions), NIST SP 800-61 (4 IR phases), MITRE ATT\&CK (14 tactics) & Shows industry-standard governance and incident response grounding. \\
+\addlinespace
+\textbf{Vulnerability Metrics} & CVSS v3.1 (Base/Temporal/Env), EPSS probability (0--100\%), CISA KEV catalog & Demonstrates modern risk-based triage rather than naive CVSS scoring. \\
+\addlinespace
+\textbf{SOC Metrics} & MTTD ($<15$ min), MTTA ($<5$ min), MTTR ($<60$ min), Dwell Time (0 days), False Positive Rate & Direct fulfillment of JD requirement for metrics, dashboards, and reporting. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{2. Word-for-Word Interview Day Verbal Scripts}
+
+\subsection{Script 1: ``Tell Me About Yourself / Walk Me Through Your Resume'' (90 Seconds)}
+\textit{Deliver this with good posture, a warm smile, and steady pacing. Do not rush.}
+
+\begin{scriptbox}{Verbatim 90-Second Opening Pitch}
+``Hi, good morning/afternoon! My name is \textbf{Anshika Keshari}, and I am currently in my third year pursuing a B.Tech in Computer Science and Engineering at \textbf{KIIT University} with an 8.32 CGPA.
+
+My academic journey is centered around two core passions: \textbf{robust computer science engineering} and \textbf{cyber resilience in critical systems}. 
+
+Most recently, I worked as a Research Intern at \textbf{IIIT Naya Raipur} on an international Indo-Norwegian research initiative focusing on Cyber Resilience for Critical Infrastructure. In that project, I engineered a \textbf{Graph Digital Twin} using Graph Neural Networks and Explainable AI (Integrated Gradients) to detect stealthy False Data Injection attacks and trigger automated mitigation in \textbf{under 15 milliseconds}. 
+
+In parallel, I built an end-to-end \textbf{Anti-Money Laundering and Fraud Detection pipeline} that analyzed over 10,000 complex transactions, engineering behavioral velocity features and training an XGBoost classifier that achieved \textbf{98.2\% precision}.
+
+Beyond technical research, I served as the \textbf{Team Lead for Kzarshion}, our university's official society, where I coordinated logistics and multi-disciplinary teams across major productions, and I hold a \textbf{6-year Senior Diploma in Kathak Classical Dance}, which taught me immense discipline, rhythm, and composure under pressure.
+
+When I saw the Cybersecurity Internship at \textbf{Evernorth's Hyderabad Innovation Hub}, I was thrilled. Evernorth manages critical health infrastructure, processing over 1 billion prescriptions annually. Defending this scale where uptime directly impacts human health is the exact challenge I want to dedicate my energy to. I am excited to be here today!''
+\end{scriptbox}
+
+\subsection{Script 2: ``Why Evernorth Health Services?''}
+\begin{scriptbox}{Verbatim ``Why Evernorth'' Delivery}
+``Three distinct factors make Evernorth my top choice:
+\begin{enumerate}[noitemsep]
+    \item \textbf{High-Stakes Mission where Cybersecurity Protects Human Lives:} Many tech companies defend ad revenue or social media feeds. Evernorth manages pharmacy benefits, clinical care via MDLIVE, and specialty medication distribution through Accredo. In this environment, a ransomware outage or data tampering doesn't just cause financial loss---it delays life-saving medication. Defending critical systems is what I trained for during my research internship.
+    \item \textbf{Scale of the Hyderabad Innovation Hub:} Evernorth is actively building out Hyderabad as a premier global technology and security powerhouse. Joining as an intern means working alongside top-tier security architects on enterprise-scale SIEM, threat intelligence, and vulnerability management pipelines.
+    \item \textbf{Values \& Culture of The Cigna Group:} Evernorth champions innovation, integrity, and proactive risk governance. I want to contribute my data analytics, scripting, and critical infrastructure resilience skills to help keep patient data secure from day one.''
+\end{enumerate}
+\end{scriptbox}
+
+\subsection{Script 3: The Golden Bridge (Connecting Projects to the Role)}
+Whenever the interviewer asks: \textit{``You did smart grids and finance; how does that apply to cybersecurity at Evernorth?''}
+
+\begin{scriptbox}{Verbatim Golden Bridge Delivery}
+``That is a great question! At first glance, a smart electrical grid and a healthcare pharmacy system seem completely different. But under the hood, \textbf{the mathematical and security topologies are identical}:
+\begin{itemize}[noitemsep]
+    \item In the smart grid, malicious actors inject False Data into telemetry sensors to trick the state estimator into triggering blackouts. In Evernorth, attackers use compromised credentials or malicious API calls to alter prescription records, exfiltrate PHI, or conduct claims fraud.
+    \item In both domains, rule-based systems fail because attackers hide within normal noise. My research proved that modeling interconnected entities as a \textbf{graph} and applying \textbf{explainable AI} lets security analysts pinpoint root cause in milliseconds.
+    \item Whether defending SCADA sensors or Evernorth's microservices and IoMT devices, the core engineering mission is identical: \textbf{Zero Trust, real-time threat detection, and resilient recovery.} That is the exact analytical foundation I bring to Evernorth.''
+\end{itemize}
+\end{scriptbox}
+
+\subsection{Script 4: The 4-Step Lifesaver Framework (When You Don't Know the Answer)}
+If the interviewer asks a technical question you have never heard before (e.g., an obscure Linux kernel vulnerability or specific Active Directory protocol):
+
+\begin{alertbox}{The 4-Step Lifesaver Protocol (Never Guess Blindly!)}
+\begin{enumerate}
+    \item \textbf{Step 1: Pause \& Validate (2 seconds):} Take a calm breath. Do not panic or invent false technical terms.
+    \item \textbf{Step 2: Anchor to Known Fundamentals:} \textit{``I haven't encountered that specific protocol/tool in my lab work yet, but based on core networking/security principles, here is how I understand its function...''}
+    \item \textbf{Step 3: Reason Aloud (First Principles):} Walk through your analytical thought process: \textit{``If I were designing a defense against this, I would check the access controls first, inspect the network logs for anomalies, and isolate the endpoint to prevent lateral movement.''}
+    \item \textbf{Step 4: Show Humility \& Drive to Learn:} \textit{``I would verify the official RFC documentation or vendor advisory immediately after the incident. I am very eager to explore this further!''}
+\end{enumerate}
+\end{alertbox}
+
+\section{3. Behavioral \& Leadership Mastery (STAR Method)}
+
+\subsection{Scenario A: Handling Conflicting Deadlines \& Pressure}
+\textbf{Question:} \textit{``Tell me about a time you had to balance multiple intense responsibilities under tight deadlines.''}
+
+\begin{calloutbox}{STAR Delivery: Academics vs. International Research}
+\begin{itemize}[noitemsep]
+    \item \textbf{Situation:} During my 3rd semester, I was maintaining an 8.32 CGPA in core computer science courses while simultaneously conducting experimental research for the Indo-Norwegian INTPART project at IIIT Naya Raipur.
+    \item \textbf{Task:} I had a major university exam week overlapping with an experimental milestone requiring training and benchmarking Graph Neural Network models across noisy datasets.
+    \item \textbf{Action:} I created a strict modular time-blocking system. I automated model training scripts with logging checkpoints during overnight runs so compute jobs ran autonomously. I dedicated high-focus morning blocks to academic revisions. When a model diverged due to exploding gradients, instead of panicking, I systematically logged learning rates and adjusted residual connections.
+    \item \textbf{Result:} I delivered the research benchmark on schedule with sub-15ms mitigation results, published comprehensive findings, and secured clean distinctions across all semester examinations with zero backlogs.
+\end{itemize}
+\end{calloutbox}
+
+\subsection{Scenario B: Leadership \& Team Conflict Resolution}
+\textbf{Question:} \textit{``Describe a situation where team members disagreed on an approach. How did you lead them to a resolution?''}
+
+\begin{calloutbox}{STAR Delivery: Kzarshion Team Leadership}
+\begin{itemize}[noitemsep]
+    \item \textbf{Situation:} As the Team Lead for Kzarshion, I managed a team of over 100 students preparing for our annual flagship university cultural production.
+    \item \textbf{Task:} Two days before the showcase, our stage choreography team and logistics/costume team clashed severely over timeline allocations and prop budget distribution, leading to stalled rehearsals.
+    \item \textbf{Action:} I called an immediate stand-up meeting. Rather than imposing an arbitrary top-down decision, I separated the emotional frustration from the core objective: delivering an uncompromised showcase. I mapped out a synchronized rehearsal schedule where the logistics team ran fittings during off-stage intervals, ensuring zero idle time. I established clear, transparent ownership for each sub-lead.
+    \item \textbf{Result:} The production executed flawlessly in front of over 2,000 attendees, received university acclaim, and strengthened cross-team collaboration for future events. It reinforced my belief that active listening and transparent metrics resolve operational friction.
+\end{itemize}
+\end{calloutbox}
+
+\section{4. 10 Strategic Questions to Ask the Evernorth Panel}
+
+At the end of the interview, the panel will ask: \textit{``Do you have any questions for us?''} 
+\textbf{Never say ``No, everything was clear.''} Pick 2 or 3 of the following sophisticated questions:
+
+\begin{enumerate}
+    \item \textbf{On Hyderabad Innovation Hub Expansion:} \textit{``How does the cybersecurity team at the Hyderabad Innovation Hub collaborate day-to-day with the global security engineering teams in the US, particularly during follow-the-sun incident response?''}
+    \item \textbf{On AI \& Threat Management:} \textit{``Given the surge in automated phishing and API-based attacks across healthcare, how is Evernorth integrating machine learning or automation into your SIEM/SOAR triage pipelines?''}
+    \item \textbf{On Third-Party Risk:} \textit{``Following major industry events like the Change Healthcare incident in 2024, has Evernorth's vulnerability management team placed greater emphasis on third-party API and vendor risk assessments?''}
+    \item \textbf{On Metrics \& Dashboards (Direct JD tie-in):} \textit{``The JD highlights contributing to security metrics and dashboards. What are the primary KPIs that the threat management leadership team focuses on to measure operational maturity?''}
+    \item \textbf{On Intern Projects:} \textit{``What does a typical high-impact milestone look like for a cybersecurity intern in their first 60 to 90 days at Evernorth?''}
+    \item \textbf{On Cloud Security (Azure/AWS):} \textit{``As Evernorth expands hybrid cloud healthcare applications, what are some of the biggest security challenges the team faces regarding identity and zero-trust segmentation?''}
+    \item \textbf{On Team Culture:} \textit{``What qualities separate an average intern from someone who truly excels and makes a lasting impact on your security team?''}
+    \item \textbf{On Threat Intelligence Sharing:} \textit{``Does Evernorth actively participate in health-sector threat sharing communities like Health-ISAC, and do interns get exposure to operational intelligence research?''}
+    \item \textbf{On Red/Blue Collaboration:} \textit{``How frequently do the threat management and blue teams conduct purple-teaming exercises with red teams to validate detection rules?''}
+    \item \textbf{On Growth \& Mentorship:} \textit{``What mentorship and professional development opportunities exist within Evernorth to help junior engineers grow into specialized security roles?''}
+\end{enumerate}
+
+\section{5. Final 10-Minute Mental Checklist Before You Join}
+
+\begin{calloutbox}{Interview Day Pre-Flight Checklist}
+\begin{itemize}[noitemsep]
+    \item[$\square$] \textbf{Camera \& Lighting:} Position your camera at eye level with bright front lighting. Ensure clean, neutral background.
+    \item[$\square$] \textbf{Audio \& Internet:} Test microphone and headset. Close all heavy background streaming apps.
+    \item[$\square$] \textbf{Posture \& Breathing:} Sit upright, shoulders relaxed. Take 3 deep diaphragmatic breaths before clicking ``Join.''
+    \item[$\square$] \textbf{Pen \& Paper Ready:} Have a clean notepad and pen beside you to jot down multi-part interview questions.
+    \item[$\square$] \textbf{Core Identity Reminder:} You are Anshika Keshari: an 8.32 CGPA computer science engineer with published critical infrastructure security research, proven leadership across 100+ team members, and the exact analytical rigor Evernorth needs. You belong in this room!
+\end{itemize}
+\end{calloutbox}
+
+\end{document}

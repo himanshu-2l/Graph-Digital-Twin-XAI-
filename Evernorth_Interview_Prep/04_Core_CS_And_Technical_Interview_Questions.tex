@@ -1,0 +1,214 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.8in]{geometry}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{titlesec}
+\usepackage{parskip}
+
+% Color Definitions
+\definecolor{primaryblue}{RGB}{18, 52, 102}
+\definecolor{evernorthgreen}{RGB}{0, 130, 90}
+\definecolor{accentteal}{RGB}{0, 128, 128}
+\definecolor{darkcharcoal}{RGB}{35, 39, 42}
+\definecolor{questiongreen}{RGB}{24, 114, 58}
+\definecolor{alertred}{RGB}{165, 29, 42}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primaryblue,
+    urlcolor=evernorthgreen,
+    pdftitle={Step 4: Core CS and Technical Interview Grilling - Evernorth},
+    pdfauthor={Anshika Keshari}
+}
+
+% Section Titles
+\titleformat{\section}{\large\bfseries\color{primaryblue}}{\thesection}{0.8em}{}[\titlerule]
+\titleformat{\subsection}{\normalsize\bfseries\color{evernorthgreen}}{\thesubsection}{0.6em}{}
+\titlespacing*{\section}{0pt}{14pt}{6pt}
+\titlespacing*{\subsection}{0pt}{10pt}{4pt}
+
+% Callout Boxes
+\newtcolorbox{techbox}[1]{
+    enhanced,
+    colback=blue!3!white,
+    colframe=primaryblue,
+    fonttitle=\bfseries\color{white},
+    colbacktitle=primaryblue,
+    title={Computer Science Foundation: #1},
+    arc=2mm,
+    boxrule=0.8pt,
+    left=9pt, right=9pt, top=7pt, bottom=7pt
+}
+
+\newtcolorbox{ansbox}[1]{
+    enhanced,
+    colback=green!4!white,
+    colframe=questiongreen,
+    fonttitle=\bfseries\color{white},
+    colbacktitle=questiongreen,
+    title={Winning Technical Response: #1},
+    arc=2mm,
+    boxrule=0.8pt,
+    left=9pt, right=9pt, top=7pt, bottom=7pt
+}
+
+\newtcolorbox{trapbox}[1]{
+    enhanced,
+    colback=red!4!white,
+    colframe=alertred,
+    fonttitle=\bfseries\color{white},
+    colbacktitle=alertred,
+    title={Interview Trap \& Edge Case: #1},
+    arc=2mm,
+    boxrule=0.8pt,
+    left=9pt, right=9pt, top=7pt, bottom=7pt
+}
+
+\begin{document}
+
+\begin{center}
+    {\LARGE \bfseries \color{primaryblue} STEP 4: CORE CS \& TECHNICAL INTERVIEW QUESTIONS}\\[4pt]
+    {\large \bfseries The Rigorous Computer Science Fundamentals Grilling Guide}\\[2pt]
+    {\small \color{darkcharcoal} Evernorth Health Services Technical Round Preparation $|$ Candidate: \textbf{Anshika Keshari}}\\[2pt]
+    {\footnotesize \textbf{Syllabus:} Java OOP, DSA \& DP, Operating Systems, DBMS/SQL, Computer Networks \& Azure Cloud}
+\end{center}
+\vspace{-4pt}
+\hrule height 1pt
+\vspace{8pt}
+
+\section{Object-Oriented Programming (OOP in Java)}
+
+\begin{techbox}{The 4 Pillars of OOP with Software Design Examples}
+\begin{enumerate}
+    \item \textbf{Encapsulation (Data Protection):}
+    \begin{itemize}
+        \item \textit{Concept:} Wrapping code and data into a single unit; keeping fields \texttt{private} and exposing controlled \texttt{public} getters/setters with boundary validation.
+        \item \textit{Healthcare Example:} An \texttt{EHRRecord} class protects a patient's Social Security Number and medical diagnosis from being modified directly by rogue classes.
+    \end{itemize}
+    \item \textbf{Abstraction (Hiding Implementation Complexity):}
+    \begin{itemize}
+        \item \textit{Concept:} Showing only essential features to the outside world and hiding internal mechanics using abstract classes and interfaces.
+        \item \textit{Example:} A \texttt{SecurityScanner} interface defines a \texttt{scanHost(String ip)} method. Whether the concrete implementation uses Nessus, Qualys, or a custom Python script is abstracted away.
+    \end{itemize}
+    \item \textbf{Inheritance (Code Reusability \& Hierarchy):}
+    \begin{itemize}
+        \item \textit{Concept:} A derived class inherits properties and methods from a base class using \texttt{extends}.
+        \item \textit{Example:} \texttt{RansomwareIncident} extends \texttt{SecurityIncident}, inheriting timestamp and severity fields while adding encryption key attributes.
+    \end{itemize}
+    \item \textbf{Polymorphism (One Interface, Multiple Implementations):}
+    \begin{itemize}
+        \item \textbf{Compile-Time (Overloading):} Same method name, different argument signatures in the same class (e.g., \texttt{triggerAlert(String msg)} vs. \texttt{triggerAlert(String msg, int severity)}).
+        \item \textbf{Runtime (Overriding):} Subclass overrides parent method with \texttt{@Override}, resolved at runtime via Dynamic Method Dispatch.
+    \end{itemize}
+\end{enumerate}
+\end{techbox}
+
+\begin{ansbox}{Frequently Asked Java Interview Questions}
+\begin{itemize}
+    \item \textbf{Q: What is the difference between an Interface and an Abstract Class in Java?}
+    \textit{Answer:} An Abstract Class can have instance state (non-static fields), constructors, and concrete methods. A class can extend only one abstract class (single inheritance). An Interface defines a pure behavioral contract (though Java 8+ allows default and static methods). A class can implement multiple interfaces (multiple inheritance of type).
+    \item \textbf{Q: How does Java Memory Management work (Stack vs. Heap)?}
+    \textit{Answer:} Stack memory stores local primitive variables and method call execution frames (LIFO, fast, thread-private). Heap memory stores all instantiated objects (\texttt{new Object()}) accessible across threads and managed by the automatic Garbage Collector.
+\end{itemize}
+\end{ansbox}
+
+\section{Data Structures \& Algorithms (DSA \& Your DP Camp)}
+
+\begin{techbox}{High-Yield Data Structures for Technical Rounds}
+\begin{enumerate}
+    \item \textbf{HashMaps (Hash Tables):}
+    \begin{itemize}
+        \item \textit{Mechanism:} Computes \texttt{hash(key) \% array\_length} to store key-value pairs in buckets.
+        \item \textit{Collisions:} Handled via Separate Chaining (LinkedList, transforming into a balanced Red-Black Tree in Java 8+ when a bucket exceeds 8 entries) or Open Addressing.
+        \item \textit{Complexity:} Average $O(1)$ search, insert, and delete; worst-case $O(n)$ if all keys hash to the same bucket.
+    \end{itemize}
+    \item \textbf{Graph Algorithms:}
+    \begin{itemize}
+        \item \textbf{Breadth-First Search (BFS):} Uses a \texttt{Queue} (FIFO). Traverses level-by-level. Finds shortest paths in unweighted graphs (e.g., finding the shortest network hop path between two compromised servers). Time: $O(V + E)$.
+        \item \textbf{Depth-First Search (DFS):} Uses a \texttt{Stack} or recursion. Explores down branch paths. Used for cycle detection, topological sorting, and path existence. Time: $O(V + E)$.
+    \end{itemize}
+    \item \textbf{Dynamic Programming (AlgoUniversity Camp Connection):}
+    \begin{itemize}
+        \item \textit{Core Idea:} Breaking a problem into overlapping subproblems and memoizing results to eliminate redundant computation.
+        \item \textbf{Top-Down (Memoization):} Recursive approach with cache lookup.
+        \item \textbf{Bottom-Up (Tabulation):} Iterative approach filling a DP table starting from base cases.
+        \item \textit{Key DP Problems to Reference:} 0/1 Knapsack ($O(nW)$), Longest Common Subsequence ($O(nm)$), Coin Change ($O(nA)$).
+    \end{itemize}
+\end{enumerate}
+\end{techbox}
+
+\section{Operating Systems (OS) \& Concurrency}
+
+\begin{techbox}{Processes, Threads \& Deadlocks}
+\begin{enumerate}
+    \item \textbf{Process vs. Thread:}
+    \begin{itemize}
+        \item A \textbf{Process} is an executing program instance with its own isolated virtual memory space (code, data, heap, stack) and OS handles.
+        \item A \textbf{Thread} is a lightweight execution stream within a process. Multiple threads share the process's code, data, and heap, but maintain private program counters and stacks.
+    \end{itemize}
+    \item \textbf{Deadlock \& The 4 Coffman Conditions:}
+    Deadlock occurs when processes are permanently blocked because each holds a resource needed by another. It requires all 4 conditions simultaneously:
+    \begin{itemize}
+        \item \textbf{Mutual Exclusion:} Resources cannot be shared simultaneously.
+        \item \textbf{Hold and Wait:} A process holds allocated resources while waiting for additional ones.
+        \item \textbf{No Preemption:} Resources cannot be forcibly seized from a process.
+        \item \textbf{Circular Wait:} A circular chain where Process $A$ waits for $B$, and $B$ waits for $A$.
+    \end{itemize}
+    \item \textbf{Virtual Memory \& Paging:}
+    Allows executing programs larger than physical RAM. Virtual memory is split into fixed-size **Pages**; physical RAM is split into **Frames**. The Memory Management Unit (MMU) uses Page Tables for translation. If a requested page is absent from RAM, a **Page Fault** triggers swapping from disk.
+\end{enumerate}
+\end{techbox}
+
+\section{DBMS \& SQL (Healthcare Transaction Context)}
+
+\begin{techbox}{ACID Properties \& Indexing}
+\begin{enumerate}
+    \item \textbf{ACID Properties (Prescription Dispensing Example):}
+    Updating a patient's prescription count and pharmacy inventory:
+    \begin{itemize}
+        \item \textbf{Atomicity (All-or-Nothing):} Either both the patient record update and inventory deduction commit, or both rollback completely if a server crashes mid-flight.
+        \item \textbf{Consistency (Valid Rules):} Database constraints (e.g., inventory count $\ge 0$) must never be violated.
+        \item \textbf{Isolation (Concurrency Safety):} Simultaneous requests accessing the same pharmacy record do not see each other's uncommitted intermediate states.
+        \item \textbf{Durability (Survival):} Committed updates are written to Write-Ahead Logs (WAL) and survive sudden power outages.
+    \end{itemize}
+    \item \textbf{Database Indexing (B+ Trees):}
+    \begin{itemize}
+        \item Speeds up \texttt{SELECT} queries from an $O(n)$ full-table scan to an $O(\log n)$ balanced tree traversal.
+        \item \textit{Trade-off:} Slows down \texttt{INSERT}, \texttt{UPDATE}, and \texttt{DELETE} operations because the B+ tree must maintain balance and split nodes.
+    \end{itemize}
+\end{enumerate}
+\end{techbox}
+
+\section{Computer Networks \& Azure Cloud Security}
+
+\begin{techbox}{Networking \& Cloud Fundamentals}
+\begin{enumerate}
+    \item \textbf{The TLS 1.3 Handshake (HTTPS Security):}
+    \begin{itemize}
+        \item Client sends \texttt{ClientHello} with supported cipher suites and key share.
+        \item Server replies with \texttt{ServerHello}, certificate, and server key share.
+        \item Both derive a shared secret session key in just **1 round-trip (1-RTT)**, switching immediately to symmetric AES-256 encryption.
+    \end{itemize}
+    \item \textbf{Cloud Shared Responsibility Model (Microsoft Azure):}
+    \begin{itemize}
+        \item \textbf{IaaS (VMs):} Cloud provider manages physical data center and hypervisor; Evernorth manages OS patches, network rules, and applications.
+        \item \textbf{PaaS (Azure SQL):} Provider manages OS and runtime; Evernorth manages data, access control, and application logic.
+        \item \textbf{SaaS (M365):} Provider manages everything; Evernorth manages user identity and access governance.
+    \end{itemize}
+    \item \textbf{Azure Key Vault \& Role-Based Access Control (RBAC):}
+    Enforces least privilege by binding specific security roles to Azure Active Directory identities and keeping encryption keys isolated from application source code.
+\end{enumerate}
+\end{techbox}
+
+\begin{trapbox}{Interview Pro-Tip}
+Whenever asked a technical question about databases or operating systems, always give a **real-world healthcare example** (e.g., patient records, pharmacy transactions, cloud servers). It proves you think like an enterprise engineer!
+\end{trapbox}
+
+\end{document}
