@@ -8,6 +8,8 @@
 \usepackage{hyperref}
 \usepackage{xcolor}
 \usepackage{fontawesome5}
+\usepackage{graphicx}
+\usepackage{tikz}
 
 % Color Definitions
 \definecolor{primary}{RGB}{20, 50, 90}
@@ -45,16 +47,28 @@
 %----------------------------------------------------------------------------------------
 %   HEADER
 %----------------------------------------------------------------------------------------
-\begin{center}
+\noindent
+\begin{minipage}[c]{0.78\textwidth}
     {\LARGE \bfseries \color{primary} ANSHIKA KESHARI}\\[3pt]
     \small \color{darkgray}
-    \faMapMarker* Bhubaneswar, Odisha -- 751024 \quad $|$ \quad 
+    \faMapMarker* \ Bhubaneswar, Odisha -- 751024 \\[2pt]
     \faEnvelope \ \href{mailto:anshikakeshari0@gmail.com}{anshikakeshari0@gmail.com} \quad $|$ \quad 
-    \faPhone \ +91-7869009573 \quad $|$ \quad 
+    \faPhone \ +91-7869009573 \\[2pt]
     \faLinkedin \ \href{https://linkedin.com/in/anshika-keshari-7925bb3aa}{linkedin.com/in/anshika-keshari-7925bb3aa}
-\end{center}
+\end{minipage}%
+\hfill
+\begin{minipage}[c]{0.20\textwidth}
+    \raggedleft
+    \begin{tikzpicture}
+        \begin{scope}
+            \clip [rounded corners=6pt] (0,0) rectangle (2.15cm, 2.6cm);
+            \node[inner sep=0pt] at (1.08cm, 0.92cm) {\includegraphics[width=2.85cm]{profile_photo.png}};
+        \end{scope}
+        \draw[primary!85!black, line width=0.9pt, rounded corners=6pt] (0,0) rectangle (2.15cm, 2.6cm);
+    \end{tikzpicture}
+\end{minipage}
 
-\vspace{-4pt}
+\vspace{-2pt}
 
 %----------------------------------------------------------------------------------------
 %   EDUCATION
