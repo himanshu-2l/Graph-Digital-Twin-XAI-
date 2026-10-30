@@ -1,138 +1,188 @@
-<mxfile host="app.diagrams.net" modified="2026-08-08T19:37:00.000Z" agent="Mozilla/5.0" version="21.6.8" type="device">
-  <diagram id="cognitive-gdt-diagram" name="Cognitive GDT Framework">
-    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+<mxfile host="app.diagrams.net" modified="2026-10-30T17:25:00.000Z" agent="Mozilla/5.0" version="21.6.8" type="device">
+  <diagram id="cognitive-gdt-healthcare-diagram" name="Cognitive GDT Smart Hospital Framework">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1450" pageHeight="980" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        
-        <!-- TITLE BANNER -->
-        <mxCell id="title" value="Conceptual Cognitive Graph Digital Twin (GDT) Adaptive Cyber-Resilience Framework" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1;fontColor=#1A237E;" vertex="1" parent="1">
-          <mxGeometry x="120" y="20" x2="930" y2="40" as="geometry" />
+
+        <!-- =================================================================== -->
+        <!-- MAIN TITLE BANNER                                                   -->
+        <!-- =================================================================== -->
+        <mxCell id="main_title" value="Adaptive Explainable Cognitive Graph Digital Twin for Cyber-Resilient Smart Hospital Energy Ecosystems" style="text;html=1;strokeColor=#1E3A8A;fillColor=#DBEAFE;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=17;fontStyle=1;fontColor=#1E3A8A;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="15" width="1290" height="45" as="geometry" />
         </mxCell>
 
-        <!-- CONTAINER 1: PHYSICAL CYBER-PHYSICAL TWIN -->
-        <mxCell id="c1" value="Physical Cyber-Physical Twin (IT-OT Domain)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#E8F5E9;strokeColor=#2E7D32;fontStyle=1;fontSize=14;fontColor=#1B5E20;startSize=30;rounded=1;arcSize=4;" vertex="1" parent="1">
-          <mxGeometry x="40" y="80" width="480" height="660" as="geometry" />
+        <!-- =================================================================== -->
+        <!-- CONTAINER 1: PHYSICAL HEALTHCARE ENERGY INFRASTRUCTURE (IT-OT)      -->
+        <!-- =================================================================== -->
+        <mxCell id="c1" value="1. Physical Smart Hospital Microgrid Infrastructure (IT-OT Domain)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#16A34A;fontStyle=1;fontSize=13;fontColor=#166534;startSize=32;rounded=1;arcSize=3;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="75" width="530" height="840" as="geometry" />
         </mxCell>
 
-        <!-- IT Layer -->
-        <mxCell id="it_layer" value="IT Layer (SCADA Master Station / Control Center / Cloud EMS)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C8E6C9;strokeColor=#388E3C;fontStyle=1;fontSize=11;fontColor=#1B5E20;" vertex="1" parent="c1">
-          <mxGeometry x="30" y="50" width="420" height="60" as="geometry" />
+        <!-- IT Layer: Hospital EMS -->
+        <mxCell id="it_layer" value="Hospital IT &amp; Energy Management System (EMS)&#10;SCADA Master Station • Substation HMI • Optimal Power Flow (OPF) • Clinical Load Dispatcher" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#22C55E;fontStyle=1;fontSize=10.5;fontColor=#14532D;" vertex="1" parent="c1">
+          <mxGeometry x="25" y="45" width="480" height="55" as="geometry" />
         </mxCell>
 
-        <!-- Network Cloud -->
-        <mxCell id="net_cloud" value="Industrial Network (5G Slices / IEC 61850 / Modbus TCP)" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#E1F5FE;strokeColor=#0288D1;fontStyle=1;fontSize=12;fontColor=#01579B;" vertex="1" parent="c1">
-          <mxGeometry x="40" y="140" width="400" height="240" as="geometry" />
+        <!-- Industrial Network Cloud -->
+        <mxCell id="net_cloud" value="Hospital OT Industrial Network (IEC 61850 Station Bus / Modbus TCP / 5G URLLC Slices)" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#F0F9FF;strokeColor=#0284C7;fontStyle=1;fontSize=11;fontColor=#0369A1;" vertex="1" parent="c1">
+          <mxGeometry x="20" y="115" width="490" height="305" as="geometry" />
         </mxCell>
 
-        <!-- Application Badges inside Network -->
-        <mxCell id="app1" value="Smart Power Grids&#10;(IEEE 14 / 30 Bus Feeder)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1BEE7;strokeColor=#8E24AA;fontSize=10;fontStyle=1;" vertex="1" parent="c1">
-          <mxGeometry x="70" y="210" width="150" height="60" as="geometry" />
-        </mxCell>
-        
-        <mxCell id="app2" value="Water Distribution&#10;(WDN Hydraulic Flow)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#B2EBF2;strokeColor=#00ACC1;fontSize=10;fontStyle=1;" vertex="1" parent="c1">
-          <mxGeometry x="260" y="210" width="150" height="60" as="geometry" />
+        <!-- Clinical Loads inside Network -->
+        <mxCell id="load_icu" value="&lt;b&gt;ICU Clinical Wing (Bus 5 - Target)&lt;/b&gt;&#10;Mechanical Ventilators &amp; ECMO Circuits&#10;Requires Continuous Sub-Second Stability" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEE2E2;strokeColor=#DC2626;fontSize=9.5;fontColor=#991B1B;shadow=1;" vertex="1" parent="c1">
+          <mxGeometry x="45" y="175" width="205" height="58" as="geometry" />
         </mxCell>
 
-        <mxCell id="app3" value="Industrial Microgrids&#10;(DER Solar/Wind/BESS)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFF59D;strokeColor=#FBC02D;fontSize=10;fontStyle=1;" vertex="1" parent="c1">
-          <mxGeometry x="70" y="290" width="150" height="60" as="geometry" />
+        <mxCell id="load_surgery" value="&lt;b&gt;Surgical Robotics Suites (Bus 2)&lt;/b&gt;&#10;Hybrid Operating Theatres &amp; MRI/CT&#10;Zero Voltage Dip Tolerance" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EDE9FE;strokeColor=#7C3AED;fontSize=9.5;fontColor=#5B21B6;" vertex="1" parent="c1">
+          <mxGeometry x="275" y="175" width="205" height="58" as="geometry" />
         </mxCell>
 
-        <mxCell id="app4" value="Smart EV Infrastructure&#10;(V2G Charging Hubs)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFCCBC;strokeColor=#F4511E;fontSize=10;fontStyle=1;" vertex="1" parent="c1">
-          <mxGeometry x="260" y="290" width="150" height="60" as="geometry" />
+        <mxCell id="load_coldchain" value="&lt;b&gt;Biomedical Cold-Chain (Bus 7)&lt;/b&gt;&#10;-80°C mRNA Vaccine &amp; Specimen Freezers&#10;Thermal Excursion Catastrophe Prevention" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontSize=9.5;fontColor=#075985;" vertex="1" parent="c1">
+          <mxGeometry x="45" y="250" width="205" height="58" as="geometry" />
         </mxCell>
 
-        <!-- OT Layer -->
-        <mxCell id="ot_layer" value="OT Field Layer (Substation Busbars / RTUs / PMUs / Valves)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C8E6C9;strokeColor=#388E3C;fontStyle=1;fontSize=11;fontColor=#1B5E20;" vertex="1" parent="c1">
-          <mxGeometry x="30" y="420" width="420" height="70" as="geometry" />
+        <mxCell id="load_iomt" value="&lt;b&gt;IoMT Telemetry Gateways (Buses 9 &amp; 10)&lt;/b&gt;&#10;Bedside Patient Vital Monitors &amp; Gateways&#10;EHR Real-Time Streaming Feeds" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontSize=9.5;fontColor=#92400E;" vertex="1" parent="c1">
+          <mxGeometry x="275" y="250" width="205" height="58" as="geometry" />
         </mxCell>
 
-        <!-- Threat Box -->
-        <mxCell id="threat_box" value="Cyber Threat Surface: Stealthy FDIA Injection a = h(x+c) - h(x) &amp; Sensor Tampering" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFEBEE;strokeColor=#C62828;fontStyle=1;fontSize=10;fontColor=#B71C1C;" vertex="1" parent="c1">
-          <mxGeometry x="30" y="520" width="420" height="50" as="geometry" />
+        <mxCell id="load_utility" value="&lt;b&gt;Main Utility Substation &amp; BESS / Diesel Backup (Bus 1 - Slack)&lt;/b&gt;&#10;Primary Hospital Point of Common Coupling (PCC) • Seamless Islanding Transition" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F3F4F6;strokeColor=#4B5563;fontSize=9.5;fontColor=#1F2937;" vertex="1" parent="c1">
+          <mxGeometry x="45" y="325" width="435" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- OT Field Layer -->
+        <mxCell id="ot_layer" value="OT Field Telemetry Layer&#10;Substation Busbars • Remote Terminal Units (RTUs) • PMUs • Circuit Breakers&#10;Real-Time Telemetry: z_SCADA = [V, θ, P, Q]^T (Sampling Period Ts = 2–4s)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#22C55E;fontStyle=1;fontSize=10;fontColor=#14532D;" vertex="1" parent="c1">
+          <mxGeometry x="25" y="435" width="480" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- Cyber Threat Surface Box -->
+        <mxCell id="threat_box" value="&lt;b&gt;Cyber Threat Surface: Stealthy Jacobian FDIA (a = H c)&lt;/b&gt;&#10;Adversary corrupts Bus 5 (ICU Feeder) telemetry: z_comp = z + Hc&#10;Classical Weighted Least Squares Bad-Data Residual: r_comp = ||z_comp - h(x_comp)||^2_R^-1 ≤ τ_χ^2&#10;Result: 100% Classical BDD Detection Bypass (BDD Blind to State Corruption)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEE2E2;strokeColor=#DC2626;fontStyle=0;fontSize=10;fontColor=#991B1B;align=left;spacingLeft=12;" vertex="1" parent="c1">
+          <mxGeometry x="25" y="520" width="480" height="85" as="geometry" />
+        </mxCell>
+
+        <!-- Biomedical Electrical Standards Compliance Box -->
+        <mxCell id="standards_box" value="&lt;b&gt;Biomedical Safety Standard (IEC 60601-1 &amp; IEEE 1547)&lt;/b&gt;&#10;Voltage Fluctuation Limit: ±5% Deviation&#10;Maximum Allowable Sag Duration: 100 ms (Longer sags trip mechanical ventilator motor drives)&#10;System Requirement: Autonomous Cyber-Physical State Restoration within &lt; 100 ms" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFBEB;strokeColor=#F59E0B;fontStyle=0;fontSize=9.5;fontColor=#78350F;align=left;spacingLeft=12;" vertex="1" parent="c1">
+          <mxGeometry x="25" y="625" width="480" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Patient Safety Guarantee Statement -->
+        <mxCell id="safety_box" value="&lt;b&gt;Patient Safety Mandate:&lt;/b&gt; Energy management failure during surgical procedures or ICU ventilation carries immediate life-safety hazards. Closed-loop autonomous telemetry healing must execute locally." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#3B82F6;fontStyle=0;fontSize=9.5;fontColor=#1E40AF;" vertex="1" parent="c1">
+          <mxGeometry x="25" y="725" width="480" height="50" as="geometry" />
         </mxCell>
 
 
-        <!-- CONTAINER 2: VIRTUAL GRAPH DIGITAL TWIN LAYER -->
-        <mxCell id="c2" value="Virtual Graph Digital Twin Layer" style="swimlane;whiteSpace=wrap;html=1;fillColor=#FFF3E0;strokeColor=#E65100;fontStyle=1;fontSize=14;fontColor=#E65100;startSize=30;rounded=1;arcSize=4;dashed=1;" vertex="1" parent="1">
-          <mxGeometry x="580" y="80" width="530" height="280" as="geometry" />
+        <!-- =================================================================== -->
+        <!-- CONTAINER 2: VIRTUAL GRAPH DIGITAL TWIN LAYER                       -->
+        <!-- =================================================================== -->
+        <mxCell id="c2" value="2. Virtual Graph Digital Twin Layer (On-Premises OT Edge Mirror)" style="swimlane;whiteSpace=wrap;html=1;fillColor=#FFF7ED;strokeColor=#EA580C;fontStyle=1;fontSize=13;fontColor=#9A3412;startSize=32;rounded=1;arcSize=3;dashed=1;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="610" y="75" width="760" height="350" as="geometry" />
         </mxCell>
 
-        <mxCell id="vgraph" value="Spatial Admittance Graph Mirror G = (V, E, X, E_attr)&#10;&#10;Node Features: X = [V, Theta, P, Q]  |  Edge Attributes: Y_bus = G_bus + j B_bus&#10;Real-Time Topology Tracking &amp; Dynamic Outage (N-1) Invariance" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE0B2;strokeColor=#FB8C00;fontStyle=1;fontSize=11;fontColor=#BF360C;" vertex="1" parent="c2">
-          <mxGeometry x="30" y="50" width="470" height="190" as="geometry" />
+        <!-- Dynamic Admittance Graph Mirror -->
+        <mxCell id="vgraph" value="&lt;b&gt;Spatial Admittance Graph Mirror: G = (V, E, X, E_attr)&lt;/b&gt;&#10;• Nodes: Substations V = {1...N} with 4D Features x_i = [V_i, θ_i, P_i, Q_i]^T ∈ ℝ^(N×4)&#10;• Edges: Branches E with Complex Admittance Attributes: Y_bus = G_bus + j B_bus&#10;• Dynamic Outage Invariance: Real-time Breaker State Mirroring for N-1 Contingencies" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFEDD5;strokeColor=#F97316;fontStyle=0;fontSize=10;fontColor=#7C2D12;align=left;spacingLeft=12;" vertex="1" parent="c2">
+          <mxGeometry x="25" y="45" width="710" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Formal State Synchronization & Rolling Baseline -->
+        <mxCell id="sync_math" value="&lt;b&gt;Formal State-Space Synchronization &amp; Rolling Baseline Filter&lt;/b&gt;&#10;• State Update:  x_DT(t_k) = x_DT(t_k-1) + K_sync · [ z_SCADA(t_k) - h(x_DT(t_k-1)) ]  with Kalman Gain K_sync = (H^T R^-1 H + P^-1)^-1 H^T R^-1&#10;• Rolling Nominal Baseline:  z_baseline(t_k) = 0.95 · z_baseline(t_k-1) + 0.05 · z_clean(t_k)  (Ablation: -16.32 pp Loc. F1 without baseline)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF2F2;strokeColor=#EF4444;fontStyle=0;fontSize=9.5;fontColor=#7F1D1D;align=left;spacingLeft=12;" vertex="1" parent="c2">
+          <mxGeometry x="25" y="128" width="710" height="68" as="geometry" />
+        </mxCell>
+
+        <!-- Admittance-Conditioned GraphSAGE Backbone -->
+        <mxCell id="sage_box" value="&lt;b&gt;Admittance-Conditioned GraphSAGE Backbone (3 Stacked Layers, dh = 64)&lt;/b&gt;&#10;• Message Passing:  m_uv^(k) = ReLU( W_e · [ h_u^(k-1) || G_uv || B_uv ] )  (Directly Embeds Ohm's &amp; Kirchhoff's Laws)&#10;• Admittance-Weighted Aggregation:  h_v^(k) = ReLU( W_k · [ h_v^(k-1) || ∑_(u∈N(v)) ( |Y_uv| / ∑|Y_vw| ) · m_uv^(k) ] )&#10;• Target-Node Concatenation: Retains local bus variance, preventing over-smoothing in dense substation clusters" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F0FDF4;strokeColor=#16A34A;fontStyle=0;fontSize=9.5;fontColor=#14532D;align=left;spacingLeft=12;" vertex="1" parent="c2">
+          <mxGeometry x="25" y="210" width="480" height="78" as="geometry" />
+        </mxCell>
+
+        <!-- Privacy Badge -->
+        <mxCell id="privacy_box" value="&lt;b&gt;Edge Privacy Preservation&lt;/b&gt;&#10;Zero Cloud Telemetry Leakage&#10;Patient Schedules, Operating&#10;Room Loads &amp; Wards Maintained&#10;Strictly within Local Hospital OT" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFF6FF;strokeColor=#2563EB;fontStyle=0;fontSize=9;fontColor=#1E3A8A;align=center;" vertex="1" parent="c2">
+          <mxGeometry x="520" y="210" width="215" height="78" as="geometry" />
+        </mxCell>
+
+        <!-- Twin Guarantee Note -->
+        <mxCell id="twin_note" value="Inductive Topology Invariance: Generalizes to N-1 outages and cross-grid topologies without full model retraining" style="text;html=1;fontSize=9.5;fontColor=#6B7280;fontStyle=2;align=center;" vertex="1" parent="c2">
+          <mxGeometry x="25" y="300" width="710" height="25" as="geometry" />
         </mxCell>
 
 
-        <!-- CONTAINER 3: COGNITIVE DECISION-MAKING CYCLE -->
-        <mxCell id="c3" value="Cognitive Decision-Making &amp; Self-Healing Cycle" style="swimlane;whiteSpace=wrap;html=1;fillColor=#E8F1F5;strokeColor=#1565C0;fontStyle=1;fontSize=14;fontColor=#0D47A1;startSize=30;rounded=1;arcSize=4;" vertex="1" parent="1">
-          <mxGeometry x="580" y="390" width="530" height="350" as="geometry" />
+        <!-- =================================================================== -->
+        <!-- CONTAINER 3: COGNITIVE DECISION, XAI & HEALING CYCLE                -->
+        <!-- =================================================================== -->
+        <mxCell id="c3" value="3. Cognitive Multi-Task Decision, Explainability &amp; Closed-Loop Healing Cycle" style="swimlane;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#0284C7;fontStyle=1;fontSize=13;fontColor=#0369A1;startSize=32;rounded=1;arcSize=3;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="610" y="445" width="760" height="470" as="geometry" />
         </mxCell>
 
-        <!-- Stage 1: Observe -->
-        <mxCell id="stage1" value="1. Observe &amp; Orient&#10;(Telemetry Normalization &amp; Spatial Graph Construction)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#BBDEFB;strokeColor=#1976D2;fontStyle=1;fontSize=10;align=center;" vertex="1" parent="c3">
-          <mxGeometry x="40" y="60" width="200" height="90" as="geometry" />
+        <!-- Stage 1: Observe & Synchronize -->
+        <mxCell id="stage1" value="&lt;b&gt;1. OBSERVE &amp; SYNCHRONIZE&lt;/b&gt;&#10;• Real-Time Telemetry Normalization&#10;• Dynamic Graph Mapping G = (V, E, Y_bus)&#10;• Rolling Baseline Update (z_baseline)&#10;• Cycle Latency: 0.12 ms" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F2FE;strokeColor=#0284C7;fontStyle=0;fontSize=10;fontColor=#075985;align=left;spacingLeft=10;" vertex="1" parent="c3">
+          <mxGeometry x="25" y="45" width="335" height="115" as="geometry" />
         </mxCell>
 
-        <!-- Stage 2: Learn -->
-        <mxCell id="stage2" value="2. Learn&#10;(Multi-Task GraphSAGE GNN: Detection &amp; Localization)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#C8E6C9;strokeColor=#388E3C;fontStyle=1;fontSize=10;align=center;" vertex="1" parent="c3">
-          <mxGeometry x="290" y="60" width="200" height="90" as="geometry" />
+        <!-- Stage 2: Learn & Detect -->
+        <mxCell id="stage2" value="&lt;b&gt;2. LEARN &amp; MULTI-TASK INFERENCE&lt;/b&gt;&#10;• Multi-Task Admittance-Conditioned GraphSAGE&#10;• &lt;b&gt;Detection Head (Graph):&lt;/b&gt; 98.25% ± 0.34% F1 (AUC 0.9993)&#10;• &lt;b&gt;Localization Head (Node):&lt;/b&gt; 97.62% ± 0.84% F1 (MCC 0.982)&#10;• Status: &lt;font color='#DC2626'&gt;&lt;b&gt;ATTACK DETECTED — BUS 5 COMPROMISED ⚠&lt;/b&gt;&lt;/font&gt;&#10;• Inference Latency: 0.908 ms" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DCFCE7;strokeColor=#16A34A;fontStyle=0;fontSize=10;fontColor=#14532D;align=left;spacingLeft=10;" vertex="1" parent="c3">
+          <mxGeometry x="400" y="45" width="335" height="115" as="geometry" />
         </mxCell>
 
-        <!-- Stage 3: Plan -->
-        <mxCell id="stage3" value="3. Plan &amp; Explain&#10;(Integrated Gradients XAI Feature Attribution Heatmap)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFE0B2;strokeColor=#F57C00;fontStyle=1;fontSize=10;align=center;" vertex="1" parent="c3">
-          <mxGeometry x="290" y="200" width="200" height="90" as="geometry" />
+        <!-- Stage 3: Reason & Explain -->
+        <mxCell id="stage3" value="&lt;b&gt;3. REASON &amp; AXIOMATIC EXPLAINABILITY&lt;/b&gt;&#10;• Attribution-Guided Loss: L_total = L_BCE + 1.5 L_WCE + 0.3 L_align&#10;• Integrated Gradients (50 Riemann Steps, Completeness Axiom)&#10;• &lt;b&gt;Bus 5 Attribution Breakdown:&lt;/b&gt;&#10;   - Voltage Phase Angle (θ): &lt;b&gt;0.486&lt;/b&gt; (Dominant Jacobian Vector)&#10;   - Reactive Power Injection (Q): &lt;b&gt;0.254&lt;/b&gt;&#10;   - Active Power Injection (P): &lt;b&gt;0.112&lt;/b&gt; | Voltage Mag (V): &lt;b&gt;0.034&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEF3C7;strokeColor=#D97706;fontStyle=0;fontSize=10;fontColor=#78350F;align=left;spacingLeft=10;" vertex="1" parent="c3">
+          <mxGeometry x="400" y="210" width="335" height="145" as="geometry" />
         </mxCell>
 
-        <!-- Stage 4: Decide & Act -->
-        <mxCell id="stage4" value="4. Decide &amp; Act&#10;(Quarantine Corrupted RTU &amp; Inject Load Baseline Forecasts)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFCDD2;strokeColor=#D32F2F;fontStyle=1;fontSize=10;align=center;" vertex="1" parent="c3">
-          <mxGeometry x="40" y="200" width="200" height="90" as="geometry" />
+        <!-- Stage 4: Act & Heal -->
+        <mxCell id="stage4" value="&lt;b&gt;4. ACT &amp; AUTONOMOUS SPATIAL HEALING&lt;/b&gt;&#10;• &lt;b&gt;Step 1: Automated RTU Quarantine&lt;/b&gt; (Isolate corrupted Bus 5 channels)&#10;• &lt;b&gt;Step 2: Admittance-Weighted Spatial Reconstruction:&lt;/b&gt;&#10;   z_recon,k = [ ∑_(j∈N(k)) |Y_kj| · z_j ] / [ ∑ |Y_kj| ] + δ&#10;• &lt;b&gt;WLS State Error Recovery:&lt;/b&gt; MSE 0.007228 → 0.000002 p.u.^2 (&lt;b&gt;99.97%&lt;/b&gt;)&#10;• &lt;b&gt;Total Response Time:&lt;/b&gt; &lt; 2 ms (&lt;font color='#16A34A'&gt;&lt;b&gt;&lt;&lt; 100 ms IEC 60601-1 Trip Limit&lt;/b&gt;&lt;/font&gt;)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FEE2E2;strokeColor=#DC2626;fontStyle=0;fontSize=10;fontColor=#7F1D1D;align=left;spacingLeft=10;" vertex="1" parent="c3">
+          <mxGeometry x="25" y="210" width="335" height="145" as="geometry" />
         </mxCell>
 
         <!-- Cycle Connections (1->2, 2->3, 3->4, 4->1) -->
-        <mxCell id="edge12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#1565C0;" edge="1" parent="c3" source="stage1" target="stage2">
+        <mxCell id="edge12" value="Spatial Features" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2.2;strokeColor=#0284C7;fontSize=9.5;fontColor=#0369A1;fontStyle=1;" edge="1" parent="c3" source="stage1" target="stage2">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
 
-        <mxCell id="edge23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#1565C0;" edge="1" parent="c3" source="stage2" target="stage3">
+        <mxCell id="edge23" value="Attribution Gradient" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2.2;strokeColor=#16A34A;fontSize=9.5;fontColor=#166534;fontStyle=1;" edge="1" parent="c3" source="stage2" target="stage3">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
 
-        <mxCell id="edge34" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#1565C0;" edge="1" parent="c3" source="stage3" target="stage4">
+        <mxCell id="edge34" value="Flagged Node 5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2.2;strokeColor=#D97706;fontSize=9.5;fontColor=#92400E;fontStyle=1;" edge="1" parent="c3" source="stage3" target="stage4">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
 
-        <mxCell id="edge41" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#1565C0;" edge="1" parent="c3" source="stage4" target="stage1">
+        <mxCell id="edge41" value="Healed State Feedback" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2.2;strokeColor=#DC2626;fontSize=9.5;fontColor=#991B1B;fontStyle=1;" edge="1" parent="c3" source="stage4" target="stage1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
 
+        <!-- Summary Banner inside Container 3 -->
+        <mxCell id="cycle_banner" value="Autonomous Closed-Loop Pipeline Execution Time: 0.908 ms (Inference) + 0.95 ms (Healing) = 1.858 ms &lt;&lt; 100 ms Clinical Trip Window" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontSize=10;fontColor=#334155;fontStyle=1;" vertex="1" parent="c3">
+          <mxGeometry x="25" y="380" width="710" height="35" as="geometry" />
+        </mxCell>
 
-        <!-- EXTERNAL SYNCHRONIZATION ARROWS -->
-        <!-- Top Synchronization Arrow -->
-        <mxCell id="sync_top" value="Real-Time Telemetry &amp; Physical Topology Synchronization" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#E65100;fontStyle=1;fontSize=11;fontColor=#E65100;startArrow=classic;endArrow=classic;" edge="1" parent="1" source="c1" target="c2">
+
+        <!-- =================================================================== -->
+        <!-- EXTERNAL SYNCHRONIZATION & CONTROL PIPELINES                        -->
+        <!-- =================================================================== -->
+        <!-- Top Synchronization Pipeline -->
+        <mxCell id="sync_top" value="Real-Time Telemetry &amp; N-1 Breaker Topology Synchronization Pipeline" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#EA580C;fontStyle=1;fontSize=10.5;fontColor=#C2410C;startArrow=classic;endArrow=classic;" edge="1" parent="1" source="c1" target="c2">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="280" y="50" />
-              <mxPoint x="845" y="50" />
+              <mxPoint x="305" y="45" />
+              <mxPoint x="990" y="45" />
             </Array>
           </mxGeometry>
         </mxCell>
 
         <!-- Inbound SCADA Telemetry Stream -->
-        <mxCell id="scada_inbound" value="Inbound SCADA Stream" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2.5;strokeColor=#1565C0;fontStyle=1;fontSize=10;fontColor=#1565C0;endArrow=classic;" edge="1" parent="1" source="c1" target="c3">
+        <mxCell id="scada_inbound" value="Continuous Telemetry Stream z = [V, θ, P, Q]^T" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2.5;strokeColor=#0284C7;fontStyle=1;fontSize=10;fontColor=#0369A1;endArrow=classic;" edge="1" parent="1" source="ot_layer" target="stage1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="540" y="470" />
-              <mxPoint x="540" y="470" />
+              <mxPoint x="585" y="540" />
+              <mxPoint x="585" y="540" />
             </Array>
           </mxGeometry>
         </mxCell>
 
-        <!-- Outbound Quarantine & Healing Stream -->
-        <mxCell id="healing_outbound" value="Quarantine &amp; Healing Control Commands" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2.5;strokeColor=#D32F2F;fontStyle=1;fontSize=10;fontColor=#D32F2F;startArrow=classic;endArrow=none;" edge="1" parent="1" source="c1" target="c3">
+        <!-- Outbound Quarantine & Autonomous Healing Stream -->
+        <mxCell id="healing_outbound" value="Autonomous RTU Quarantine &amp; Admittance Spatial Reconstruction Command (&lt; 2 ms)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2.8;strokeColor=#DC2626;fontStyle=1;fontSize=10;fontColor=#991B1B;startArrow=classic;endArrow=none;" edge="1" parent="1" source="ot_layer" target="stage4">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="540" y="620" />
-              <mxPoint x="540" y="620" />
+              <mxPoint x="585" y="730" />
+              <mxPoint x="585" y="730" />
             </Array>
           </mxGeometry>
         </mxCell>
