@@ -96,28 +96,27 @@ Boyaci et al.~\cite{boyaci2022joint} demonstrated this on joint detection--local
 Takiddin et al.~\cite{takiddin2023generalized} extended GNN robustness to heterogeneous topologies beyond the training distribution.
 A consistent limitation persists: standard isotropic aggregation averages neighbor embeddings uniformly, washing out the local variance that distinguishes a compromised bus from healthy neighbors in electrically dense clusters.
 
-Two gaps remain open.
-First, existing frameworks lack a formally specified attribution mechanism that can both explain individual alerts \emph{and} guide the model's localization gradients during training---perturbation-based methods like SHAP and LIME require hundreds of forward passes that exceed SCADA cycle times~\cite{yuan2023explainability}.
-Second, detection alone does not restore state tracking; an alarm must trigger a closed-loop control action that isolates corrupted RTU channels and inserts reconstructed estimates to keep the energy management system stable while maintenance crews respond.
+Notwithstanding these architectural advances, two operational bottlenecks impede deployment.
+Foremost is the explainability--training dichotomy: perturbation frameworks such as SHAP or LIME demand hundreds of forward evaluations that easily overrun strict SCADA cycle budgets, yet post-hoc saliency maps fail to inform the detector's internal representation during gradient descent~\cite{yuan2023explainability}.
+Furthermore, passive telemetry alarms cannot guarantee continuity of care.
+An anomaly flag remains clinically impotent unless paired with immediate closed-loop quarantine and physics-grounded telemetry reconstruction, sustaining energy management stability while field maintenance crews mobilize.
 
 \subsection{Contributions}
 
-This paper addresses these challenges through four integrated contributions:
+This paper resolves these vulnerabilities through four interrelated contributions:
 \begin{itemize}
-\item \textbf{Formal Cognitive Digital Twin Architecture.} A state-space synchronization model with Kalman tracking gain $K_{\mathrm{sync}}$ and rolling baseline filter that establishes mathematical rigor for the physical--virtual link.
-\item \textbf{Admittance-Conditioned GraphSAGE Backbone.} Message passing conditioned on complex branch admittance $Y_{uv} = G_{uv} + jB_{uv}$, embedding Kirchhoff's circuit laws directly into spatial feature representations.
-\item \textbf{Attribution-Guided Multi-Task Loss (AG-MTL).} An alignment objective $\mathcal{L}_{\mathrm{align}}$ that trains gradient attributions against ground-truth anomaly labels, lifting localization F1 by 5.52\,pp.
-\item \textbf{Closed-Loop Graph-Guided Healing.} Automated quarantine and spatial neighbor interpolation weighted by admittance, restoring WLS estimation accuracy by 99.97\%.
+\item \textbf{Formal Cognitive Digital Twin Architecture.} We derive a state-space tracking formulation with Kalman gain $K_{\mathrm{sync}}$ and an exponential baseline filter that establishes physical--virtual operational synchronization.
+\item \textbf{Admittance-Conditioned GraphSAGE Backbone.} We condition aggregation directly on branch admittance $Y_{uv} = G_{uv} + jB_{uv}$, embedding Kirchhoff's circuit laws into spatial representations.
+\item \textbf{Attribution-Guided Multi-Task Loss (AG-MTL).} We introduce an explicit alignment objective $\mathcal{L}_{\mathrm{align}}$ that disciplines gradient attributions against ground-truth bus labels, boosting localization F1 by 5.52\,pp.
+\item \textbf{Closed-Loop Graph-Guided Spatial Healing.} We formulate an autonomous quarantine and admittance-weighted neighbor interpolation routine that restores post-attack WLS state estimation accuracy by 99.97\%.
 \end{itemize}
 
-The remainder of this paper is organized as follows.
-Section~\ref{sec:related} surveys related work on healthcare cybersecurity, graph-based FDIA detection, and digital twins.
-Section~\ref{sec:threat} formalizes the threat model with provably stealthy Jacobian attack construction.
-Section~\ref{sec:architecture} presents the CGDT architecture.
-Section~\ref{sec:xai_healing} details explainability and closed-loop healing.
-Section~\ref{sec:experiments} reports experimental evaluation.
-Section~\ref{sec:mitigation} covers mitigation efficacy, transfer learning, and ablation.
-Section~\ref{sec:conclusion} concludes.
+The remainder of this manuscript is structured as follows: Section~\ref{sec:related} contextualizes our approach within healthcare cybersecurity, graph representation learning, and digital twins.
+Section~\ref{sec:threat} formalizes the AC power flow threat model and derives the stealthy Jacobian attack bypass.
+Section~\ref{sec:architecture} presents the admittance-conditioned CGDT architecture.
+Section~\ref{sec:xai_healing} details axiomatic feature attribution and autonomous spatial healing.
+Sections~\ref{sec:experiments} and~\ref{sec:mitigation} report extensive empirical benchmarks across nominal topologies, $N-1$ line contingencies, transfer evaluations, and component ablations.
+Finally, Section~\ref{sec:conclusion} concludes with clinical implications and future directions.
 
 % ===================================================================
 % 2. RELATED WORK
@@ -581,11 +580,11 @@ $\lambda_{\mathrm{loc}} = 2.0$ & 95.80\% & 97.55\% \\
 \end{minipage}
 \end{table}
 
-Three primary insights emerge from the ablation analysis:
+Three distinct operational findings emerge from our ablation benchmarking:
 \begin{enumerate}
-\item \textbf{Digital Twin Baseline Tracking is critical.} Removing the rolling baseline (Eq.~\ref{eq:rolling_baseline}) drops localization F1 by 16.32\,pp to 81.30\%, confirming that a dynamic reference envelope is necessary to detect subtle Jacobian perturbations.
-\item \textbf{Attribution-Guided Loss boosts localization.} Setting $\lambda_{\mathrm{attr}} = 0$ reduces localization F1 by 5.52\,pp to 92.10\% while detection remains at 98.25\%. This validates that $\mathcal{L}_{\mathrm{align}}$ concentrates gradient signals on compromised buses without altering global graph classification.
-\item \textbf{Loss weight balancing.} Setting $\lambda_{\mathrm{loc}} = 1.5$ yields the best trade-off between detection stability and localization precision.
+\item \textbf{Dynamic Digital Twin Baseline Tracking is paramount.} Suppressing the recursive baseline filter (Eq.~\ref{eq:rolling_baseline}) causes localization F1 to plummet by 16.32\,pp (from 97.62\% to 81.30\%), corroborating that a continuously updated nominal envelope is indispensable for isolating subtle Jacobian perturbations.
+\item \textbf{Attribution Alignment Guides Substation Localization.} Ablating the alignment penalty ($\lambda_{\mathrm{attr}} = 0$) degrades localization F1 by 5.52\,pp to 92.10\% while leaving global graph detection virtually unchanged at 98.25\%. This confirms that $\mathcal{L}_{\mathrm{align}}$ effectively steers backpropagation mass onto compromised bus coordinates without distorting system-level classification boundaries.
+\item \textbf{Multi-Task Weight Balancing.} Setting $\lambda_{\mathrm{loc}} = 1.5$ establishes the empirical sweet spot between global alarm sensitivity and fine-grained substation localization specificity.
 \end{enumerate}
 
 % ===================================================================
@@ -594,9 +593,9 @@ Three primary insights emerge from the ablation analysis:
 \section{Discussion and Conclusion}
 \label{sec:conclusion}
 
-This paper presented a Cognitive Graph Digital Twin for protecting smart hospital energy ecosystems against stealthy False Data Injection Attacks.
-The core technical insight is that coupling admittance-conditioned graph message passing with attribution-guided multi-task learning creates a detection--localization--explanation--healing loop that no single prior component achieves alone.
-Admittance weighting grounds the spatial embeddings in circuit physics; the AG-MTL loss transforms post-hoc explainability into a trainable signal that lifts localization by 5.52 percentage points; and graph-guided reconstruction achieves 99.97\% WLS error recovery, outperforming static historical imputation by 42.76 percentage points.
+This investigation presented an explainable Cognitive Graph Digital Twin to safeguard cyber-physical hospital microgrids against stealthy False Data Injection Attacks.
+Our central finding is that coupling admittance-conditioned message passing with attribution-guided multi-task learning creates an autonomous defense loop---spanning detection, localization, attribution, and spatial telemetry reconstruction---that surpasses isolated protective primitives.
+Specifically, admittance weighting grounds spatial embeddings in AC circuit physics; our AG-MTL objective converts post-hoc saliency attributions into an active supervisory signal that lifts localization F1 by 5.52\,pp; and graph-guided spatial reconstruction accomplishes 99.97\% WLS state error recovery, eclipsing static historical imputation by 42.76\,pp.
 
 \textbf{Healthcare relevance and clinical standards.}
 Hospital microgrids power loads where a stealthy FDIA is not merely a financial event but a patient-safety hazard.
