@@ -23,6 +23,8 @@ explainability_results.pt
 *.log
 *.out
 *.toc
+*.bbl
+*.blg
 *.synctex.gz
 resume/*_preview*.png
 
