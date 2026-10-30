@@ -5,12 +5,7 @@
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
 
-        <!-- =================================================================== -->
-        <!-- MAIN TITLE BANNER                                                   -->
-        <!-- =================================================================== -->
-        <mxCell id="main_title" value="Adaptive Explainable Cognitive Graph Digital Twin for Cyber-Resilient Smart Hospital Energy Ecosystems" style="text;html=1;strokeColor=#1E3A8A;fillColor=#DBEAFE;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=17;fontStyle=1;fontColor=#1E3A8A;shadow=1;" vertex="1" parent="1">
-          <mxGeometry x="80" y="15" width="1290" height="45" as="geometry" />
-        </mxCell>
+
 
         <!-- =================================================================== -->
         <!-- CONTAINER 1: PHYSICAL HEALTHCARE ENERGY INFRASTRUCTURE (IT-OT)      -->
@@ -148,10 +143,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
 
-        <!-- Summary Banner inside Container 3 -->
-        <mxCell id="cycle_banner" value="Autonomous Closed-Loop Pipeline Execution Time: 0.908 ms (Inference) + 0.95 ms (Healing) = 1.858 ms &lt;&lt; 100 ms Clinical Trip Window" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F1F5F9;strokeColor=#64748B;fontSize=10;fontColor=#334155;fontStyle=1;" vertex="1" parent="c3">
-          <mxGeometry x="25" y="380" width="710" height="35" as="geometry" />
-        </mxCell>
+
 
 
         <!-- =================================================================== -->

@@ -10,9 +10,9 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch
 
 # ── Canvas Setup ────────────────────────────────────────────────────
-fig, ax = plt.subplots(figsize=(16, 7.5), dpi=300)
+fig, ax = plt.subplots(figsize=(16, 6.4), dpi=300)
 ax.set_xlim(0, 16)
-ax.set_ylim(0, 7.5)
+ax.set_ylim(0.4, 6.8)
 ax.axis("off")
 fig.patch.set_facecolor("white")
 
@@ -203,17 +203,9 @@ ax.text(11.85, 4.42, "Flagged Bus 5", ha="center", va="bottom", fontsize=6.2, fo
 # Bottom Feedback Loop: Block 4 -> Block 1
 ax.annotate("", xy=(2.1, 1.15), xytext=(13.8, 1.15),
             arrowprops=dict(arrowstyle="->", color=C["red"], lw=1.8, connectionstyle="arc3,rad=-0.14"))
-ax.text(8.0, 0.18, "◀  Autonomous RTU Quarantine & Admittance-Weighted Spatial Telemetry Reconstruction Injected into EMS (< 2ms)  ◀",
-        ha="center", va="bottom", fontsize=6.8, fontweight="bold", color=C["red"])
-
-# ════════════════════════════════════════════════════════════════════
-# TITLE BANNER AT VERY TOP
-# ════════════════════════════════════════════════════════════════════
-ax.text(8.0, 7.15, "An Adaptive Explainable Cognitive Graph Digital Twin for Cyber-Resilient Smart Hospital Energy Ecosystems",
-        ha="center", va="center", fontsize=10.5, fontweight="bold", color=C["title_bg"])
 
 # ── Save Outputs ────────────────────────────────────────────────────
-plt.tight_layout(pad=0.2)
+plt.tight_layout(pad=0.1)
 plt.savefig("figures/gdt_framework_matplotlib.pdf", format="pdf", dpi=300, bbox_inches="tight", facecolor="white")
 plt.savefig("figures/gdt_framework_matplotlib.png", format="png", dpi=300, bbox_inches="tight", facecolor="white")
 plt.savefig("figures/gdt_framework_matplotlib.svg", format="svg", bbox_inches="tight", facecolor="white")
