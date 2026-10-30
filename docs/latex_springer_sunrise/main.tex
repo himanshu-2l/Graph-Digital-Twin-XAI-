@@ -34,7 +34,7 @@
 \titlerunning{Cognitive Graph Digital Twin for Smart Hospital Energy}
 
 \author{
-Anshika Keshari\inst{1}\orcidID{0000-0000-0000-0000} \and
+Anshika Keshari\inst{1} \and
 Himanshu Rathore\inst{2} \and
 Aparajita Vaish\inst{3} \and
 Sabarathinam Chockalingam\inst{4} \and
@@ -363,6 +363,7 @@ We generated 5{,}000 AC grid states (70\% train, 15\% val, 15\% test).
 \emph{Benign states (50\%)} perturb active and reactive loads with Gaussian noise ($\sigma = 0.04$).
 \emph{Attacked states (50\%)} construct Jacobian injections $a = Hc$ at target bus~$k$ ($c_{k} \in [0.03, 0.08]$\,p.u.\ for voltage and $c_{k+N} \in [0.05, 0.15]$\,rad for phase angle), propagating effects to one-hop neighbors via AC equations.
 Training runs for 60 epochs via Adam ($\mathrm{lr} = 0.005$, weight decay $10^{-4}$) across five random seeds.
+All source code, trained checkpoints, and evaluation pipelines are publicly available at \url{https://github.com/himanshu-2l/Graph-Digital-Twin-XAI-}.
 
 \subsection{Nominal Grid Performance}
 
