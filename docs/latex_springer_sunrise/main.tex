@@ -600,23 +600,22 @@ Finally, setting $\lambda_{\mathrm{loc}} = 1.5$ balances global detection and lo
 \section{Discussion and Conclusion}
 \label{sec:conclusion}
 
-This work presented an explainable Cognitive Graph Digital Twin engineered to defend healthcare microgrids against stealthy cyber-physical intrusions.
-By integrating complex branch admittances into GraphSAGE aggregation and supervising latent representations via attribution alignment, the architecture attains $98.25\%$ detection F1 and $97.62\%$ localization F1 under non-linear AC false data injection attacks.
-Attribution guidance yields a 5.52\,pp localization gain, while Integrated Gradients delivers verified explanations in 0.81\,ms.
-Furthermore, admittance-weighted spatial reconstruction cuts post-mitigation WLS error by 99.97\%, preserving Jacobian observability across single- and multi-bus attacks.
+We developed an explainable Cognitive Graph Digital Twin engineered to defend healthcare microgrids against stealthy cyber-physical intrusions.
+By integrating branch admittances into GraphSAGE aggregation and supervising latent features via attribution alignment, the framework attains $98.25\%$ detection F1 and $97.62\%$ localization F1 under non-linear AC false data injection attacks.
+Attribution guidance yields a 5.52\,pp localization gain with 0.81\,ms Integrated Gradients explanations, while admittance-weighted spatial reconstruction cuts post-mitigation WLS error by 99.97\%.
 
-\textbf{Clinical Grid Operating Requirements.}
-Healthcare microgrids operate under strict IEC~60601-1 and IEEE~1547 standards, where prolonged voltage distortions risk disconnecting critical medical life-support circuits.
-Operating with a 0.908\,ms inference latency and a 2\,ms total healing cycle, the CGDT executes comfortably within 2--4\,s SCADA sampling windows.
-Substation edge deployment ensures that telemetry never crosses the clinical OT perimeter.
+\textbf{Clinical Operating Standards.}
+Under IEC~60601-1 and IEEE~1547 requirements, prolonged voltage distortions risk disconnecting life-critical medical equipment.
+With a 0.908\,ms inference latency and a 2\,ms total healing cycle, the CGDT executes comfortably within 2--4\,s SCADA sampling windows while local substation edge hosting ensures telemetry never crosses the OT perimeter.
 
 \textbf{Limitations and Future Work.}
-Subsequent investigations will transition beyond simulation environments to physical hardware-in-the-loop (HIL) testbeds to evaluate packet jitter and RTU telemetry latency.
-We also plan to evaluate temporal graph layers for sustained multi-step campaigns and investigate predictive estimators when neighboring buses are unobservable.
+Subsequent research will transition to hardware-in-the-loop (HIL) testbeds to evaluate packet jitter and RTU telemetry latency.
+Future extensions will also incorporate temporal graph models for multi-step campaigns and evaluate predictive estimators under multi-bus unobservability.
 
 \begin{credits}
 \subsubsection{\ackname}
-Supported by the Research Council of Norway (RCN) under Project No. 359829: \emph{Strengthening Resilience in Critical Sectors through IT-OT Integration and Human-Organizational Aspects (ResCri)}.
+This research was supported by the Research Council of Norway through ``Strengthening Resilience in Critical Sectors through IT-OT Integration and Human-Organizational Aspects (ResCri)'', Project No.~359829.
+AI-assisted tools were used to improve language quality (including spelling, grammar, and punctuation), and all outputs were reviewed, revised, and approved by the authors, who take full responsibility for the final content.
 \end{credits}
 
 % ===================================================================
