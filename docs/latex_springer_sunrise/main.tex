@@ -83,43 +83,41 @@ On the IEEE 14-bus test feeder under full nonlinear AC power flow, the CGDT achi
 % ===================================================================
 \section{Introduction}
 
-In tertiary healthcare complexes, electrical power is inextricably linked to patient survival.
-Modern hospital campuses rely on localized microgrids that combine utility interconnections, rooftop photovoltaics, battery storage banks, and diesel generators to energize critical medical loads~\cite{coventry2018cybersecurity,sun2023medical}.
-These loads cannot tolerate instability: surgical robotics demand millisecond voltage consistency, intensive-care ventilators require uninterrupted feeds, and vaccine cold-chains depend on constant refrigeration at $-80^{\circ}$C.
-Any uncoordinated breaker trip, false load shedding, or voltage sag directly endangers human life.
+In tertiary healthcare facilities, uninterrupted electrical supply forms the baseline for clinical survival.
+Modern hospital complexes operate multi-source microgrids incorporating utility substations, photovoltaic arrays, battery banks, and backup diesel generation to power life-critical wards~\cite{coventry2018cybersecurity,sun2023medical}.
+Operating theatres and intensive-care units demand stringent power quality: surgical robots stall under sub-cycle voltage sags, neonatal ventilators require continuous feeds, and cold storage units require continuous $-80^{\circ}$C chilling.
+Unplanned tripping or false load shedding directly jeopardizes patient outcomes.
 
-Substation Remote Terminal Units (RTUs) stream voltage magnitudes, phase angles, and power flows ($V, \theta, P, Q$) into Weighted Least Squares (WLS) state estimators over IEC~61850 substation buses.
-Control centers routinely rely on normalized $\chi^{2}$ residual tests to weed out random transducer noise and faulty metering.
-Yet this classical check fails entirely against coordinated vectors.
-By exploiting the topology-dependent measurement Jacobian $H$, an adversary synthesizes an injection $a = Hc$ that shifts state estimates by an arbitrary vector $c$ while leaving algebraic measurement residuals entirely intact~\cite{liu2011false,liang2017review}.
-The corrupted telemetry slips past the detector unflagged; automated dispatch software then acts on compromised grid profiles.
+Substation telemetry streams nodal states ($V, \theta, P, Q$) across IEC~61850 communication buses to Weighted Least Squares (WLS) estimators.
+To reject sensor noise, control centers monitor the normalized $\chi^{2}$ residual.
+However, this defense breaks down under coordinated False Data Injection Attacks (FDIAs).
+An adversary with knowledge of the network measurement Jacobian $H$ can craft a stealth vector $a = Hc$ that skews estimated state variables by $c$ while leaving residual norms unaltered~\cite{liu2011false,liang2017review}.
+Because the corrupted data evades residual detection, downstream automated controllers execute incorrect switching or tap commands on fabricated profiles.
 
-Prior security schemes leaned heavily on tabular classifiers---ranging from support vector machines to multi-layer perceptrons and fixed-kernel convolutional nets~\cite{lakshminarayana2022ddos,chen2023stealthy}.
-These tabular baselines break whenever the grid flexes.
-Hospital distribution feeders undergo frequent branch switching, tie-line transfers, and transformer tap adjustments.
-Each physical breaker toggle changes sensor ordering, blinding fixed-input neural networks or triggering false tripping alarms.
-Retraining these models on the fly during 2--4\,s SCADA sampling windows remains out of the question.
+Past detection schemes relied mostly on tabular machine learning models, such as support vector machines, shallow multi-layer perceptrons, and 1D convolutional networks~\cite{lakshminarayana2022ddos,chen2023stealthy}.
+Such static formulations degrade during ordinary distribution reconfiguration.
+Hospital circuits experience routine load balancing, feeder transfers, and breaker manipulations.
+Whenever a feeder switch occurs, fixed-width input matrices lose channel alignment, causing high false-alarm rates unless retrained---an intractable barrier within tight 2--4\,s SCADA scan intervals.
 
-Graph neural networks (GNNs) solve this layout rigidity by treating substations as nodes and physical lines as edges~\cite{sweeten2025cyber}.
-Tripping a breaker simply toggles an entry in the graph adjacency matrix without disturbing node vector dimensions.
-While spatial wavelets~\cite{boyaci2022joint} and isotropic message passing~\cite{takiddin2023generalized} accommodate switching events, conventional GNNs treat all incident branches identically.
-They ignore complex branch admittances ($Y_{uv} = G_{uv} + jB_{uv}$).
-By averaging nodal representations isotropically across neighbors, standard convolutions wash out high-frequency voltage and angle discrepancies across adjacent electrical corridors.
+Graph neural networks (GNNs) overcome this layout rigidity by modeling substations as nodes and physical lines as edges~\cite{sweeten2025cyber}.
+Under graph formulations, line switching simply alters the adjacency structure while preserving node dimensions.
+Nevertheless, typical architectures---including wavelet schemes~\cite{boyaci2022joint} and isotropic spatial convolutions~\cite{takiddin2023generalized}---treat connecting links as uniform or binary adjacencies.
+By disregarding complex branch admittances ($Y_{uv} = G_{uv} + jB_{uv}$), isotropic message passing smooths feature representations across neighbors, blunting localized voltage and angle differentials between electrically distant buses.
 
-Clinical facilities tolerate neither unverified black-box alerts nor sluggish incident response.
-Perturbation-based explainers such as SHAP or LIME require hundreds of Monte Carlo passes, exceeding real-time SCADA deadlines by orders of magnitude~\cite{yuan2023explainability}.
-Moreover, issuing passive alarms without mitigating the bad data leaves life-support circuits exposed to automated shedding.
-To safeguard critical healthcare microgrids, an anomaly framework must pin down compromised buses within sub-second intervals and synthesize clean replacement telemetry before downstream protection relays trip.
+Real-world deployment in healthcare environments also imposes strict explainability and low-latency constraints.
+Perturbation-based diagnostic frameworks like SHAP or LIME evaluate hundreds of Monte Carlo samples per pass, rendering them too slow for sub-second SCADA loops~\cite{yuan2023explainability}.
+Furthermore, diagnostic flags alone do not protect clinical equipment; without fast data reconstruction, downstream estimators still fail or trigger automatic shedding.
+Securing healthcare microgrids thus requires millisecond-scale attack localization combined with autonomous telemetry reconstruction before physical protection relays operate.
 
 \subsection{Key Contributions}
 
 We address these operational gaps by formulating an explainable Cognitive Graph Digital Twin (CGDT) tailored to hospital electrical infrastructure.
 Specific technical contributions include:
 \begin{itemize}
-\item \textbf{Physics-Informed GraphSAGE Formulation}: Rather than relying on unweighted adjacency matrices, we condition neighborhood message passing and spatial pooling on complex branch admittances ($Y_{uv} = G_{uv} + jB_{uv}$). This provides an admittance-aware inductive bias that preserves sharp electrical gradients across low-impedance paths and prevents isotropic low-pass feature blurring.
-\item \textbf{Continuous Twin Synchronization}: By pairing steady-state Kalman gain tracking with an exponential baseline filter ($\beta = 0.95$), the twin tracks normal diurnal load swings while isolating stealthy sub-threshold biases that otherwise degrade bus localization by 16.32\,pp.
-\item \textbf{Attribution-Guided Multi-Task Training (AG-MTL)}: We integrate an attribution alignment loss into training using multi-step Integrated Gradients ($S=10$). Supervising gradient leakage into benign feeders anchors spatial representations to true injection sites, boosting localization F1 by 5.52\,pp.
-\item \textbf{Sub-2\,ms Autonomous State Reconstruction}: When malicious streams are quarantined, an admittance-aware spatial interpolation module estimates missing bus telemetry from uncorrupted neighbors, preserving measurement Jacobian rank and restoring WLS estimation accuracy by 99.97\%.
+\item \textbf{Physics-Informed GraphSAGE Formulation}: We inject line admittances ($Y_{uv} = G_{uv} + jB_{uv}$) directly into the message-aggregation and spatial-pooling stages. This admittance-conditioned inductive bias retains steep voltage differentials across low-impedance branches instead of smearing them through isotropic averaging.
+\item \textbf{Continuous Twin Synchronization}: We combine steady-state Kalman filtering with an exponential reference baseline ($\beta = 0.95$). This dual filter separates daily load curves from insidious sub-threshold injections, preventing a 16.32\,pp drop in localization F1.
+\item \textbf{Attribution-Guided Multi-Task Loss (AG-MTL)}: We introduce a regularizer based on 10-step Integrated Gradients ($S=10$) that penalizes gradient sensitivity at unattacked buses during backpropagation, yielding a 5.52\,pp improvement in bus localization F1.
+\item \textbf{Sub-2\,ms Autonomous State Reconstruction}: Once tainted measurements are isolated, an admittance-weighted spatial estimator interpolates missing telemetry from trusted neighbors, maintaining the full column rank of Jacobian $H$ and recovering 99.97\% of WLS state estimation accuracy.
 \end{itemize}
 
 % ===================================================================
@@ -130,11 +128,11 @@ Specific technical contributions include:
 
 \subsection{Cybersecurity in Digital Healthcare Ecosystems}
 
-Bridging clinical hospital IT infrastructure with operational substation control dramatically widens institutional vulnerability~\cite{kruse2017cybersecurity,coventry2018cybersecurity}.
-Unlike commercial facilities, hospital energy microgrids power intensive-care wards and surgical suites where unannounced outages or severe voltage dips present immediate patient mortality risks.
-Malicious telemetry manipulation within healthcare SCADA channels represents an especially destructive vector~\cite{sun2023medical}.
-While recent assessments have modeled healthcare risks through Bayesian graphs~\cite{chockalingam2024resilience} or perimeter IoT monitors~\cite{pirbhulal2023towards}, such frameworks process sensor values as decoupled scalar streams.
-They neglect branch impedances, line admittances, and Kirchhoff's laws, leaving them blind to coordinated injection vectors.
+Interconnecting healthcare enterprise IT with operational substation controls creates significant cyber-physical exposure~\cite{kruse2017cybersecurity,coventry2018cybersecurity}.
+Because microgrid feeders supply life-support equipment in surgical theatres and intensive-care units, undetected power sags can directly threaten patient lives.
+Corrupting SCADA sensor streams across these hospital corridors represents an acute threat vector~\cite{sun2023medical}.
+While prior works have examined healthcare cyber risks using Bayesian network models~\cite{chockalingam2024resilience} or perimeter IoT devices~\cite{pirbhulal2023towards}, these approaches treat measurement streams as isolated scalar channels.
+Ignoring branch admittances and circuit topology leaves such monitors unable to detect coordinated injection vectors that adhere to AC power flow relationships.
 
 \subsection{False Data Injection in Cyber-Physical Energy Systems}
 
@@ -147,21 +145,20 @@ Routine distribution switching---such as isolating a feeder or altering a transf
 
 \subsection{Graph Representation Learning for Power System Security}
 
-Treating electric networks as attributed graphs provides natural invariance to switching operations~\cite{sweeten2025cyber}.
-Early models applied spectral convolutions~\cite{kipf2017semi} or spatial attention weights~\cite{velickovic2018graph}.
-To scale spatial aggregations across changing topologies, GraphSAGE~\cite{hamilton2017inductive} samples local neighborhoods inductively.
-In power networks, Boyaci et al.~\cite{boyaci2022joint} employed ARMA wavelets, while Takiddin et al.~\cite{takiddin2023generalized} and Yue and Qu~\cite{yue2024graph} confirmed topological flexibility across line configurations.
-Luo et al.~\cite{luo2022detection} further introduced federated setups to protect operational privacy.
-Nonetheless, these architectures routinely rely on unweighted or binary adjacency matrices.
-Failing to weight message propagation by complex branch admittances ($Y_{uv} = G_{uv} + jB_{uv}$) creates an isotropic low-pass filtering effect, obscuring localized voltage anomalies across low-impedance branches.
+Representing electrical networks as attributed graphs offers structural invariance under breaker switching~\cite{sweeten2025cyber}.
+Foundational work explored spectral graph formulations~\cite{kipf2017semi} and attention mechanisms~\cite{velickovic2018graph}, while GraphSAGE~\cite{hamilton2017inductive} introduced inductive neighborhood sampling for dynamic graphs.
+For power systems, Boyaci et al.~\cite{boyaci2022joint} developed ARMA wavelet filters for attack detection, and subsequent studies demonstrated topological transfer across different line configurations~\cite{takiddin2023generalized,yue2024graph}.
+Federated architectures have also been studied to maintain operational privacy~\cite{luo2022detection}.
+However, most existing models still rely on unweighted or binary adjacency matrices.
+Omitting branch admittances ($Y_{uv} = G_{uv} + jB_{uv}$) causes isotropic averaging across adjacent lines, which blurs high-frequency voltage deviations across low-impedance branches.
 
 \subsection{Explainability and Digital Twins in Critical Infrastructure}
 
-Control room operators cannot act on unverified black-box alerts.
-Yet sampling-based attribution methods (e.g., LIME, SHAP, or GNNExplainer) require hundreds of model evaluations per inference cycle, rendering them impractical for online SCADA operations~\cite{yuan2023explainability,ying2019gnnexplainer}.
-Integrated Gradients (IG)~\cite{sundararajan2017axiomatic} overcomes this hurdle by evaluating path integrals along straight-line trajectories in a single backward pass, satisfying the completeness axiom without stochastic perturbation passes.
-Simultaneously, digital twin principles~\cite{grieves2017digital,tao2019digital} have gained traction for power infrastructure monitoring~\cite{barreto2025cyber} and healthcare facilities~\cite{kamel2024digital}.
-Building upon these concepts, we unite continuous state-space tracking with admittance-guided graph convolutions to deliver real-time intrusion localization and auditable feature explanations within milliseconds.
+Grid operators require transparent, channel-level attribution before initiating protective actions.
+However, perturbation explainers like SHAP, LIME, or GNNExplainer demand extensive Monte Carlo sampling, making them far too slow for real-time SCADA polling loops~\cite{yuan2023explainability,ying2019gnnexplainer}.
+Integrated Gradients (IG)~\cite{sundararajan2017axiomatic} resolves this computational bottleneck by computing path integrals along straight-line trajectories in a single backward pass, satisfying the completeness axiom without stochastic passes.
+In parallel, digital twin paradigms~\cite{grieves2017digital,tao2019digital} have shown promise for cyber-physical power system monitoring~\cite{barreto2025cyber} and hospital operations~\cite{kamel2024digital}.
+We bridge these concepts by pairing continuous state-space synchronization with admittance-aware graph convolutions, providing millisecond-scale attack detection, bus localization, and deterministic feature attributions.
 
 % ===================================================================
 % 3. THREAT MODEL & MATHEMATICAL FOUNDATIONS
