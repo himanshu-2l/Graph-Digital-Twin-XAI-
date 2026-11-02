@@ -84,38 +84,45 @@ On the IEEE 14-bus test feeder under full nonlinear AC power flow, the CGDT achi
 \section{Introduction}
 
 Hospital distribution microgrids combine utility feeds with rooftop PV, battery storage, and diesel generation to supply clinical corridors~\cite{coventry2018cybersecurity,newaz2021survey}.
-Power quality inside operating theaters and intensive-care units (ICUs) cannot tolerate compromise: sub-cycle voltage sags immediately disrupt robotic surgical consoles, mechanical ventilators demand unbroken power, and ultra-low cold storage requires sustained $-80^{\circ}\text{C}$ operation.
-Under medical electrical safety directives (IEC~60601-1), unexpected relay trips or unwarranted feeder shedding pose direct life-safety hazards.
+Operating suites and intensive-care units (ICUs) demand flawless power quality: sub-cycle voltage sags immediately stall robotic surgical instruments, ventilators require unbroken electricity, and pharmacy cold chains require sustained $-80^{\circ}\text{C}$ cooling.
+Under medical electrical directives (IEC~60601-1), unexpected relay trips or unwarranted load shedding pose immediate life-safety hazards.
 
-At the substation level (IEC~61850), field Remote Terminal Units stream nodal voltages, phase angles, and line power measurements $z = [V, \theta, P, Q]^T \in \mathbb{R}^m$ upstream to the Energy Management System.
-Energy management centers apply Weighted Least Squares (WLS) state estimation to calculate system states $\hat{x} \in \mathbb{R}^{2N-1}$, filtering out corrupt sensor readings via a $\chi^2$-residual test:
+Substation RTUs operating under IEC~61850 continuously poll bus voltages, angles, and branch active/reactive flows $z = [V, \theta, P, Q]^T \in \mathbb{R}^m$.
+These telemetry channels feed control center estimators.
+To deduce the operational state $\hat{x} \in \mathbb{R}^{2N-1}$, utilities solve a classic Weighted Least Squares (WLS) problem, filtering spurious sensor noise through chi-square residual gating:
 $J(\hat{x}) = \|z - h(\hat{x})\|_{R^{-1}}^2 \le \tau_{\chi^2}$.
-Coordinated False Data Injection Attacks (FDIAs) circumvent this threshold by exploiting system physics.
-When an adversary acquires network branch admittances, they linearize measurement functions via Jacobian $H = \partial h(\hat{x})/\partial x$ and inject a structured bias vector $a = Hc$.
-Because the linear expansion yields $h(\hat{x} + c) \approx h(\hat{x}) + Hc$, the manipulated measurement $z_a = z + a$ maintains a residual identical to clean operation: $\|z_a - h(\hat{x} + c)\|_{R^{-1}}^2 \equiv \|z - h(\hat{x})\|_{R^{-1}}^2 \le \tau_{\chi^2}$.
-This mathematical cancellation blinds SCADA bad-data detection routines, allowing false state deviations to drive automatic tap changers and feeder breakers into destabilizing actions~\cite{liu2011false,liang2017review}.
+Coordinated False Data Injection Attacks (FDIAs) break this safety barrier.
+By leveraging knowledge of grid admittance, an attacker evaluates the measurement Jacobian $H = \partial h(\hat{x})/\partial x$ and synthesizes a stealth injection $a = Hc$.
+Because the physical measurement manifold satisfies $h(\hat{x} + c) \approx h(\hat{x}) + Hc$, corrupted telemetry $z_a = z + a$ yields a residual identical to clean conditions: $\|z_a - h(\hat{x} + c)\|_{R^{-1}}^2 \equiv \|z - h(\hat{x})\|_{R^{-1}}^2 \le \tau_{\chi^2}$.
+Residual monitors remain blind.
+Consequently, unflagged state errors propagate into automated voltage regulators and feeder breakers, provoking severe clinical disruption without tripping SCADA alarms~\cite{liu2011false,liang2017review}.
 
-First-generation machine learning defenses relied on fixed-input tabular classifiers (e.g., support vector machines, multi-layer perceptrons, and 1D convolutional networks)~\cite{he2017real,beg2020detection} calibrated on rigid feature vectors $z \in \mathbb{R}^m$.
-Hospital electrical networks, however, experience frequent switching operations---such as tie-line transfers, breaker reconfigurations, and planned maintenance---that reshape the underlying admittance graph $G = (V,E)$.
-Whenever topology changes, fixed feature mappings lose their spatial correspondence, causing tabular detectors to suffer severe classification breakdown without complete offline retraining---a process far too slow for 2--4\,s SCADA sampling periods.
+Early defenses deployed tabular classifiers.
+Support vector machines, multilayer perceptrons, and 1D convolutional models~\cite{he2017real,beg2020detection} ingested static telemetry vectors $z \in \mathbb{R}^m$.
+However, hospital distribution networks frequently reconfigure.
+Feeder transfers, maintenance switching, and breaker actuations continuously modify the admittance topology $G = (V,E)$.
+Whenever a line disconnects, tabular feature vectors lose their physical spatial alignment; the model fails catastrophically unless retrained from scratch---an impossible demand within 2--4\,s SCADA cycles.
 
-Attributed graph neural networks (GNNs) overcome this rigidity by representing substation buses as nodes $V$ and feeder cables as edges $E$~\cite{sweeten2025cyber}, where switching events simply alter adjacency entries $A_{uv} \in \{0,1\}$.
-Even so, conventional power-grid GNN implementations---such as ARMA filters~\cite{boyaci2022joint} and unweighted spatial convolutions~\cite{takiddin2023generalized}---treat network branches as unweighted topological links.
-Neglecting complex line admittances $Y_{uv} = G_{uv} + jB_{uv}$ forces graph aggregations to act as isotropic low-pass smoothers, obscuring sharp voltage gradients and localized phase shifts across high-impedance feeder segments.
+Attributed graph neural networks (GNNs) solve this topological rigidity.
+By mapping substations to graph nodes $V$ and interconnecting lines to edges $E$~\cite{sweeten2025cyber}, breaker actuations merely toggle adjacency entries $A_{uv} \in \{0,1\}$ without changing feature dimensions.
+Yet, existing grid GNN architectures fall short.
+Formulations relying on ARMA filters~\cite{boyaci2022joint} or isotropic convolutions~\cite{takiddin2023generalized} treat distribution branches as simple, unweighted binary edges.
+Ignoring complex branch admittances $Y_{uv} = G_{uv} + jB_{uv}$ turns message aggregation into an indiscriminate low-pass filter; localized phase distortions and voltage sags across low-impedance hospital corridors are washed out.
 
-Operational microgrid environments also place severe constraints on detection latency and model interpretability.
-Sampling-based explainers like SHAP and LIME require hundreds of Monte Carlo evaluations, incurring runtime delays incompatible with sub-second control routines~\cite{yuan2023explainability}.
-Equally critical, flagging an anomaly without restoring corrupted telemetry leaves secondary controllers prone to control divergence.
-Safeguarding hospital power delivery requires sub-second attack localization coupled with instantaneous data reconstruction before protective switchgear trips.
+Hospital microgrids also impose unforgiving latency constraints.
+Heuristic explainers like SHAP or LIME require hundreds of perturbation samples, taking seconds or minutes---far too slow for millisecond protection loops~\cite{yuan2023explainability}.
+Moreover, mere attack detection is inadequate.
+Without immediate telemetry restoration, downstream controllers diverge anyway.
+Clinical energy systems demand sub-second localization and autonomous state healing before protective switchgear trips hospital loads.
 
 \subsection{Key Contributions}
 
-Targeting these operational requirements, we develop an explainable Cognitive Graph Digital Twin (CGDT) for hospital microgrids:
+To overcome these vulnerabilities, we propose an explainable Cognitive Graph Digital Twin (CGDT):
 \begin{itemize}
-\item \textbf{Admittance-Conditioned GraphSAGE}: Integrating complex line admittances $Y_{uv} = G_{uv} + jB_{uv}$ directly into spatial message passing avoids unweighted feature smoothing, maintaining sensitivity to localized voltage deviations along distribution feeders.
+\item \textbf{Admittance-Conditioned GraphSAGE}: We embed complex line admittances $Y_{uv} = G_{uv} + jB_{uv}$ directly into message aggregation and spatial pooling, avoiding isotropic blurring and capturing steep feeder voltage gradients.
 \item \textbf{State-Space Twin Tracking}: Coupling steady-state Kalman filtering with an exponential reference baseline ($\beta = 0.95$) decouples diurnal load dynamics from stealthy adversarial offsets, preventing a 16.32\,pp collapse in localization F1.
-\item \textbf{Attribution-Guided Multi-Task Training (AG-MTL)}: Integrating 10-step Integrated Gradients ($S=10$) into the loss function penalizes attribution leakage into unattacked buses during backpropagation, yielding a 5.52\,pp improvement in bus localization precision.
-\item \textbf{Autonomous Sub-2\,ms State Healing}: Once compromised buses are pinpointed, an admittance-weighted spatial interpolator reconstructs corrupted measurements from adjacent healthy nodes, preserving Jacobian rank and recovering 99.97\% of WLS baseline accuracy.
+\item \textbf{Attribution-Guided Multi-Task Training (AG-MTL)}: Integrating 10-step Integrated Gradients ($S=10$) into backpropagation penalizes attribution leakage into benign buses, raising bus localization precision by 5.52\,pp.
+\item \textbf{Autonomous Sub-2\,ms State Healing}: Once compromised buses are localized, an admittance-weighted spatial estimator interpolates corrupted telemetry from healthy neighbors, preserving Jacobian rank and restoring 99.97\% of baseline WLS accuracy.
 \end{itemize}
 
 % ===================================================================
@@ -126,10 +133,12 @@ Targeting these operational requirements, we develop an explainable Cognitive Gr
 
 \subsection{Threat Landscape in Cyber-Physical Healthcare Microgrids}
 
-Contemporary hospital campuses run interconnected IT-OT networks where central SCADA controllers manage on-site distributed energy resources (rooftop PV, battery banks, standby generators) to safeguard clinical life-support equipment governed by IEC~60601-1 and IEEE~1547~\cite{kruse2017cybersecurity,coventry2018cybersecurity}.
-Adversarial injection into clinical feeder telemetry can deceive automated voltage regulators into spurious transformer tap adjustments or unnecessary breaker trips, endangering operating suites and intensive-care wards~\cite{newaz2021survey}.
-Existing healthcare cyber-physical studies have analyzed threat propagation using Bayesian risk graphs~\cite{chockalingam2017bayesian} or focused on IoMT network edge inspection~\cite{pirbhulal2023towards}.
-These methods, however, treat SCADA telemetry as independent time-series signals without incorporating physical admittance matrices $Y_{\mathrm{bus}}$ or nonlinear AC load-flow constraints.
+Hospital microgrids bridge cyber-physical domains.
+Supervisory SCADA protocols coordinate distributed generators, battery energy storage, and utility feeds to maintain critical healthcare circuits under IEC~60601-1 and IEEE~1547 guidelines~\cite{kruse2017cybersecurity,coventry2018cybersecurity}.
+Adversarial data corruption along clinical feeders poses grave risks.
+Falsified measurements can trick automatic voltage regulators into erratic tap changes or trigger nuisance breaker lockouts, jeopardizing ventilators and surgical suites~\cite{newaz2021survey}.
+While prior healthcare security literature examined cyber risk using Bayesian graphs~\cite{chockalingam2017bayesian} or monitored medical IoT perimeters~\cite{pirbhulal2023towards}, such methods treat measurement streams as isolated scalar signals.
+They completely omit complex network admittances $Y_{\mathrm{bus}}$ and nonlinear AC power flow physics.
 
 \subsection{State Estimation and False Data Injection Defense}
 
@@ -170,24 +179,26 @@ The WLS estimator minimizes the weighted residual $J(x) = [z - h(x)]^{T} R^{-1} 
 \Delta x^{(k)} = \bigl( H^{T} R^{-1} H \bigr)^{-1} H^{T} R^{-1} \bigl[z - h(x^{(k)})\bigr], \qquad x^{(k+1)} = x^{(k)} + \Delta x^{(k)}
 \label{eq:gauss_newton}
 \end{equation}
-where $H(x) = \partial h(x)/\partial x$ is the measurement Jacobian.
-Bad-data detection routines flag measurements when the normalized squared error $r = \|z - h(\hat{x})\|^{2}_{R^{-1}}$ crosses a statistical detection ceiling $\tau_{\chi^{2}}$.
-Across the 14-bus system evaluated here, the unknown state vector comprises $n = 2N - 1 = 27$ scalar values (14 bus voltage magnitudes plus 13 relative phase angles referenced to the slack bus).
-With $m = 41$ active field telemetry channels ($14$ bus voltage readings and $27$ branch active/reactive power measurements), the estimation problem possesses $\mathrm{df} = m - n = 14$ degrees of freedom.
-Evaluating the cumulative distribution at false-alarm rate $\alpha = 0.05$ produces the chi-square rejection cutoff $\tau_{\chi^{2}} = \chi^{2}_{0.95}(14) = 23.68$.
+where $H(x) = \partial h(x)/\partial x$ denotes the measurement Jacobian.
+Conventional estimators flag bad data when the normalized residual $r = \|z - h(\hat{x})\|^{2}_{R^{-1}}$ exceeds threshold $\tau_{\chi^{2}}$.
+For our IEEE 14-bus benchmark, the system state contains $n = 2N - 1 = 27$ unknowns (14 voltage magnitudes and 13 phase angles relative to the reference bus).
+The measurement set spans $m = 41$ telemetry streams ($14$ bus voltages and $27$ branch active/reactive power meters).
+This formulation yields $\mathrm{df} = m - n = 14$ degrees of freedom.
+Setting significance level $\alpha = 0.05$ defines the chi-square detection boundary: $\tau_{\chi^{2}} = \chi^{2}_{0.95}(14) = 23.68$.
 
 \subsection{Stealthy False Data Injection Attacks}
 \label{sec:jacobian_fdia}
 
-An adversary compromising substation bus~$k$ aims to impose an arbitrary state perturbation $c \in \mathbb{R}^{2N-1}$ without triggering bad-data alarms.
-Although true AC transmission functions $h(x)$ are nonlinear, an attacker with network admittance data linearizes system equations around the current state $\hat{x}$ using Jacobian matrix $H = \partial h(\hat{x})/\partial x$, constructing the injection vector via:
+Consider an adversary targeting substation bus~$k$.
+Their objective is to inject a state bias $c \in \mathbb{R}^{2N-1}$ while keeping measurement residuals below the detector threshold $\tau_{\chi^{2}}$.
+In nonlinear AC networks, an attacker possessing line admittance estimates linearizes the system around the estimated operating point $\hat{x}$ via Jacobian $H = \partial h(\hat{x})/\partial x$, synthesizing the attack vector:
 \begin{equation}
 a = H c
 \label{eq:fdia}
 \end{equation}
-Corrupted telemetry packets received at the SCADA interface become $z_{\mathrm{comp}} = z + a = z + Hc$.
-Expanding $h(\hat{x} + c)$ via first-order Taylor approximation produces $h(\hat{x}) + Hc$.
-Evaluating the resulting residual:
+The compromised measurement vector becomes $z_{\mathrm{comp}} = z + a = z + Hc$.
+Expanding $h(\hat{x} + c)$ to first order yields $h(\hat{x}) + Hc$.
+Evaluating the post-attack residual reveals the stealth property:
 \begin{equation}
 \begin{aligned}
 r_{\mathrm{comp}} &= \|z_{\mathrm{comp}} - h(\hat{x}_{\mathrm{comp}})\|^{2}_{R^{-1}} \\
@@ -196,14 +207,17 @@ r_{\mathrm{comp}} &= \|z_{\mathrm{comp}} - h(\hat{x}_{\mathrm{comp}})\|^{2}_{R^{
 \end{aligned}
 \label{eq:fdia_bypass}
 \end{equation}
-Due to this algebraic cancellation ($r_{\mathrm{comp}} \approx r$), standard residual checks fail to alert dispatchers ($r \le \tau_{\chi^{2}} = 23.68$).
-To ensure physical validity, all synthetic attacks are tested against nonlinear AC power flows in \texttt{pandapower} (Section~\ref{sec:experiments}).
+The malicious injection cancels out algebraically ($r_{\mathrm{comp}} \approx r$).
+Standard WLS residual monitors detect nothing ($r \le \tau_{\chi^{2}} = 23.68$).
+We validate all attack vectors under full nonlinear AC power flows in \texttt{pandapower} (Section~\ref{sec:experiments}).
 
 \textbf{Clinical Hazards in Hospital Distribution Networks.}
-Unlike transmission grid operators who primarily absorb economic redispatch penalties during an attack, hospital distribution microgrids encounter immediate clinical dangers.
-Tampering with voltage telemetry at critical healthcare feeders---such as Bus~5 supplying surgical suites and ICU life-support networks---misguides automated on-load tap changers and triggers spurious circuit breaker trips.
-Under IEC~60601-1 and IEEE~1547 regulations, clinical power quality requires tight voltage tolerances ($0.88 \le V \le 1.10$\,p.u.); transient voltage dips can trip sensitive electrosurgical consoles or force life-support equipment onto depleting battery reserves.
-Stealthy algebraic manipulation at the substation level consequently endangers patient survival.
+Cyberattacks on hospital microgrids carry immediate life-safety consequences.
+Unlike bulk power systems where stealth attacks primarily cause economic re-dispatch friction, hospital feeders power life support.
+Falsifying state estimates at sensitive buses---such as Bus~5 powering operating theatres and intensive care ventilators---leads automated tap changers into voltage collapse or induces unwarranted breaker tripping.
+Standards IEC~60601-1 and IEEE~1547 mandate strict voltage envelopes ($0.88 \le V \le 1.10$\,p.u.).
+Even transient sags can force critical medical equipment onto battery reserves or initiate shutdown sequences.
+Substation-level telemetry manipulation directly threatens patient survival.
 
 % ===================================================================
 % 4. COGNITIVE GRAPH DIGITAL TWIN ARCHITECTURE
@@ -261,17 +275,18 @@ h_{v}^{(k)} = \mathrm{ReLU}\!\left( W_{k} \left[ h_{v}^{(k-1)} \;\bigg\|\; \sum_
 \end{equation}
 where $\|$ denotes vector concatenation, and $W_{e}$, $W_{k}$ are trainable projection matrices.
 Weighting messages by normalized admittance $|Y_{uv}| / \sum_{w} |Y_{vw}|$ provides a physics-informed inductive bias that scales propagation by branch coupling.
-Concatenating representations from the preceding layer $h_{v}^{(k-1)}$ preserves a skip-connection identity pathway, ensuring localized attack signatures do not attenuate across sequential aggregation rounds.
+Concatenating features from layer $h_{v}^{(k-1)}$ provides an identity skip-connection.
+This prevents localized attack indicators from washing out during multi-hop aggregation.
 
 \subsection{Multi-Task Output Heads}
 
-Passing the final node embedding matrix $H \in \mathbb{R}^{N \times d}$ through two dedicated projection heads yields system-wide and bus-specific anomaly predictions:
+From final embeddings $H \in \mathbb{R}^{N \times d}$, parallel output heads produce grid-level and bus-level predictions:
 \begin{equation}
 y_{\mathrm{graph}} = \sigma\!\left(W_{\mathrm{graph}} \cdot \mathrm{global\_mean\_pool}(H)\right), \qquad y_{\mathrm{node}} = \sigma(W_{\mathrm{node}}\, H) \in [0, 1]^{N}
 \label{eq:heads}
 \end{equation}
-The global head yields attack probability $y_{\mathrm{graph}} = \sigma(W_{\mathrm{graph}} \cdot \mathrm{pool}(H))$, while the node head assigns individual probabilities $y_{\mathrm{node},i} = \sigma(w_i^T h_i) \in [0, 1]$ across buses $i \in V$.
-This unconstrained sigmoid configuration supports multi-bus fault localization (Section~\ref{sec:wls_recovery}) without enforcing a mutually exclusive softmax constraint.
+The global head generates overall attack probability $y_{\mathrm{graph}}$, whereas the node head outputs per-bus probabilities $y_{\mathrm{node},i} = \sigma(w_i^T h_i) \in [0, 1]$ across buses $i \in V$.
+Using independent sigmoids enables multi-bus fault localization (Section~\ref{sec:wls_recovery}) without restrictive softmax competition.
 
 \subsection{Attribution-Guided Multi-Task Loss (AG-MTL)}
 \label{sec:agmtl}
@@ -352,11 +367,11 @@ Within the campus single-line diagram, Bus~0 anchors the $132/11$\,kV main grid 
 For multi-scale validation, we also configured an IEEE 30-bus network (30 buses, 41 branches) emulating an expanded regional healthcare facility.
 
 \textbf{Telemetry Generation and Partitioning.}
-Simulations yielded 5{,}000 distinct AC operational steady states reflecting fluctuating load profiles.
-To prevent data leakage across evaluation subsets, uncorrupted base scenarios were divided before injecting attacks: 70\% allocated to model training (3{,}500 states), 15\% to hyperparameter tuning (750 states), and 15\% reserved for holdout testing (750 states).
-Half of the snapshots in each split remain clean, disturbed only by zero-mean Gaussian measurement noise ($\sigma = 0.04$) on active and reactive power.
-The remaining snapshots incorporate stealthy Jacobian attacks ($a = Hc$), where synthetic perturbations affect targeted buses ($c_{k} \in [0.03, 0.08]$\,p.u.\ in voltage and $c_{k+N} \in [0.05, 0.15]$\,rad in phase angle) with branch power flows resolved through full AC load-flow calculations.
-Network outage states (Section~\ref{sec:outages}) were held out completely from training and tuning.
+We generated 5{,}000 AC operating states spanning time-varying hospital load curves.
+To ensure clean data segregation, states were split prior to synthesizing attacks: 70\% for training (3{,}500 snapshots), 15\% for validation (750 snapshots), and 15\% for testing (750 snapshots).
+Half of each partition comprises clean operation with Gaussian sensor noise ($\sigma = 0.04$).
+The remaining half contains stealthy Jacobian injections ($a = Hc$), applying bus perturbations ($c_{k} \in [0.03, 0.08]$\,p.u.\ voltage, $c_{k+N} \in [0.05, 0.15]$\,rad angle) and recomputing branch power flows via full AC equations.
+Topological outage cases (Section~\ref{sec:outages}) were strictly held out from model training.
 
 Models were trained across 60 epochs using Adam ($\mathrm{lr} = 0.005$, weight decay $10^{-4}$) over five random seeds.
 Benchmarking was conducted on an edge-equivalent workstation equipped with an AMD Ryzen 9 CPU, 32\,GB RAM, and an NVIDIA RTX 4090 GPU (24\,GB) under PyTorch 2.1 and CUDA 12.1.
@@ -437,12 +452,14 @@ Scratch (30-Bus) & 82.65\% & 83.58\% \\
 Under unanticipated line-outage contingencies without retraining, our architecture achieves $92.80\% \pm 3.37\%$ detection F1 and $86.96\% \pm 1.52\%$ localization F1 (Fig.~\ref{fig:outage_analysis}).
 Although the flat MLP records slightly higher macro detection ($94.70\%$) because post-trip loop redistribution causes widespread scalar variance, its bus-level localization plunges by 13.4\,pp ($95.60\% \rightarrow 82.20\%$) due to static channel permutations.
 In contrast, the admittance-weighted CGDT preserves $86.96\%$ localization precision, demonstrating structural resilience when branch impedances change.
-Standard isotropic GCN baselines experience severe degradation ($66.82\%$ detection F1, $53.40\%$ localization F1), confirming that unweighted graph operators fail to capture redirected branch power flows without physical impedance weights.
+Isotropic GCN baselines fail under line outages ($66.82\%$ detection, $53.40\%$ localization F1).
+Without branch impedance weighting, unweighted convolutions cannot follow re-routed line flows.
 
 \textbf{Cross-Grid Scalability on IEEE 30-Bus.}
-Zero-shot transfer of the 14-bus model onto the 30-bus network ($N=30, |E|=41$) yields $67.06\%$ detection F1 and $17.77\%$ localization F1 (Table~\ref{tab:scalability}, Fig.~\ref{fig:ieee30_transfer}).
-This outcome highlights a clear architectural distinction: graph-level classification $\sigma(W_{\mathrm{graph}}\cdot\mathrm{pool}(H))$ scales across bus counts by tracking total system power imbalances, whereas localized bus identification $y_{\mathrm{node}} = \sigma(W_{\mathrm{node}} H)$ requires branch-specific admittance resolution.
-Transferring pre-trained weights and fine-tuning on merely $200$ labeled 30-bus profiles ($5.7\%$ of full training volume) boosts detection F1 to $90.11\%$ (exceeding $82.65\%$ for cold-start training) and restores localization F1 to $80.06\%$ (closely matching the $83.58\%$ scratch benchmark).
+Testing the 14-bus model directly on the 30-bus network ($N=30, |E|=41$) in zero-shot mode yields $67.06\%$ detection F1 and $17.77\%$ localization F1 (Table~\ref{tab:scalability}, Fig.~\ref{fig:ieee30_transfer}).
+This reveals an important property.
+Graph-level pooling $\sigma(W_{\mathrm{graph}}\cdot\mathrm{pool}(H))$ generalizes by aggregating net power balance deviations across buses; conversely, pinpointing compromised buses $y_{\mathrm{node}} = \sigma(W_{\mathrm{node}} H)$ requires learning local branch admittance patterns.
+Fine-tuning pre-trained weights on only $200$ labeled 30-bus snapshots ($5.7\%$ of training data) raises detection F1 to $90.11\%$ (vs.\ $82.65\%$ from scratch) and recovers localization F1 to $80.06\%$ (approaching the $83.58\%$ scratch baseline).
 
 \begin{figure}[t]
 \centering
@@ -519,7 +536,8 @@ Path attributions (Table~\ref{tab:attributions}, Fig.~\ref{fig:xai_dashboard}) r
 
 \textbf{Coordinated Multi-Bus Incursions.}
 Simultaneous attacks across 2 and 3 substations ($c_k \in [0.02, 0.04]$) achieve $96.84\% \pm 0.42\%$ detection and $93.15\% \pm 0.91\%$ localization F1.
-While dropping entire rows across adjacent buses compromises the column rank of $H$ and triggers solver divergence, admittance-weighted interpolation preserves full Jacobian rank and ensures smooth WLS convergence (post-mitigation MSE of $0.000008$\,p.u.$^2$).
+Deleting measurement rows across adjacent buses drops the rank of $H$, triggering solver divergence.
+Admittance-weighted spatial synthesis preserves full rank and ensures stable WLS convergence (post-mitigation MSE of $0.000008$\,p.u.$^2$).
 
 \begin{figure}[t]
 \centering
@@ -582,10 +600,10 @@ $\lambda_{\mathrm{loc}} = 2.0$ & 95.80\% & 97.55\% \\
 \end{minipage}
 \end{table}
 
-The component ablations in Table~\ref{tab:ablation} substantiate each model mechanism.
-Disabling exponential baseline filtering (Eq.~\ref{eq:rolling_baseline}) induces a 16.32\,pp collapse in localization F1 ($81.30\%$), verifying that recursive tracking decouples diurnal load dynamics from stealthy offsets.
-Removing attribution alignment ($\lambda_{\mathrm{attr}} = 0$) causes localization F1 to drop to $92.10\%$ while detection remains at $98.25\%$, verifying that $\mathcal{L}_{\mathrm{align}}$ restricts gradient updates directly to corrupted substation nodes.
-Balancing the multi-task coefficient at $\lambda_{\mathrm{loc}} = 1.5$ delivers optimal performance across both grid detection and nodal localization.
+The ablation experiments in Table~\ref{tab:ablation} validate each design choice.
+Removing recursive baseline tracking (Eq.~\ref{eq:rolling_baseline}) triggers a 16.32\,pp drop in localization F1 ($81.30\%$), demonstrating that the adaptive filter separates diurnal load swings from stealthy biases.
+Excluding attribution loss ($\lambda_{\mathrm{attr}} = 0$) preserves $98.25\%$ detection F1 but lowers localization F1 to $92.10\%$, proving that $\mathcal{L}_{\mathrm{align}}$ pins gradient updates to compromised buses.
+Setting $\lambda_{\mathrm{loc}} = 1.5$ achieves the best multi-task trade-off.
 
 % ===================================================================
 % 8. DISCUSSION & CONCLUSION
@@ -593,13 +611,16 @@ Balancing the multi-task coefficient at $\lambda_{\mathrm{loc}} = 1.5$ delivers 
 \section{Discussion and Conclusion}
 \label{sec:conclusion}
 
-Protecting hospital electrical microgrids against covert cyber-physical intrusion demands monitoring frameworks that combine dynamic topological adaptability with electrical circuit constraints.
-By weighting GraphSAGE message propagation with complex branch admittances $Y_{uv} = G_{uv} + jB_{uv}$ and steering internal node features via Integrated Gradients loss $\mathcal{L}_{\mathrm{align}}$, our CGDT architecture delivers $98.25\%$ detection F1 alongside $97.62\%$ bus localization F1 under nonlinear AC power flow, executing within $0.81$\,ms.
-Integrated with instant sensor channel isolation and admittance-guided spatial reconstruction, the system eliminates $99.97\%$ of attack-induced WLS estimation error, maintaining operational visibility while safeguarding critical hospital feeds.
+Resilient healthcare microgrids require monitoring frameworks that mirror electrical topology while enforcing physical circuit laws.
+Here, we presented the Cognitive Graph Digital Twin (CGDT).
+By incorporating complex line admittances $Y_{uv} = G_{uv} + jB_{uv}$ into GraphSAGE message passing and guiding internal representations with attribution loss $\mathcal{L}_{\mathrm{align}}$, the CGDT achieves $98.25\%$ detection F1 and $97.62\%$ localization F1 under AC power flows in just $0.81$\,ms.
+When an attack occurs, automated sensor quarantine and spatial interpolation recover $99.97\%$ of uncorrupted state estimation, preserving grid observability and protecting clinical care corridors.
 
 \textbf{Compliance with Clinical and Grid Standards.}
-Hospital power networks must satisfy rigorous regulatory constraints: IEC~60601-1 defines electrical safety envelopes to shield patient life-support systems from power disturbances, whereas IEEE~1547 dictates anti-islanding thresholds and voltage ride-through limits ($0.88 \le V \le 1.10$\,p.u.).
-Operating with an inference time of $0.908$\,ms and completing measurement reconstruction inside $2$\,ms, the CGDT runs well below the standard $2$--$4$\,s SCADA polling window, thwarting deceptive commands before feeder protection relays disconnect hospital generation or violate IEC~60601-1 safety margins.
+Hospital distribution networks face stringent operational standards.
+Specifically, IEC~60601-1 establishes electrical safety limits to prevent voltage transients from disrupting medical monitors; IEEE~1547 dictates voltage ride-through envelopes ($0.88 \le V \le 1.10$\,p.u.) and anti-islanding limits for distributed generation.
+Because the CGDT executes inference in $0.908$\,ms and reconstructs telemetry in under $2$\,ms, it acts far faster than standard $2$--$4$\,s SCADA polling loops.
+This speed prevents falsified control commands from tripping generation or breaching IEC~60601-1 medical thresholds.
 
 \textbf{Limitations and Future Directions.}
 While validated under pandapower AC power flow on IEEE 14-bus and 30-bus benchmarks, future work will deploy the CGDT onto embedded RTU microcontrollers and hardware-in-the-loop (HIL) digital simulators (e.g., OPAL-RT) to measure real-time communication delays and packet jitter.
