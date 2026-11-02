@@ -1,0 +1,63 @@
+=== PAGE 1 (sabarathinam) ===
+?
+
+=== PAGE 1 (sabarathinam) ===
+I recommend slightly moderating phrases such as "enforces Kirchhoff's laws” or “forces the spatial convolution to reflect Ohm's and Kirchhoff's laws”. The model clearly uses physically meaningful quantities, particularly branch admittances. However, this is more accurately described as physics-informed/admittance-conditioned learning unless the physical equations are explicitly imposed as constraints. This small change in terminology would improve technical precision without diminishing the contribution.
+
+=== PAGE 5 (sabarathinam) ===
+The derivation in Equation (5) appears to rely on a linear approximation of the nonlinear AC measurement function. Since the manuscript emphasizes full nonlinear AC power-flow modeling, it would be helpful to clarify whether the attacks are generated using the Jacobian-linearized FDIA formulation or an exact nonlinear construction. Ensuring consistency between the attack-generation procedure, mathematical derivation, and nonlinear AC model would strengthen the threat-model formulation.
+
+=== PAGE 5 (sabarathinam) ===
+The stated threshold τχ2=23.68, df=14, and α=0.05 should be verified and documented more explicitly. It would improve reproducibility if we reported the number of measurements, number of estimated states, resulting degrees of freedom, and the precise χ² quantile convention used to determine the threshold.
+
+=== PAGE 7 (sabarathinam) ===
+The formulation of the node-level localization head requires clarification. This Equation uses a Softmax output, while Section 7.1 evaluates simultaneous attacks on two or three buses. If the Softmax is applied across buses, this would appear inconsistent with multi-label localization. If instead a two-class Softmax is independently applied at each bus, this should be explicitly stated. Otherwise, an independent sigmoid-based node output with a weighted binary loss may be more consistent with the multi-bus attack setting.
+
+=== PAGE 8 (sabarathinam) ===
+The attribution-guided multi-task loss is an interesting aspect of the work and potentially an important contribution. However, its implementation needs further explanation. In particular, it would be useful to specify which model output is used for computing Integrated Gradients, how the baseline is selected during training, how many integration steps are used during training, and whether attribution is computed for every attacked sample or minibatch. We should also explain how gradients from Lalign​ are propagated through the attribution computation, including whether higher-order differentiation is required. An algorithm or pseudocode description of AG-MTL training would considerably improve reproducibility.
+
+=== PAGE 8 (sabarathinam) ===
+The reported 0.81 ms Integrated Gradients latency and 0.908 ms inference latency are impressive and central to the real-time argument. The experimental platform and timing methodology should therefore be reported in sufficient detail, including CPU/GPU hardware, batch size, warm-up procedure, number of timing repetitions, aggregation statistic, and whether the 50 IG interpolation points are processed sequentially or as a batch. This would make the real-time claims reproducible.
+
+=== PAGE 8 (sabarathinam) ===
+The on-premises deployment concept is appropriate for the intended hospital setting. However, the wording should distinguish between the proposed deployment architecture and experimentally demonstrated deployment. If the reported latency measurements were obtained on laboratory computing hardware rather than an actual substation-edge platform, it would be more precise to state that the framework is designed for on-premises edge deployment and identify hardware-in-the-loop or edge-device validation as future work.
+
+=== PAGE 9 (sabarathinam) ===
+The discussion of Integrated Gradients should be made internally consistent. This paper appears to characterize IG as requiring a single backward pass, whereas Eq. (13) approximates the integral with S=50 steps. Since standard IG evaluates gradients at multiple points along the baseline-to-input path, I suggest revising this description. The distinction from SHAP/LIME can instead be expressed in terms of gradient-based attribution versus repeated perturbation-based sampling.
+
+=== PAGE 9 (sabarathinam) ===
+The proposed admittance-weighted reconstruction is intuitively well motivated. However, the statement that it “enforces Kirchhoff's current balance” appears stronger than what Eq. (14) directly guarantees. An admittance-weighted interpolation of neighboring measurements is physics-informed. However, it does not necessarily satisfy the nonlinear AC power-flow constraints. We may wish to describe this as an “admittance-aware” or “electrical-coupling-aware” reconstruction. Alternatively, a more strongly physics-constrained formulation could reconstruct V and θ and subsequently obtain P and Q through the AC power-flow equations.
+
+=== PAGE 9 (sabarathinam) ===
+The term δ U(±2%) should be defined more precisely. It is currently unclear what quantity the ±2% is relative to, particularly given that V, θ, P, and V have different physical units and numerical ranges. Please specify whether the perturbation is multiplicative, relative to nominal values, relative to measurement ranges, or introduced after normalization.
+
+=== PAGE 9 (sabarathinam) ===
+The hospital use case is compelling, although the manuscript should more clearly distinguish the IEEE 14-bus benchmark from an actual hospital electrical network. Unless the bus-to-clinical-load mapping is derived from a real hospital distribution system, I suggest describing the IEEE 14-bus network as a surrogate hospital-campus microgrid used for proof-of-concept evaluation and identifying assignments such as the Bus 5 ICU/surgical feeder as scenario assumptions.
+
+=== PAGE 10 (sabarathinam) ===
+The reported 0.81 ms Integrated Gradients latency and 0.908 ms inference latency are impressive and central to the real-time argument. The experimental platform and timing methodology should therefore be reported in sufficient detail, including CPU/GPU hardware, batch size, warm-up procedure, number of timing repetitions, aggregation statistic, and whether the 50 IG interpolation points are processed sequentially or as a batch. This would make the real-time claims reproducible.
+
+=== PAGE 10 (sabarathinam) ===
+Additional information about the dataset splitting procedure would strengthen confidence that the reported results are not influenced by highly related synthetic samples appearing across training and testing sets. In particular, please clarify whether independent clean operating states were first assigned to train/validation/test partitions and attacks were subsequently generated within each partition. It would also be useful to explicitly state whether the line-outage configurations evaluated in Section 6.3 were completely excluded from training.
+
+=== PAGE 11 (sabarathinam) ===
+The topology-generalization results are interesting. However, the discussion could acknowledge the trade-off observed between the MLP and CGDT. The MLP achieves a slightly higher outage detection F1 (94.70% versus 92.80%), whereas CGDT provides better localization F1 (86.96% versus 82.20%). Explicitly discussing this result would provide a more balanced interpretation and strengthen the argument that the principal advantage of CGDT under topology changes is its combined detection and localization capability.
+
+=== PAGE 11 (sabarathinam) ===
+It may be helpful to distinguish the two types of generalization evaluated in this section. Testing unseen line outages on the same IEEE 14-bus network represents topology-perturbation generalization without retraining, whereas application of the 14-bus model directly to the IEEE 30-bus system constitutes a more substantial cross-network zero-shot transfer. Using separate terminology for these experiments would make the generalization claims more precise.
+
+=== PAGE 11 (sabarathinam) ===
+The interpretation following Table 3 should be revised. Fine-tuning improves detection F1 relative to training from scratch (90.11% versus 82.65%). However, localization F1 is lower after fine-tuning (80.06% versus 83.58%). Rather than describing fine-tuning as uniformly outperforming scratch training, this result could be discussed as evidence that transferred representations benefit graph-level attack detection more strongly than precise node-level localization. This is an interesting finding and deserves explicit discussion.
+
+=== PAGE 12 (sabarathinam) ===
+The reported 99.97% WLS error recovery is very strong and would benefit from additional context. Please define exactly how MSE is calculated and include, if available, the MSE of clean, unattacked WLS estimation as a reference error floor. Reporting variability across different attack locations and random seeds would also help establish whether the Bus 5 result is representative rather than a particularly favorable case.
+
+=== PAGE 12 (sabarathinam) ===
+The relatively low zero-shot localization F1 on IEEE 30-bus (17.77%) is an important result rather than merely a limitation. It suggests that inductive graph processing alone does not guarantee accurate localization across substantially different grid structures. I encourage we discuss this finding more prominently, particularly because localization recovers substantially following adaptation. This would provide a useful and realistic boundary on the claimed generalization capability.
+
+=== PAGE 13 (sabarathinam) ===
+The connection between the technical contribution and patient-critical infrastructure is well motivated. However, statements linking transient voltage disturbances, equipment tripping, IEC 60601-1, and IEEE 1547 should be phrased carefully and supported by the specific applicable requirements. IEC 60601-1 and IEEE 1547 address different aspects of electrical/energy systems, so the manuscript would benefit from distinguishing their relevance rather than presenting them collectively as establishing a particular medical-equipment trip response.
+
+=== PAGE 14 (sabarathinam) ===
+I suggest separating this statement from the Acknowledgments and presenting it under a dedicated heading, such as “Declaration on the Use of AI and AI-Related Tools.” This would clearly distinguish the disclosure of AI-assisted tools from research funding and acknowledgments.
+
