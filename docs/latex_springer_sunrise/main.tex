@@ -84,7 +84,7 @@ On the IEEE 14-bus test feeder under full nonlinear AC power flow, the CGDT achi
 \section{Introduction}
 
 In tertiary healthcare facilities, uninterrupted electrical supply forms the baseline for clinical survival.
-Modern hospital complexes operate multi-source microgrids incorporating utility substations, photovoltaic arrays, battery banks, and backup diesel generation to power life-critical wards~\cite{coventry2018cybersecurity,sun2023medical}.
+Modern hospital complexes operate multi-source microgrids incorporating utility substations, photovoltaic arrays, battery banks, and backup diesel generation to power life-critical wards~\cite{coventry2018cybersecurity,newaz2021survey}.
 Operating theatres and intensive-care units demand stringent power quality: surgical robots stall under sub-cycle voltage sags, neonatal ventilators require continuous feeds, and cold storage units require continuous $-80^{\circ}$C chilling.
 Unplanned tripping or false load shedding directly jeopardizes patient outcomes.
 
@@ -94,7 +94,7 @@ However, this defense breaks down under coordinated False Data Injection Attacks
 An adversary with knowledge of the network measurement Jacobian $H$ can craft a stealth vector $a = Hc$ that skews estimated state variables by $c$ while leaving residual norms unaltered~\cite{liu2011false,liang2017review}.
 Because the corrupted data evades residual detection, downstream automated controllers execute incorrect switching or tap commands on fabricated profiles.
 
-Past detection schemes relied mostly on tabular machine learning models, such as support vector machines, shallow multi-layer perceptrons, and 1D convolutional networks~\cite{lakshminarayana2022ddos,chen2023stealthy}.
+Past detection schemes relied mostly on tabular machine learning models, such as support vector machines, shallow multi-layer perceptrons, and 1D convolutional networks~\cite{he2017real,beg2020detection}.
 Such static formulations degrade during ordinary distribution reconfiguration.
 Hospital circuits experience routine load balancing, feeder transfers, and breaker manipulations.
 Whenever a feeder switch occurs, fixed-width input matrices lose channel alignment, causing high false-alarm rates unless retrained---an intractable barrier within tight 2--4\,s SCADA scan intervals.
@@ -130,16 +130,16 @@ Specific technical contributions include:
 
 Interconnecting healthcare enterprise IT with operational substation controls creates significant cyber-physical exposure~\cite{kruse2017cybersecurity,coventry2018cybersecurity}.
 Because microgrid feeders supply life-support equipment in surgical theatres and intensive-care units, undetected power sags can directly threaten patient lives.
-Corrupting SCADA sensor streams across these hospital corridors represents an acute threat vector~\cite{sun2023medical}.
-While prior works have examined healthcare cyber risks using Bayesian network models~\cite{chockalingam2024resilience} or perimeter IoT devices~\cite{pirbhulal2023towards}, these approaches treat measurement streams as isolated scalar channels.
+Corrupting SCADA sensor streams across these hospital corridors represents an acute threat vector~\cite{newaz2021survey}.
+While prior works have examined healthcare cyber risks using Bayesian network models~\cite{chockalingam2017bayesian} or perimeter IoT devices~\cite{pirbhulal2023towards}, these approaches treat measurement streams as isolated scalar channels.
 Ignoring branch admittances and circuit topology leaves such monitors unable to detect coordinated injection vectors that adhere to AC power flow relationships.
 
 \subsection{False Data Injection in Cyber-Physical Energy Systems}
 
 Classical state estimation relies on the measurement residual to spot bad data.
 However, Liu et al.~\cite{liu2011false} demonstrated that an adversary possessing knowledge of the measurement Jacobian $H$ can craft an unobservable state bias $a = Hc$ that cancels perfectly inside the residual calculation.
-This stealth condition generalizes readily to full AC power flow formulations, distributed microgrids, and partially observed topologies~\cite{liang2017review,deng2023adversarial}, as well as DC microgrid links~\cite{chen2023stealthy,sahoo2019stealth}.
-Early defenses attempted detection via tabular classifiers, including support vector machines, deep neural networks~\cite{lakshminarayana2022ddos}, and recurrent units~\cite{liu2019rnn}.
+This stealth condition generalizes readily to full AC power flow formulations, distributed microgrids, and partially observed topologies~\cite{liang2017review,deng2023adversarial}, as well as DC microgrid links~\cite{beg2020detection,sahoo2019stealth}.
+Early defenses attempted detection via tabular classifiers, including support vector machines, deep neural networks~\cite{he2017real}, and recurrent units~\cite{ayad2018detection}.
 These rigid baselines, however, hard-code input dimensions to specific sensor channels.
 Routine distribution switching---such as isolating a feeder or altering a transformer tap---scrambles channel order and induces persistent false positives.
 
@@ -625,7 +625,7 @@ Subsequent efforts will also explore temporal graph architectures for multi-step
 \subsubsection{\ackname}
 This research was supported by the Research Council of Norway through ``Strengthening Resilience in Critical Sectors through IT-OT Integration and Human-Organizational Aspects (ResCri)'', Project No.~359829.
 
-\subsubsection*{Declaration on the Use of AI and AI-Assisted Technologies}
+\subsubsection*{Declaration on the Use of AI and AI-Assisted Technologies.}
 AI-assisted tools were used to improve language quality (including spelling, grammar, and punctuation), and all outputs were reviewed, revised, and approved by the authors, who take full responsibility for the final content.
 \end{credits}
 
