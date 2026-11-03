@@ -45,7 +45,7 @@ Himanshu Rathore\inst{2} \and
 Aparajita Vaish\inst{3} \and
 Sabarathinam Chockalingam\inst{4} \and
 Sandeep Pirbhulal\inst{5} \and
-Mallikharjuna Rao K\inst{3}
+Mallikharjuna Rao K\inst{6}
 }
 
 \authorrunning{A. Keshari et al.}
@@ -55,7 +55,8 @@ Dept.\ of Computer Science \& Engineering, KIIT, Bhubaneswar, India \and
 Dept.\ of Computer Science \& Engineering, SSTC, Bhilai, India \and
 Dept.\ of Electronics \& Communication Engg., IIIT Naya Raipur, India \and
 Dept.\ of Risk \& Security, Institute for Energy Technology (IFE), Halden, Norway \and
-Dept.\ of Applied Research ICT (DART), Norwegian Computing Center (NR), Oslo, Norway
+Dept.\ of Applied Research ICT (DART), Norwegian Computing Center (NR), Oslo, Norway \and
+Dept.\ of Computer Science \& Engineering, IIIT Naya Raipur, India
 }
 
 
@@ -353,8 +354,10 @@ Rather than attempting to satisfy nonlinear AC constraints directly, $z_{\mathrm
 \subsection{Simulation Setup: Hospital Campus Microgrid}
 
 All grid experiments rely on exact AC Newton--Raphson power flow solutions generated via \texttt{pandapower}~\cite{thurner2018pandapower}.
+Because operational healthcare telemetry is restricted by patient confidentiality regulations, we employ standard IEEE 14-bus and 30-bus networks as topological proxies.
 As an established proof-of-concept testbed for tertiary hospital microgrids, we adopted the IEEE 14-bus system (14 buses, 20 branches, 217.0\,MW active and 57.3\,MVAR reactive demand).
 Within the campus single-line diagram, Bus~0 anchors the $132/11$\,kV main grid tie-point, while Bus~5 forms the dedicated critical healthcare substation feeding intensive-care suites and surgical theatres ($7.6$\,MW, $1.6$\,MVAR load).
+Specific bus assignments provide an illustrative mapping to clinical load criticality rather than a physical facility blueprint.
 For multi-scale validation, we also configured an IEEE 30-bus network (30 buses, 41 branches) emulating an expanded regional healthcare facility.
 
 \textbf{Telemetry Generation and Partitioning.}
@@ -562,12 +565,13 @@ Comparative baselines are summarized in Table~\ref{tab:sota}, while Table~\ref{t
 \toprule
 \textbf{Framework} & \textbf{Classifier} & \textbf{Det.\ F1} & \textbf{AUC} & \textbf{Loc.\ F1} \\
 \midrule
-Boyaci~\cite{boyaci2022joint} & ARMA & 96.25\% & 0.9780 & 93.91\% \\
-Yue~\cite{yue2024graph} & GCN & 89.20\% & 0.9510 & N/A \\
+Boyaci~\cite{boyaci2022joint}$^*$ & ARMA & 96.25\% & 0.9780 & 93.91\% \\
+Yue~\cite{yue2024graph}$^*$ & GCN & 89.20\% & 0.9510 & N/A \\
 \textbf{CGDT} & \textbf{SAGE} & \textbf{98.25\%} & \textbf{0.9993} & \textbf{97.62\%} \\
 \bottomrule
 \end{tabular}%
 }
+\par\vspace{1mm}\raggedright\scriptsize{$^*$Reported under author-specified evaluation protocols in original papers.}
 \end{minipage}\hfill
 \begin{minipage}[t]{0.48\textwidth}
 \caption{Ablation on CGDT components.}
@@ -605,7 +609,7 @@ Loss weighting with $\lambda_{\mathrm{loc}} = 1.5$ provides the optimal trade-of
 
 Securing clinical microgrids against stealthy cyber-physical threats requires combining topological network tracking with physical AC circuit models.
 In this study, we introduced the Cognitive Graph Digital Twin (CGDT).
-By weighting GraphSAGE message aggregation with complex branch admittances $Y_{uv} = G_{uv} + jB_{uv}$ and supervising node embeddings with attribution loss $\mathcal{L}_{\mathrm{align}}$, our architecture achieves $98.25\%$ detection F1 and $97.62\%$ bus localization F1 under full AC power flow in just $0.81$\,ms.
+By weighting GraphSAGE message aggregation with complex branch admittances $Y_{uv} = G_{uv} + jB_{uv}$ and supervising node embeddings with attribution loss $\mathcal{L}_{\mathrm{align}}$, our architecture achieves $98.25\%$ detection F1 and $97.62\%$ bus localization F1 under full AC power flow in $0.908$\,ms ($0.81$\,ms attribution).
 Following detection, autonomous sensor quarantine and spatial interpolation recover $99.97\%$ of uncorrupted state estimation, preserving grid observability and protecting patient-critical clinical corridors.
 
 \textbf{Compliance with Clinical and Grid Standards.}
@@ -613,7 +617,8 @@ Hospital distribution systems operate under strict engineering standards: IEC~60
 Operating with an inference latency of $0.908$\,ms and state healing in under $2$\,ms, the CGDT functions well within standard $2$--$4$\,s SCADA scan intervals, stopping falsified control commands before protective relays disconnect hospital generation or violate IEC~60601-1 safety margins.
 
 \textbf{Limitations and Future Directions.}
-While validated under pandapower AC power flow on IEEE 14-bus and 30-bus benchmarks, future work will deploy the CGDT onto embedded RTU microcontrollers and hardware-in-the-loop (HIL) digital simulators (e.g., OPAL-RT) to measure real-time communication delays and packet jitter.
+While validated under pandapower AC power flow on IEEE topological proxies, future work will transition from standardized proxies to hardware-in-the-loop (HIL) simulators (e.g., OPAL-RT) operating on site-specific clinical load profiles.
+We will also deploy the architecture onto embedded RTU microcontrollers to quantify physical communication latency and network packet jitter.
 Subsequent efforts will also integrate spatio-temporal graph attention to detect slow, multi-stage attack trajectories.
 
 \begin{credits}

@@ -205,8 +205,13 @@ ax.annotate("", xy=(2.1, 1.18), xytext=(13.8, 1.18),
             arrowprops=dict(arrowstyle="-|>", color=C["red"], lw=2.2, mutation_scale=16, connectionstyle="arc3,rad=-0.10"))
 
 # ── Save Outputs ────────────────────────────────────────────────────
+import os
+os.makedirs("figures", exist_ok=True)
+os.makedirs("docs/latex_springer_sunrise/figures", exist_ok=True)
+
 plt.tight_layout(pad=0.2)
 plt.savefig("figures/gdt_framework_matplotlib.pdf", format="pdf", dpi=300, bbox_inches="tight", pad_inches=0.15, facecolor="white")
 plt.savefig("figures/gdt_framework_matplotlib.png", format="png", dpi=300, bbox_inches="tight", pad_inches=0.15, facecolor="white")
+plt.savefig("docs/latex_springer_sunrise/figures/gdt_framework_matplotlib.png", format="png", dpi=300, bbox_inches="tight", pad_inches=0.15, facecolor="white")
 plt.savefig("figures/gdt_framework_matplotlib.svg", format="svg", bbox_inches="tight", pad_inches=0.15, facecolor="white")
-print("Successfully generated Healthcare Smart Hospital GDT Matplotlib PDF, PNG & SVG figures!")
+print("Successfully generated Healthcare Smart Hospital GDT Matplotlib PDF, PNG & SVG figures in all locations!")
